@@ -5,12 +5,15 @@ import { Button } from '@/components/ui/Button'
 import { Card, ChoiceCard } from '@/components/ui/Card'
 import { MissionBanner } from '@/components/ui/MissionBanner'
 import { QUESTS } from '@/data/mock'
+import { findQuestAnywhere } from '@/data/courses'
 import { useDemoStore } from '@/store/demo-store'
 
 export function QuestCharacterPage() {
   const navigate = useNavigate()
   const quest = QUESTS.find((q) => q.id === 'character')!
   const completeQuest = useDemoStore((s) => s.completeQuest)
+  const setCurrentQuest = useDemoStore((s) => s.setCurrentQuest)
+  const addStars = useDemoStore((s) => s.addStars)
   const [stage, setStage] = useState<'intro' | 'pick' | 'done'>('intro')
   const [species, setSpecies] = useState('Mèo')
   const [outfit, setOutfit] = useState('Mũ phi hành gia')
@@ -100,10 +103,12 @@ export function QuestCharacterPage() {
             fullWidth
             onClick={() => {
               completeQuest('character', 100)
+              addStars(15)
+              setCurrentQuest('prompt-lab')
               setStage('done')
             }}
           >
-            Xong bước này → Vẽ bằng AI
+            Xong bước này → Ghép thẻ tạo ảnh
             <ArrowRight className="size-5" aria-hidden />
           </Button>
         </div>
@@ -113,9 +118,16 @@ export function QuestCharacterPage() {
         <Card className="space-y-4 text-center">
           <p className="font-display text-2xl text-success">Giỏi lắm!</p>
           <p className="font-semibold text-muted">
-            Bước tiếp: ghép thẻ để AI vẽ {species} của con.
+            Tiếp theo: ghép thẻ để AI vẽ {species} · {outfit} · {trait}
           </p>
-          <Button size="lg" fullWidth onClick={() => navigate('/studio/prompt')}>
+          <Button
+            size="lg"
+            fullWidth
+            onClick={() => {
+              setCurrentQuest('prompt-lab')
+              navigate('/studio/prompt')
+            }}
+          >
             Ghép thẻ tạo ảnh
             <ArrowRight className="size-5" aria-hidden />
           </Button>
@@ -155,7 +167,8 @@ export function GenericQuestPageWrapper() {
 
 export function GenericQuestPage({ questId }: { questId: string }) {
   const navigate = useNavigate()
-  const quest = QUESTS.find((q) => q.id === questId)
+  const found = findQuestAnywhere(questId)
+  const quest = found?.quest ?? QUESTS.find((q) => q.id === questId)
   const completeQuest = useDemoStore((s) => s.completeQuest)
 
   if (!quest) {
@@ -163,12 +176,13 @@ export function GenericQuestPage({ questId }: { questId: string }) {
       <Card>
         <p className="font-bold">Không tìm thấy nhiệm vụ.</p>
         <Button className="mt-3" onClick={() => navigate('/world')}>
-          Về nhà
+          Về bản đồ
         </Button>
       </Card>
     )
   }
 
+  const total = found?.course.quests.length ?? 8
   const nextRoute =
     quest.id === 'comic'
       ? '/studio/comic'
@@ -181,7 +195,7 @@ export function GenericQuestPage({ questId }: { questId: string }) {
   return (
     <div className="mx-auto max-w-xl space-y-4 sm:max-w-2xl">
       <MissionBanner
-        stepLabel={`Bước ${quest.order}/8`}
+        stepLabel={`Bước ${quest.order}/${total}`}
         doing={quest.title}
         why={quest.skill}
         reward={quest.reward}
