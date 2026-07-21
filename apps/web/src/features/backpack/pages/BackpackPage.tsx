@@ -1,0 +1,182 @@
+import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { api } from '@/shared/lib/api'
+import { Button } from '@/shared/components/ui/Button'
+import { EmptyState } from '@/shared/components/ui/EmptyState'
+import { ErrorState } from '@/shared/components/ui/ErrorState'
+import { PageSkeleton } from '@/shared/components/ui/Skeleton'
+import { PageMotion } from '@/shared/components/ui/PageMotion'
+import { designerAssets } from '@/shared/config/assets'
+
+type Asset = {
+  id: string
+  type: string
+  name: string
+  thumbnail: string
+  private: boolean
+  questId?: string | null
+  createdAt: string
+}
+
+type Project = {
+  id: string
+  title: string
+  kind: string
+  thumbnail: string
+  shareStatus: string
+}
+
+function isImgUrl(src: string) {
+  return (
+    src.startsWith('data:') ||
+    src.startsWith('/') ||
+    src.startsWith('http://') ||
+    src.startsWith('https://')
+  )
+}
+
+export function BackpackPage() {
+  const [assets, setAssets] = useState<Asset[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+  const [msg, setMsg] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const [a, p] = await Promise.all([
+        api<{ assets: Asset[] }>('/api/backpack'),
+        api<{ projects: Project[] }>('/api/projects'),
+      ])
+      setAssets(a.assets)
+      setProjects(p.projects)
+    } catch {
+      setError('Chưa tải được ba lô. Kiểm tra mạng rồi thử lại nhé.')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    void load()
+  }, [load])
+
+  async function requestShare(projectId: string) {
+    try {
+      await api(`/api/projects/${projectId}/request-share`, {
+        method: 'POST',
+        body: JSON.stringify({ destination: 'family' }),
+      })
+      setMsg('Đã gửi ba/mẹ duyệt chia sẻ!')
+      await load()
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : 'Lỗi')
+    }
+  }
+
+  if (loading) {
+    return <PageSkeleton rows={4} />
+  }
+
+  return (
+    <PageMotion className="flex flex-col gap-6">
+      <div>
+        <h1 className="font-display text-3xl">Ba lô sáng tạo</h1>
+        <p className="text-muted">
+          Sản phẩm con tạo trong khóa học — mặc định chỉ con xem. Không upload ảnh
+          tùy ý từ máy.
+        </p>
+      </div>
+      {msg && (
+        <p className="rounded-xl bg-mint-100 px-3 py-2 text-sm text-success">{msg}</p>
+      )}
+      {error && <ErrorState message={error} onRetry={() => void load()} inline />}
+
+      <section>
+        <h2 className="font-display mb-3 text-2xl">Vật phẩm từ bài học</h2>
+        {assets.length === 0 ? (
+          <EmptyState
+            compact
+            title="Ba lô còn trống"
+            description="Hoàn thành trạm vẽ, gen ảnh hoặc truyện tranh để nhận vật phẩm nhé!"
+            imageSrc={designerAssets.lobby.cardArt}
+            action={
+              <Link to="/world">
+                <Button variant="secondary">Đi học tiếp</Button>
+              </Link>
+            }
+          />
+        ) : (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {assets.map((a) => (
+              <div key={a.id} className="ui-card overflow-hidden p-2">
+                <div className="flex h-28 items-center justify-center overflow-hidden rounded-xl bg-brand-50">
+                  {isImgUrl(a.thumbnail) ? (
+                    <img
+                      src={a.thumbnail}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-3xl">🎒</span>
+                  )}
+                </div>
+                <p className="mt-2 truncate text-sm font-extrabold">{a.name}</p>
+                <p className="text-xs text-muted">
+                  {a.type}
+                  {a.questId ? ' · từ bài học' : ''}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2 className="font-display mb-3 text-2xl">Tác phẩm</h2>
+        {projects.length === 0 ? (
+          <EmptyState
+            compact
+            title="Chưa có tác phẩm"
+            description="Làm truyện ở trạm Comic để có tác phẩm trong ba lô!"
+            imageSrc={designerAssets.workshop.comic}
+            action={
+              <Link to="/home">
+                <Button variant="secondary">Chọn khóa học</Button>
+              </Link>
+            }
+          />
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2">
+            {projects.map((p) => (
+              <div key={p.id} className="ui-card flex gap-3 p-3">
+                <img
+                  src={p.thumbnail}
+                  alt=""
+                  className="h-20 w-20 rounded-xl object-cover"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="font-extrabold">{p.title}</p>
+                  <p className="text-xs text-muted">
+                    {p.kind} · {p.shareStatus}
+                  </p>
+                  {p.shareStatus === 'private' && (
+                    <Button
+                      className="mt-2 !min-h-9 !text-xs"
+                      variant="secondary"
+                      onClick={() => void requestShare(p.id)}
+                    >
+                      Xin ba/mẹ chia sẻ
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </PageMotion>
+  )
+}
