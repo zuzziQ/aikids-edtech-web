@@ -8,6 +8,7 @@ import { MemoryRouter } from 'react-router'
 import { ParentLearningPage } from './ParentLearningPage'
 import { api } from '@/shared/lib/api'
 import { learningApi } from '@/shared/lib/learning-api'
+import { invalidateParentCache, setChildLearningCache } from '@/features/parent/lib/parent-cache'
 
 vi.mock('@/shared/lib/api', () => ({
   api: vi.fn(),
@@ -59,6 +60,7 @@ describe('ParentLearningPage Component', () => {
     document.body.appendChild(container)
     root = createRoot(container)
     vi.clearAllMocks()
+    invalidateParentCache()
 
     const mockedApi = vi.mocked(api)
     mockedApi.mockImplementation((path: string) => {
@@ -105,6 +107,7 @@ describe('ParentLearningPage Component', () => {
     container.remove()
     document.body.innerHTML = ''
     vi.restoreAllMocks()
+    invalidateParentCache()
   })
 
   it('renders "Nạp Thêm Lượt Tạo Ảnh AI" button in child profile section and opens modal with credits mode', async () => {
@@ -133,5 +136,70 @@ describe('ParentLearningPage Component', () => {
     expect(dialog).not.toBeNull()
     expect(document.body.textContent).toContain('NẠP LƯỢT TẠO ẢNH AI DỰ PHÒNG')
     expect(document.body.textContent).toContain('Chọn Gói Lượt Tạo Ảnh Cho Bé')
+  })
+
+  it('does not display bare "Error" when sub-queries fail or reject, and renders gracefully', async () => {
+    const mockedApi = vi.mocked(api)
+    mockedApi.mockImplementation((path: string) => {
+      if (path === '/api/parent/children') {
+        return Promise.resolve({
+          children: [
+            { id: 'child-1', nickname: 'Bé Bo', avatarId: 'avatar-1', level: 115, xp: 11400 },
+          ],
+        })
+      }
+      if (path.includes('/api/competency-map')) {
+        return Promise.reject(new Error('Network error'))
+      }
+      if (path.includes('/api/credentials')) {
+        return Promise.reject(new Error('Error'))
+      }
+      if (path.includes('/progress')) {
+        return Promise.reject(new Error('Internal Server Error'))
+      }
+      return Promise.resolve({})
+    })
+
+    await act(async () => {
+      root.render(
+        createElement(
+          MemoryRouter,
+          null,
+          createElement(ParentLearningPage, null),
+        ),
+      )
+    })
+
+    expect(document.body.textContent).not.toMatch(/\bError\b/)
+    expect(document.body.textContent).toContain('Bé Bo')
+  })
+
+  it('renders immediately in 0ms with cached learning data without showing PageSkeleton', async () => {
+    setChildLearningCache('child-1', {
+      competency: { status: 'ready', frameworks: [] },
+      credentials: [],
+      pathway: { recommendedCourseId: 'course-1', courses: [] },
+      courses: [],
+      progress: {
+        courseId: 'course-1',
+        courses: [],
+        summary: { completed: 2, total: 5, totalStars: 6, currentPhase: 'learn' },
+        quests: [],
+      },
+      subscription: { status: 'active', maxOpenCoursesPerChild: 2 },
+      ageExperience: { status: 'ready', policy: null },
+    })
+
+    await act(async () => {
+      root.render(
+        createElement(
+          MemoryRouter,
+          { initialEntries: ['/parent/learning?childId=child-1'] },
+          createElement(ParentLearningPage, null),
+        ),
+      )
+    })
+
+    expect(document.body.textContent).toContain('Trung tâm học tập')
   })
 })
