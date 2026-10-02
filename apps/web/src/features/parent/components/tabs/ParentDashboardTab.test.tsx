@@ -39,6 +39,9 @@ describe('ParentDashboardTab Component', () => {
               active: true,
               totalStars: 15,
               completedQuests: 10,
+              allowAiCreate: true,
+              allowPhoto: true,
+              allowExport: true,
             },
             {
               id: 'child-bi',
@@ -49,6 +52,9 @@ describe('ParentDashboardTab Component', () => {
               active: true,
               totalStars: 8,
               completedQuests: 4,
+              allowAiCreate: true,
+              allowPhoto: false,
+              allowExport: true,
             },
           ],
         })
@@ -131,7 +137,7 @@ describe('ParentDashboardTab Component', () => {
     expect(document.body.textContent).toContain('Bé Bắp')
   })
 
-  it('displays per-child breakdown subtext in KPI metric cards for stars and quests', async () => {
+  it('removes all 5 KPI stat cards from the dashboard for a clean, clutter-free view', async () => {
     await act(async () => {
       root.render(
         createElement(
@@ -142,13 +148,13 @@ describe('ParentDashboardTab Component', () => {
       )
     })
 
-    // Breakdown subtext: "Bo: 15 sao · Bi: 8 sao"
-    expect(document.body.textContent).toContain('Bo: 15 sao · Bi: 8 sao')
-    // Breakdown subtext: "Bo: 10 trạm · Bi: 4 trạm"
-    expect(document.body.textContent).toContain('Bo: 10 trạm · Bi: 4 trạm')
+    // 5 old KPI stat cards must NOT be rendered on the dashboard
+    expect(document.body.textContent).not.toContain('Số con theo học')
+    expect(document.body.textContent).not.toContain('Tổng sao tích lũy')
+    expect(document.body.textContent).not.toContain('Nhiệm vụ hoàn thành')
   })
 
-  it('displays Per-Child Comparative Scorecard Matrix when 2 or more children exist', async () => {
+  it('renders unified "Hồ sơ của các con" section with touch-to-enter and learning links', async () => {
     await act(async () => {
       root.render(
         createElement(
@@ -159,18 +165,25 @@ describe('ParentDashboardTab Component', () => {
       )
     })
 
-    // Title of comparative scorecard
-    expect(document.body.textContent).toContain('Bảng so sánh chỉ số giữa các con')
-    expect(document.body.textContent).toContain('2 bé song hành')
+    // Section title and description
+    expect(document.body.textContent).toContain('Hồ sơ của các con')
+    expect(document.body.textContent).toContain('Chạm vào bé để thiết bị chuyển sang không gian học tập riêng, hoặc quản lý phân quyền bảo vệ con.')
 
-    // Check Bo's matrix info: >= 10 quests -> Hoàn thành Đảo Tiên Quyết
-    expect(document.body.textContent).toContain('Hoàn thành Đảo Tiên Quyết')
+    // Children cards
+    expect(document.body.textContent).toContain('Bo')
+    expect(document.body.textContent).toContain('Bi')
+    expect(document.body.textContent).toContain('Lv.3')
+    expect(document.body.textContent).toContain('Lv.1')
+    expect(document.body.textContent).toContain('⭐ 15 sao')
+    expect(document.body.textContent).toContain('🎯 10 trạm')
 
-    // Check Bi's matrix info: 4 quests -> Đang ở Trạm 5 / 10
-    expect(document.body.textContent).toContain('Đang ở Trạm 5 / 10')
+    // Action buttons
+    expect(document.body.textContent).toContain('🚀 Chạm để vào học ngay')
+    expect(document.body.textContent).toContain('Xem tiến độ học tập')
+    expect(document.body.textContent).toContain('+ Thêm bé mới')
   })
 
-  it('renders 4 distinct Soft-Clay stat blocks and island progress banner in each child card', async () => {
+  it('displays quick management tools and expands collapsible safety permissions on demand', async () => {
     await act(async () => {
       root.render(
         createElement(
@@ -181,14 +194,23 @@ describe('ParentDashboardTab Component', () => {
       )
     })
 
-    // Child cards contain 4 stat blocks: Sao, Trạm, Cấp, Duyệt
-    expect(document.body.textContent).toContain('⭐ 15')
-    expect(document.body.textContent).toContain('🎯 10')
-    expect(document.body.textContent).toContain('⚡ Lv.3')
-    expect(document.body.textContent).toContain('🎨 1') // Bo has 1 pending approval
+    // Collapsible accordion button
+    expect(document.body.textContent).toContain('🛡️ Cài đặt & Phân quyền an toàn')
 
-    // Island banners
-    expect(document.body.textContent).toContain('🏆 Đã hoàn thành 10 Quy tắc vàng')
-    expect(document.body.textContent).toContain('🧭 Đang thám hiểm Đảo Tiên Quyết (Trạm 5/10)')
+    // Initially collapsed: consent switches are not visible
+    expect(document.body.textContent).not.toContain('Cho phép AI tạo ảnh')
+
+    // Click accordion toggle to expand safety permissions
+    const safetyToggleBtn = document.querySelector('button[aria-expanded="false"]') as HTMLButtonElement
+    expect(safetyToggleBtn).toBeTruthy()
+
+    await act(async () => {
+      safetyToggleBtn.click()
+    })
+
+    // Now expanded: shows the 3 safety permission switches
+    expect(document.body.textContent).toContain('Cho phép AI tạo ảnh')
+    expect(document.body.textContent).toContain('Sử dụng máy ảnh')
+    expect(document.body.textContent).toContain('Xuất tác phẩm')
   })
 })
