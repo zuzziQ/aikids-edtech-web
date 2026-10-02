@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { Check, Map as MapIcon, Play, Star } from 'lucide-react'
+import { Check, CheckCircle2, Film, Lock, Map as MapIcon, Play, Star } from 'lucide-react'
+import { useOfficialBillingPlan } from '@/shared/lib/official-plan'
 import { api, type CourseSummary } from '@/shared/lib/api'
 import { useAuth } from '@/shared/store/auth'
 import { designerAssets } from '@/shared/config/assets'
@@ -271,6 +272,7 @@ export function HomePage() {
   const [loading, setLoading] = useState(true)
   const [showTrailerModal, setShowTrailerModal] = useState(false)
   const [gateOpen, setGateOpen] = useState(false)
+  const { officialPlan, priceFormatted: officialPriceFormatted } = useOfficialBillingPlan()
 
   const handleUnlockFullCourse = () => {
     setShowTrailerModal(false)
@@ -470,6 +472,19 @@ export function HomePage() {
     (course) => course.enrolled && getAikiIslandSortOrder(course) > 1,
   )
 
+  const [devPurchasedOverride, setDevPurchasedOverride] = useState<boolean | null>(() => {
+    if (typeof window === 'undefined') return null
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('purchased') === 'true') return true
+    if (params.get('purchased') === 'false') return false
+    const stored = localStorage.getItem('aikids.dev_purchased')
+    if (stored === 'true') return true
+    if (stored === 'false') return false
+    return null
+  })
+
+  const effectivePurchased = devPurchasedOverride !== null ? devPurchasedOverride : isPurchased
+
   const resolvedAvatarUrl =
     (user?.avatarUrl && user.avatarUrl.trim() !== '')
       ? user.avatarUrl
@@ -579,74 +594,216 @@ export function HomePage() {
             <ErrorState message={error} onRetry={() => void load()} inline />
           )}
 
+          {/* DEV SWITCHER (CHỈ HIỂN THỊ Ở LOCAL / DEV ĐỂ TEST CẢ 2 TRẠNG THÁI) */}
+          {import.meta.env.DEV && (
+            <div className="flex items-center justify-between gap-2 px-3 py-1.5 rounded-2xl bg-slate-900 text-white text-xs font-bold shadow-md">
+              <span className="text-slate-300 text-[11px]">🔧 Dev Sandbox:</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const nextVal = !effectivePurchased
+                  localStorage.setItem('aikids.dev_purchased', String(nextVal))
+                  setDevPurchasedOverride(nextVal)
+                }}
+                className="px-3 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-black text-xs transition-all cursor-pointer active:scale-95 border border-slate-700"
+              >
+                {effectivePurchased
+                  ? '🟢 Đang test: Đã mở khóa (Click đổi sang Chưa mua)'
+                  : '🟠 Đang test: Chưa mua (Click đổi sang Đã mở khóa)'}
+              </button>
+            </div>
+          )}
+
           {/* ── 2. SINGLE UNIFIED OFFICIAL COURSE STAGE (TÂM ĐIỂM KHÓA HỌC CHÍNH THỨC) ── */}
           <section
             className="rounded-3xl border-2 border-orange-200/90 bg-gradient-to-b from-orange-50/60 via-white to-amber-50/40 p-4 sm:p-6 shadow-clay flex flex-col gap-4 sm:gap-5"
             aria-label="Khóa học chính thức AIKid"
           >
-            {/* Phần Đầu Khóa Học */}
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2 mb-1.5">
+            {/* Header Khóa học: Tiêu đề + Huy hiệu + Tiến độ */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-orange-100/80 pb-3">
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
                   <span className="px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-black uppercase tracking-wider border border-orange-200 shadow-2xs">
                     CHƯƠNG TRÌNH CHÍNH THỨC AIKID
                   </span>
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border shadow-2xs ${
-                    isPurchased
+                    effectivePurchased
                       ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
                       : 'bg-amber-100 text-amber-800 border-amber-200'
                   }`}>
-                    {isPurchased ? 'Đã mở khóa' : 'Học miễn phí Đảo Tiên Quyết'}
+                    {effectivePurchased ? 'Đã mở khóa' : 'Học miễn phí Đảo Tiên Quyết'}
                   </span>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
-                  Khóa học Khám phá & Sáng tạo AIKid
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+                  Khóa học Khám phá &amp; Sáng tạo AIKid
                 </h2>
-                <div className="max-w-sm">
-                  <div className="flex justify-between text-[11px] font-bold text-slate-600 mb-1">
-                    <span>{completedStationsCount}/{totalStationsCount} trạm hoàn thành</span>
-                    <span>{courseOverallProgressPct}%</span>
-                  </div>
-                  <div className="h-2.5 rounded-full bg-slate-200/80 overflow-hidden shadow-inner">
-                    <div
-                      className="h-full bg-gradient-to-r from-orange-400 to-violet-500 rounded-full transition-all duration-500"
-                      style={{ width: `${courseOverallProgressPct}%` }}
-                    />
-                  </div>
+              </div>
+              <div className="sm:text-right">
+                <div className="text-[11px] font-bold text-slate-600 mb-1">
+                  {completedStationsCount}/{totalStationsCount} trạm hoàn thành ({courseOverallProgressPct}%)
+                </div>
+                <div className="w-36 sm:w-48 h-2.5 rounded-full bg-slate-200/80 overflow-hidden shadow-inner sm:ml-auto">
+                  <div
+                    className="h-full bg-gradient-to-r from-orange-400 to-violet-500 rounded-full transition-all duration-500"
+                    style={{ width: `${courseOverallProgressPct}%` }}
+                  />
                 </div>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setShowTrailerModal(true)}
-                className="flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-orange-300 hover:bg-orange-50 text-slate-700 font-bold text-xs transition-all shadow-2xs shrink-0 self-start cursor-pointer active:scale-95"
-              >
-                <Play className="w-3.5 h-3.5 fill-slate-700" />
-                Giới thiệu 1p45s
-              </button>
             </div>
 
-            {/* Đường Ray Bài Học Tiếp Theo (Quick Action) */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white/90 border border-orange-100/90 shadow-2xs">
-              <div className="flex items-center gap-3 flex-1 min-w-0 w-full sm:w-auto">
-                <div className="w-11 h-11 shrink-0 bg-orange-100 rounded-full flex items-center justify-center border-2 border-white shadow-2xs overflow-hidden">
-                  <img src={designerAssets.catPoses.guide} alt="Mèo AIKI" className="w-9 h-9 object-contain" />
-                </div>
-                <p className="text-xs sm:text-sm font-semibold text-slate-700 leading-snug">
-                  “<span className="font-bold text-brand-600">{childDisplayName} ơi!</span> {activeStation.stationTitle}. Cùng tớ khám phá nhé!”
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => navigate(activeStation.route)}
-                className="w-full sm:w-auto flex items-center justify-center px-5 py-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-black text-sm shadow-clay hover:scale-102 active:scale-95 transition-all shrink-0 cursor-pointer"
-              >
-                {hasLearningActivity ? 'Học tiếp' : 'Bắt đầu'} {activeStation.stationLabel}: {activeStation.stationTitle} <span className="ml-1.5 font-bold">➔</span>
-              </button>
+            {/* Khung Chiếu Trực Tiếp Theo Trạng Thái: CHƯA MUA vs ĐÃ MỞ KHÓA */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
+              {!effectivePurchased ? (
+                <>
+                  {/* 1. CHƯA MUA - KHUNG VIDEO TRAILER (TỰ ĐỘNG CÂN BẰNG CHIỀU CAO VỚI CỘT PHẢI, KHÔNG BỊ LỆCH) */}
+                  <div
+                    onClick={() => setShowTrailerModal(true)}
+                    className="md:col-span-5 relative w-full h-full min-h-[240px] rounded-2xl overflow-hidden bg-zinc-950 border-2 border-amber-200/80 shadow-clay group cursor-pointer flex items-center justify-center"
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Xem video trailer giới thiệu khóa học"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setShowTrailerModal(true)
+                      }
+                    }}
+                  >
+                    <img
+                      src="/assets/aikid-ui/mascot-original/course-wave.webp"
+                      alt="Trailer Hoạt Hình Mèo Mee"
+                      className="absolute inset-0 w-full h-full object-cover object-top scale-105 group-hover:scale-110 transition-transform duration-500 opacity-90"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+
+                    {/* Big Play Button in Center */}
+                    <div className="relative z-10 w-12 sm:w-14 h-12 sm:h-14 rounded-full bg-white/95 text-[#FD7D2E] shadow-2xl flex items-center justify-center transform group-hover:scale-110 active:scale-95 transition-all">
+                      <Play className="w-5 sm:w-6 h-5 sm:h-6 fill-current ml-0.5" />
+                    </div>
+
+                    <span className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/75 text-white text-[10px] font-black backdrop-blur-xs flex items-center gap-1.5 z-10">
+                      <Film className="w-3.5 h-3.5 text-amber-300" />
+                      <span>Trailer 2:15 phút • Trải nghiệm thực tế</span>
+                    </span>
+
+                    <span className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-[#FD7D2E] text-white text-[10px] font-black shadow-xs z-10">
+                      Xem Trailer
+                    </span>
+                  </div>
+
+                  {/* 2. CHƯA MUA - KHUNG LỢI ÍCH DYNAMIC THEO GÓI ADMIN (BỎ YẾU TỐ AI SVG VÀ BỎ '->') */}
+                  <div className="md:col-span-7 flex flex-col justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-white/95 border border-orange-100/90 shadow-2xs">
+                    <div className="flex flex-col gap-2">
+                      <span className="self-start px-2 py-0.5 bg-amber-100 text-amber-900 text-[10px] font-black uppercase rounded-md tracking-wider">
+                        {officialPlan.badge || 'ĐẶC QUYỀN KHÓA HỌC CHÍNH THỨC'}
+                      </span>
+                      <h3 className="text-lg sm:text-xl font-black text-slate-800 leading-tight">
+                        {officialPlan.tagline || 'Mở khóa trọn bộ 5 Đảo Sáng Tạo'}
+                      </h3>
+                      <ul className="flex flex-col gap-2 mt-1">
+                        {officialPlan.features && officialPlan.features.length > 0 ? (
+                          officialPlan.features.map((feat, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span>{feat}</span>
+                            </li>
+                          ))
+                        ) : (
+                          <>
+                            <li className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span><strong>5 Đảo Sáng Tạo</strong>: Tạo tranh, biến hóa nhân vật, vẽ truyện tranh và làm game.</span>
+                            </li>
+                            <li className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span><strong>Sáng tạo không giới hạn</strong>: Vẽ tranh thỏa thích &amp; cất vào Ba Lô.</span>
+                            </li>
+                            <li className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span><strong>Báo cáo năng khiếu &amp; Bằng khen tốt nghiệp</strong> gửi về cho Ba Mẹ.</span>
+                            </li>
+                            <li className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span><strong>Hiện tại</strong>: Con được học <strong>Miễn phí 10 Quy tắc vàng</strong> trên Đảo Tiên Quyết.</span>
+                            </li>
+                          </>
+                        )}
+                      </ul>
+                    </div>
+
+                    <div className="flex flex-col gap-2 mt-3">
+                      <button
+                        type="button"
+                        onClick={() => setShowTrailerModal(true)}
+                        className="w-full flex items-center justify-center px-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-black text-sm sm:text-base shadow-clay hover:scale-102 active:scale-95 transition-all cursor-pointer"
+                      >
+                        🚀 Mở khóa {officialPlan.name} · {officialPriceFormatted}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate(OFFICIAL_SIX_ISLANDS[0].defaultRoute)}
+                        className="w-full flex items-center justify-center px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-orange-50/80 rounded-xl transition-all cursor-pointer"
+                      >
+                        Hoặc học miễn phí Đảo Tiên Quyết ({courses[0]?.completedCount || 0}/{courses[0]?.questCount || OFFICIAL_SIX_ISLANDS[0].defaultQuestCount} trạm)
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* 1. ĐÃ MỞ KHÓA - HERO SHOWCASE HẢI TRÌNH CỦA BÉ (THAY THẾ VIDEO TRAILER) */}
+                  <div className="md:col-span-5 relative w-full h-full min-h-[240px] rounded-2xl overflow-hidden bg-sky-100 border-2 border-emerald-200/90 shadow-clay flex items-center justify-center group">
+                    <img
+                      src="/assets/aikid-ui/showcase/island_hero_bright.jpg"
+                      alt="Hải trình của bé"
+                      className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    <img
+                      src={designerAssets.catPoses.guide}
+                      alt="Mèo AIKI"
+                      className="absolute bottom-0 right-3 w-28 sm:w-32 h-auto object-contain drop-shadow-xl"
+                    />
+                    <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-slate-800 text-[11px] font-black shadow-xs border border-white">
+                      Đang thám hiểm: {activeStation.islandTitle || 'Đảo 1'}
+                    </span>
+                    <span className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-400 text-amber-950 text-[11px] font-black shadow-xs border border-amber-300">
+                      ⭐ {totalStarsCount} Sao · Cấp {explorerLevel}
+                    </span>
+                  </div>
+
+                  {/* 2. ĐÃ MỞ KHÓA - ĐƯỜNG RAY BÀI HỌC TIẾP THEO (QUICK ACTION) */}
+                  <div className="md:col-span-7 flex flex-col justify-between gap-3 p-4 rounded-2xl bg-white/95 border border-orange-100/90 shadow-2xs">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 shrink-0 bg-orange-100 rounded-full flex items-center justify-center border-2 border-white shadow-2xs overflow-hidden">
+                        <img src={designerAssets.catPoses.guide} alt="Mèo AIKI" className="w-10 h-10 object-contain" />
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-black text-orange-600 uppercase tracking-wider">Trạm thám hiểm tiếp theo</p>
+                        <p className="text-sm sm:text-base font-bold text-slate-800 leading-snug">
+                          “<span className="text-brand-600">{childDisplayName} ơi!</span> {activeStation.stationTitle}”
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-500 font-medium line-clamp-2">
+                      {activeStation.stationDesc}
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => navigate(activeStation.route)}
+                      className="w-full flex items-center justify-center px-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-black text-sm sm:text-base shadow-clay hover:scale-102 active:scale-95 transition-all shrink-0 cursor-pointer"
+                    >
+                      {hasLearningActivity ? 'Học tiếp' : 'Bắt đầu'} {activeStation.stationLabel}: {activeStation.stationTitle}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Hành Trình 6 Đảo Sáng Tạo Trực Quan */}
-            <div className="pt-2">
+            <div className="pt-2 border-t border-orange-100/80">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-black uppercase tracking-[0.12em] text-slate-600 flex items-center gap-1.5">
                   <span>🗺️</span> Hành trình 6 đảo sáng tạo ({totalStationsCount} trạm)
@@ -672,6 +829,7 @@ export function HomePage() {
                       return island.searchKeys.some((sk) => combined.includes(sk))
                     })
 
+                    const isLocked = !effectivePurchased && index > 0
                     const questCount = island.defaultQuestCount
                     const rawTotal = matched?.questCount ?? questCount
                     const rawCompleted = matched?.completedCount ?? 0
@@ -689,7 +847,13 @@ export function HomePage() {
                     return (
                       <Link
                         key={island.id}
-                        to={island.targetRoute}
+                        to={isLocked ? '#' : island.targetRoute}
+                        onClick={(e) => {
+                          if (isLocked) {
+                            e.preventDefault()
+                            setShowTrailerModal(true)
+                          }
+                        }}
                         className="group relative flex min-w-0 flex-col items-center rounded-2xl px-2 pb-2 text-center transition-transform hover:-translate-y-1 focus-visible:outline-focus"
                       >
                         <div className="relative flex h-[100px] w-full items-center justify-center">
@@ -697,20 +861,24 @@ export function HomePage() {
                             src={island.scene}
                             alt=""
                             className={`h-full w-full object-contain drop-shadow-sm transition-all group-hover:scale-105 ${
-                              !isCompleted && !isActive ? 'saturate-[.65]' : ''
+                              (!isCompleted && !isActive) || isLocked ? 'saturate-[.65] opacity-80' : ''
                             }`}
                             aria-hidden="true"
                           />
                           <div
                             className={`absolute bottom-0 flex h-7 min-w-7 items-center justify-center rounded-full border-2 border-white px-1.5 text-[10px] font-black shadow-sm ${
-                              isCompleted
-                                ? 'bg-emerald-500 text-white'
-                                : isActive
-                                  ? 'bg-amber-400 text-amber-950'
-                                  : 'bg-white text-slate-500'
+                              isLocked
+                                ? 'bg-slate-200 text-slate-500'
+                                : isCompleted
+                                  ? 'bg-emerald-500 text-white'
+                                  : isActive
+                                    ? 'bg-amber-400 text-amber-950'
+                                    : 'bg-white text-slate-500'
                             }`}
                           >
-                            {isCompleted ? (
+                            {isLocked ? (
+                              <Lock className="h-3.5 w-3.5" />
+                            ) : isCompleted ? (
                               <Check className="h-3.5 w-3.5" />
                             ) : index === 0 ? (
                               '🛡️'
@@ -723,15 +891,23 @@ export function HomePage() {
                           {island.title}
                         </h4>
                         <div className="mt-auto w-full pt-1.5">
-                          <div className="h-1.5 overflow-hidden rounded-full bg-slate-200/90">
-                            <div
-                              className="h-full rounded-full bg-violet-500 transition-[width]"
-                              style={{ width: `${progressPct}%` }}
-                            />
-                          </div>
-                          <p className="mt-1 text-[10px] font-bold text-slate-500">
-                            {completedCount}/{questCount} trạm
-                          </p>
+                          {isLocked ? (
+                            <div className="w-full text-center mt-1 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-bold text-slate-500">
+                              Cần mở khóa
+                            </div>
+                          ) : (
+                            <>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-slate-200/90">
+                                <div
+                                  className="h-full rounded-full bg-violet-500 transition-[width]"
+                                  style={{ width: `${progressPct}%` }}
+                                />
+                              </div>
+                              <p className="mt-1 text-[10px] font-bold text-slate-500">
+                                {completedCount}/{questCount} trạm
+                              </p>
+                            </>
+                          )}
                         </div>
                       </Link>
                     )
@@ -747,6 +923,7 @@ export function HomePage() {
         isOpen={showTrailerModal}
         onClose={() => setShowTrailerModal(false)}
         onUnlock={handleUnlockFullCourse}
+        plan={officialPlan}
       />
       <ParentGateModal open={gateOpen} onClose={() => setGateOpen(false)} />
     </PageMotion>
