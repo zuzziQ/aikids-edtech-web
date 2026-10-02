@@ -3,7 +3,6 @@ import { Link, useNavigate, useSearchParams } from 'react-router'
 import {
   Award,
   Activity,
-  ArrowRight,
   BookOpen,
   Check,
   CircleCheckBig,
@@ -14,8 +13,6 @@ import {
   MessageSquareText,
   Plus,
   RefreshCw,
-  ShieldCheck,
-  Sparkles,
   TrendingUp,
   TimerReset,
   Trophy,
@@ -175,14 +172,7 @@ type LearningData = {
     policy: AgeExperiencePolicy | null
   }
 }
-type Section = 'overview' | 'credentials' | 'growth' | 'pathway' | 'activity' | 'feedback'
-
-const levelLabels = {
-  no_data: 'Chưa có dữ liệu',
-  not_met: 'Cần thêm trải nghiệm',
-  developing: 'Đang phát triển',
-  achieved: 'Đã thể hiện tốt',
-} as const
+type Section = 'overview' | 'credentials' | 'pathway' | 'activity' | 'feedback' | 'growth'
 
 // ── 6 Đảo Sáng Tạo Canonical Definitions ───────────────────────
 export const SIX_ISLANDS = [
@@ -291,6 +281,7 @@ export function ParentLearningPage() {
   const [children, setChildren] = useState<Child[]>(initialKids)
   const [studentId, setStudentId] = useState(initialChildId)
   const [section, setSection] = useState<Section>('overview')
+  const activeSection = section === 'growth' ? 'overview' : section
   const [data, setData] = useState<LearningData | null>(initialCachedData)
   const dataRef = useRef<LearningData | null>(initialCachedData)
   useEffect(() => {
@@ -332,11 +323,11 @@ export function ParentLearningPage() {
 
   // Mark seen when parent actively views feedback section
   useEffect(() => {
-    if (section === 'feedback' && studentId) {
+    if (activeSection === 'feedback' && studentId) {
       feedbackBadge.markSeen(studentId)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [section, studentId])
+  }, [activeSection, studentId])
 
   useEffect(() => {
     const cachedDash = getDashboardCache()
@@ -609,119 +600,79 @@ export function ParentLearningPage() {
     <div className="flex flex-col gap-5">
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
-      {/* ── Header Soft-Clay ─────────────────────────────────── */}
-      <header className="rounded-3xl border border-border/80 bg-gradient-to-b from-brand-50/60 via-white to-white p-5 sm:p-6 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-brand-100/60 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-3 py-0.5 text-xs font-black text-brand-700">
-              <Sparkles size={12} /> THEO DÕI TIẾN ĐỘ HỌC TẬP
-            </span>
-            <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600">
-              Khóa Học AIKid & Năng Lực
-            </span>
+      {/* ── Thẻ Chọn Hồ Sơ Con Tinh Gọn (Soft-Clay) ───────────── */}
+      {children.length > 0 && (
+        <header className="rounded-3xl border border-brand-100/80 bg-gradient-to-b from-brand-50/50 via-white to-white p-3.5 sm:p-4 shadow-soft">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="text-xs font-bold text-slate-500 mr-1">
+                Hồ sơ học tập của con:
+              </span>
+              {children.map((child) => {
+                const hasNew = feedbackBadge.byChild[child.id] ?? false
+                const isActive = studentId === child.id
+                const img = avatarImage(child.avatarId)
+                const av = getAvatar(child.avatarId)
+                const cStats = getChildOverallLocalStats(child.id)
+                const cXp = (child.xp || 0) > 0 ? (child.xp || 0) : Math.max(0, ((child.level || 1) - 1) * 100)
+                const cStars = Math.max(child.totalStars ?? 0, cStats.totalStars, Math.min(30, Math.floor(cXp / 100)))
+
+                return (
+                  <button
+                    key={child.id}
+                    type="button"
+                    onClick={() => selectChild(child.id)}
+                    className={cn(
+                      'relative flex min-h-11 items-center gap-2 rounded-full border-2 px-3.5 py-1.5 text-xs sm:text-sm font-black transition-all duration-200 shadow-soft cursor-pointer',
+                      isActive
+                        ? 'border-amber-400 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-950 shadow-clay ring-2 ring-amber-300'
+                        : 'border-slate-200 bg-white text-slate-700 hover:border-amber-300 hover:bg-amber-50/50',
+                    )}
+                    aria-pressed={isActive}
+                    aria-label={`${child.nickname ?? 'Học viên'}${hasNew ? ' — có nhận xét mới' : ''}`}
+                  >
+                    {/* Avatar */}
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-tr from-brand-100 to-purple-50 text-base shadow-xs">
+                      {img ? (
+                        <img src={img} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        av.emoji
+                      )}
+                    </span>
+
+                    {/* Name */}
+                    <span className="font-display font-black text-slate-900">
+                      {child.nickname ?? 'Học viên'}
+                    </span>
+
+                    {/* Level Badge */}
+                    <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-black text-brand-700">
+                      Lv.{child.level || 1}
+                    </span>
+
+                    {/* Stars Badge */}
+                    <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100/90 px-2 py-0.5 text-[10px] font-black text-amber-800 border border-amber-200/60">
+                      ⭐ {cStars}
+                    </span>
+
+                    {hasNew && (
+                      <span
+                        aria-hidden="true"
+                        className="h-2 w-2 rounded-full bg-danger ring-2 ring-white"
+                      />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
             {isRevalidating && (
               <span className="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-bold text-brand-700 animate-pulse border border-brand-200">
                 <RefreshCw size={10} className="animate-spin text-brand-600" /> Đang cập nhật...
               </span>
             )}
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => handleOpenUpgrade('credits')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 border border-amber-300 px-3 py-1.5 text-xs font-black text-amber-900 shadow-soft transition"
-            >
-              <Sparkles size={13} className="text-amber-600" />
-              <span>Nạp Thêm Lượt Tạo Ảnh AI</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleOpenUpgrade('sub')}
-              className="inline-flex items-center gap-1 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1.5 text-xs font-black text-white shadow-soft transition hover:opacity-95"
-            >
-              <Sparkles size={13} />
-              <span>Nâng gói</span>
-            </button>
-            <Link to="/parent/kids" className="text-xs font-extrabold text-brand-600 hover:underline">
-              Quản lý hồ sơ
-            </Link>
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-display text-2xl font-black text-slate-900 sm:text-3xl">Trung tâm học tập</h1>
-            <p className="mt-1 max-w-2xl text-xs sm:text-sm text-muted leading-relaxed">
-              Theo dõi Khóa học AIKid Chính Thức, bằng khen chứng nhận và đánh giá năng lực của từng bé trên một giao diện ấm áp.
-            </p>
-          </div>
-
-          {/* Bộ chọn bé dạng Pill gốm sứ nổi Soft-Clay */}
-          {children.length > 0 && (
-            <div className="grid min-w-52 gap-2">
-              <p className="text-xs font-bold text-muted uppercase tracking-wider">Đang xem hồ sơ học tập</p>
-              <div className="flex flex-wrap gap-2.5">
-                {children.map((child) => {
-                  const hasNew = feedbackBadge.byChild[child.id] ?? false
-                  const isActive = studentId === child.id
-                  const img = avatarImage(child.avatarId)
-                  const av = getAvatar(child.avatarId)
-                  const cStats = getChildOverallLocalStats(child.id)
-                  const cXp = (child.xp || 0) > 0 ? (child.xp || 0) : Math.max(0, ((child.level || 1) - 1) * 100)
-                  const cStars = Math.max(child.totalStars ?? 0, cStats.totalStars, Math.min(30, Math.floor(cXp / 100)))
-
-                  return (
-                    <button
-                      key={child.id}
-                      type="button"
-                      onClick={() => selectChild(child.id)}
-                      className={cn(
-                        'relative flex min-h-12 items-center gap-2.5 rounded-full border-2 px-3.5 py-1.5 text-xs sm:text-sm font-black transition-all duration-200 shadow-soft',
-                        isActive
-                          ? 'border-amber-400 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-950 shadow-clay ring-2 ring-amber-300'
-                          : 'border-slate-200 bg-white text-slate-700 hover:border-amber-300 hover:bg-amber-50/50',
-                      )}
-                      aria-pressed={isActive}
-                      aria-label={`${child.nickname ?? 'Học viên'}${hasNew ? ' — có nhận xét mới' : ''}`}
-                    >
-                      {/* Avatar */}
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-tr from-brand-100 to-purple-50 text-base shadow-xs">
-                        {img ? (
-                          <img src={img} alt="" className="h-full w-full object-cover" />
-                        ) : (
-                          av.emoji
-                        )}
-                      </span>
-
-                      {/* Name */}
-                      <span className="font-display font-black text-slate-900">
-                        {child.nickname ?? 'Học viên'}
-                      </span>
-
-                      {/* Level Badge */}
-                      <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-black text-brand-700">
-                        Lv.{child.level || 1}
-                      </span>
-
-                      {/* Stars Badge */}
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100/90 px-2 py-0.5 text-[10px] font-black text-amber-800 border border-amber-200/60">
-                        ⭐ {cStars}
-                      </span>
-
-                      {hasNew && (
-                        <span
-                          aria-hidden="true"
-                          className="h-2 w-2 rounded-full bg-danger ring-2 ring-white"
-                        />
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      </header>
+        </header>
+      )}
 
       {/* ── Thanh điều hướng Soft-Clay ấm áp ─────────────────── */}
       <div
@@ -733,7 +684,6 @@ export function ParentLearningPage() {
           [
             ['overview', 'Khóa học AIKid', Compass],
             ['credentials', 'Bằng khen & Chứng nhận', Trophy],
-            ['growth', 'Năng lực & Nhận xét', Sparkles],
             ['activity', 'Hoạt động', Activity],
             ['pathway', 'Lộ trình', MapIcon],
             ['feedback', 'Nhận xét', MessageSquareText],
@@ -743,10 +693,10 @@ export function ParentLearningPage() {
             key={key}
             type="button"
             role="tab"
-            aria-selected={section === key}
+            aria-selected={activeSection === key}
             className={cn(
               'flex min-h-11 shrink-0 items-center gap-2 rounded-2xl px-4 text-xs sm:text-sm font-extrabold transition-all duration-200 border-2',
-              section === key
+              activeSection === key
                 ? 'bg-brand-500 text-white border-brand-600 shadow-clay'
                 : 'bg-white text-slate-700 border-cream-200 hover:bg-amber-50 hover:border-amber-300',
             )}
@@ -776,9 +726,9 @@ export function ParentLearningPage() {
         <PageSkeleton rows={4} />
       ) : error ? (
         <ErrorState message={error} onRetry={() => void load()} />
-      ) : section === 'feedback' && studentId ? (
+      ) : activeSection === 'feedback' && studentId ? (
         <ParentTeacherFeedbackSection childId={studentId} />
-      ) : data && section === 'overview' ? (
+      ) : data && activeSection === 'overview' ? (
         <LearningOverview
           child={selectedChild}
           pathway={data.pathway}
@@ -787,13 +737,12 @@ export function ParentLearningPage() {
           completedQuests={completedQuests}
           aiCredits={data.subscription.aiCreditsRemaining ?? data.subscription.monthlyCreateCredits ?? 50}
           hasNewFeedback={feedbackBadge.byChild[studentId] ?? false}
-          onOpenPathway={() => setSection('pathway')}
           onOpenFeedback={() => setSection('feedback')}
           onOpenCredentials={() => setSection('credentials')}
           onTopupCredits={() => handleOpenUpgrade('credits')}
           onEnterChild={() => void handleEnterChild(studentId)}
         />
-      ) : data && section === 'credentials' ? (
+      ) : data && activeSection === 'credentials' ? (
         <CredentialsShowcase
           child={selectedChild}
           credentials={data.credentials}
@@ -802,16 +751,7 @@ export function ParentLearningPage() {
           busy={busy}
           onDownload={downloadCredential}
         />
-      ) : data && section === 'growth' ? (
-        <GrowthAndFeedbackSection
-          child={selectedChild}
-          competency={data.competency}
-          credentials={data.credentials}
-          ageExperience={data.ageExperience}
-          busy={busy}
-          onDownload={downloadCredential}
-        />
-      ) : data && section === 'pathway' ? (
+      ) : data && activeSection === 'pathway' ? (
         <div className="grid gap-5">
           <PathwaySection pathway={data.pathway} />
           <CourseSelectionSection
@@ -822,7 +762,7 @@ export function ParentLearningPage() {
             onUpgrade={() => handleOpenUpgrade('sub')}
           />
         </div>
-      ) : data && section === 'activity' ? (
+      ) : data && activeSection === 'activity' ? (
         <LearningActivitySection studentId={studentId} initialProgress={data.progress} />
       ) : null}
 
@@ -845,7 +785,6 @@ function LearningOverview({
   totalStars,
   completedQuests,
   hasNewFeedback,
-  onOpenPathway,
   onOpenFeedback,
   onOpenCredentials,
   onEnterChild,
@@ -857,64 +796,16 @@ function LearningOverview({
   completedQuests: number
   aiCredits?: number
   hasNewFeedback: boolean
-  onOpenPathway: () => void
   onOpenFeedback: () => void
   onOpenCredentials: () => void
   onTopupCredits?: () => void
   onEnterChild: () => void
 }) {
-  const active = pathway.courses.find((course) => course.id === pathway.recommendedCourseId)
-    ?? pathway.courses.find((course) => course.status === 'active')
   const completed = pathway.courses.filter((course) => course.status === 'completed').length
-  const childName = child?.nickname ?? 'Con'
   const isIsland0Done = completedQuests >= 10
 
   return (
     <div className="grid gap-5">
-      {/* Thẻ Báo Cáo Tiến Độ Súc Tích Cho Phụ Huynh */}
-      <section className="ui-card overflow-hidden rounded-3xl border-2 border-brand-200 shadow-clay">
-        <div className="grid gap-5 bg-gradient-to-br from-brand-50/90 via-white to-sky-50/60 p-5 sm:p-6 md:grid-cols-[1fr_auto] md:items-center">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="rounded-full bg-brand-500 text-white px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider shadow-2xs">
-                TIẾN ĐỘ HỌC TẬP
-              </span>
-              <span className="text-xs font-bold text-slate-500">
-                Bước tiếp theo
-              </span>
-            </div>
-            <h2 className="mt-2 font-display text-xl sm:text-2xl font-black text-slate-900">
-              {isIsland0Done
-                ? 'Khóa học tiếp theo: Đảo 1 - Nhà thám hiểm AI'
-                : active
-                  ? `Khóa học tiếp theo: ${active.title}`
-                  : `Chọn chương trình đầu tiên cho ${childName}`}
-            </h2>
-            <p className="mt-2 max-w-2xl text-xs sm:text-sm leading-relaxed text-slate-600">
-              {isIsland0Done
-                ? 'Con đã hoàn thành Đảo Tiên Quyết (10/10 trạm) và đang tiếp tục học Đảo 1 (4 trạm viết Prompt).'
-                : active
-                  ? `Lộ trình đã hoàn thành ${active.completionPercent}%. Tiến độ và điều kiện mở khóa do hệ thống học tập cập nhật.`
-                  : 'Chương trình phù hợp độ tuổi và quyền học hiện có sẽ xuất hiện trong mục Lộ trình.'}
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center gap-2">
-            {isIsland0Done ? (
-              <Button
-                variant="primary"
-                className="gap-2 font-black shadow-clay rounded-2xl min-h-[44px] px-6 text-sm"
-                onClick={onEnterChild}
-              >
-                <span>Vào lớp học cùng con ➔</span>
-              </Button>
-            ) : (
-              <Button onClick={onOpenPathway} className="gap-2 rounded-2xl shadow-clay min-h-[44px] px-6">
-                {active ? 'Xem lộ trình' : 'Chọn chương trình'} <ArrowRight size={17} aria-hidden="true" />
-              </Button>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* Overview Stat Cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -986,7 +877,7 @@ function LearningOverview({
             </div>
           </div>
           <span className="inline-flex items-center gap-1 self-start sm:self-auto rounded-full bg-brand-100 px-3 py-1 text-xs font-black text-brand-800">
-            <Sparkles size={12} className="text-brand-600" /> Tổng {totalStars} sao · {completedQuests} trạm
+            Tổng {totalStars} sao · {completedQuests} trạm
           </span>
         </div>
 
@@ -1104,7 +995,7 @@ function LearningOverview({
                       onClick={onEnterChild}
                       className="inline-flex items-center gap-1.5 text-xs font-black text-brand-700 hover:text-brand-900 transition"
                     >
-                      <span>Vào học ngay ➔</span>
+                      <span>Vào học</span>
                     </button>
                   ) : (
                     <span className="text-xs font-bold text-slate-400">
@@ -1189,7 +1080,7 @@ function CredentialsShowcase({
         <div className="mx-auto max-w-2xl flex flex-col items-center">
           {/* Header Seal */}
           <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-100 text-amber-900 font-black text-xs uppercase tracking-wider mb-3 border border-amber-200 shadow-2xs">
-            <Sparkles size={14} className="text-amber-600 shrink-0" />
+            <Award size={14} className="text-amber-600 shrink-0" />
             <span>AI Kids Creator Academy · Chứng Nhận Danh Dự</span>
           </div>
 
@@ -1335,188 +1226,6 @@ function CredentialsShowcase({
   )
 }
 
-// ── Tab 3: Năng Lực & Nhận Xét ────────────────────────────────
-function GrowthAndFeedbackSection({
-  child,
-  competency,
-  credentials,
-  ageExperience,
-  busy,
-  onDownload,
-}: {
-  child: Child | null
-  competency: CompetencyMap
-  credentials: Credential[]
-  ageExperience: LearningData['ageExperience']
-  busy: boolean
-  onDownload: (credential: Credential) => void
-}) {
-  const childName = child?.nickname ?? 'Bé'
-  const levelWidth = { no_data: 0, not_met: 25, developing: 62, achieved: 100 } as const
-
-  return (
-    <div className="grid gap-6">
-      {/* 3 Trụ Cột Năng Lực AI Kids Chuẩn Montessori */}
-      <section className="rounded-3xl border-2 border-brand-100 bg-gradient-to-b from-brand-50/50 via-white to-white p-5 sm:p-6 shadow-soft">
-        <div className="flex items-center gap-3 border-b border-brand-100/70 pb-3 mb-5">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-brand-500 text-white shadow-soft text-lg">
-            📊
-          </span>
-          <div>
-            <h2 className="font-display text-lg sm:text-xl font-black text-slate-900">
-              Đánh Giá Năng Lực Của {childName}
-            </h2>
-            <p className="text-xs text-muted">
-              Đánh giá năng lực tư duy AI, đạo đức số và khả năng biểu đạt sáng tạo qua từng chặng học.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-3">
-          {/* Cột 1: Tư duy Prompt */}
-          <div className="rounded-2xl border border-sky-200/90 bg-sky-50/70 p-4 shadow-2xs">
-            <span className="text-xs font-black text-sky-700 uppercase tracking-wide">
-              Tư Duy Prompt & Ngôn Ngữ AI
-            </span>
-            <p className="text-xl font-black text-sky-950 font-display mt-1">95% · Xuất Sắc</p>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              Biết cách diễn đạt ý tưởng mạch lạc, nắm chắc cấu trúc 4 chìa khóa vàng để ra lệnh cho AI.
-            </p>
-          </div>
-
-          {/* Cột 2: Đạo đức số */}
-          <div className="rounded-2xl border border-emerald-200/90 bg-emerald-50/70 p-4 shadow-2xs">
-            <span className="text-xs font-black text-emerald-700 uppercase tracking-wide">
-              Đạo Đức Số & An Toàn AI
-            </span>
-            <p className="text-xl font-black text-emerald-950 font-display mt-1">100% · Đạt Chuẩn</p>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              Hoàn thành xuất sắc 10 Quy tắc vàng, luôn bảo mật thông tin cá nhân và tôn trọng tác quyền số.
-            </p>
-          </div>
-
-          {/* Cột 3: Thẩm mỹ & Storyboard */}
-          <div className="rounded-2xl border border-purple-200/90 bg-purple-50/70 p-4 shadow-2xs">
-            <span className="text-xs font-black text-purple-700 uppercase tracking-wide">
-              Thẩm Mỹ & Storyboard Sáng Tạo
-            </span>
-            <p className="text-xl font-black text-purple-950 font-display mt-1">88% · Đang Bứt Phá</p>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              Phối hợp màu sắc hài hòa, tư duy bố cục đa khung hình và kể chuyện mạch lạc qua từng ô tranh.
-            </p>
-          </div>
-        </div>
-
-        {/* Lời Nhắn Ấm Áp Từ Ban Sư Phạm */}
-        <div className="mt-5 rounded-2xl border border-amber-200/90 bg-amber-50/80 p-4 sm:p-5 shadow-2xs flex items-start gap-3.5">
-          <span className="text-3xl shrink-0">🐱</span>
-          <div>
-            <h4 className="font-display text-sm sm:text-base font-black text-amber-950">
-              Nhận xét ấm áp từ Mèo AIKI & Ban Sư Phạm AI Kids
-            </h4>
-            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed mt-1">
-              "Bé {childName} có trí tưởng tượng phong phú và tư duy phản biện rất tốt khi giao tiếp với AI. Bé luôn có ý thức tự bảo vệ thông tin cá nhân và biết cách biến những suy nghĩ sáng tạo thành những tác phẩm tranh truyện rực rỡ!"
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Khung Năng Lực Chi Tiết từ LMS */}
-      <section className="ui-card p-5">
-        <div className="mb-4 flex items-start gap-3">
-          <ShieldCheck className="text-brand-500" aria-hidden="true" />
-          <div>
-            <h3 className="font-display text-xl font-bold">Bản đồ năng lực hệ thống</h3>
-            <p className="text-sm text-muted">
-              "Chưa có dữ liệu" được giữ riêng, không quy đổi thành điểm 0.
-            </p>
-          </div>
-        </div>
-        {competency.status === 'configuration_required' ? (
-          <div className="rounded-2xl bg-sun-50 p-4 text-sm text-warning">
-            Nhà trường chưa công bố khung năng lực. Hệ thống không tự đặt tên miền năng lực thay khách hàng.
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {competency.frameworks.map((framework) => (
-              <article key={framework.id}>
-                <h4 className="font-bold">{framework.name}</h4>
-                <div className="mt-3 space-y-3">
-                  {framework.domains.map((domain) => (
-                    <div key={domain.id} className="rounded-3xl border border-border bg-page p-4">
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="font-display text-lg text-brand-800">{domain.name}</p>
-                        <span className="text-xs font-bold text-muted">
-                          {domain.skills.reduce((sum, skill) => sum + skill.result.evidenceCount, 0)} bằng chứng
-                        </span>
-                      </div>
-                      <div className="mt-3 grid gap-3">
-                        {domain.skills.map((skill) => (
-                          <div key={skill.id} className="rounded-2xl bg-white p-4 shadow-soft">
-                            <div className="flex items-start justify-between gap-2">
-                              <p className="font-bold">{skill.learnerLabel || skill.name}</p>
-                              <span
-                                className={cn(
-                                  'rounded-full px-2 py-0.5 text-xs font-bold',
-                                  skill.result.level === 'achieved'
-                                    ? 'bg-mint-100 text-success'
-                                    : skill.result.level === 'developing'
-                                      ? 'bg-sun-100 text-warning'
-                                      : 'bg-sky-100 text-muted',
-                                )}
-                              >
-                                {ageExperience.policy?.copyPolicy.competencyLevelLabels[
-                                  skill.result.level
-                                ] ?? levelLabels[skill.result.level]}
-                              </span>
-                            </div>
-                            <div
-                              className="mt-3 h-2 overflow-hidden rounded-full bg-brand-50"
-                              role="progressbar"
-                              aria-label={`${skill.learnerLabel || skill.name}: ${levelLabels[skill.result.level]}`}
-                              aria-valuenow={levelWidth[skill.result.level]}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            >
-                              <div
-                                className={cn(
-                                  'h-full rounded-full',
-                                  skill.result.level === 'achieved'
-                                    ? 'bg-mint-500'
-                                    : skill.result.level === 'developing'
-                                      ? 'bg-sun-400'
-                                      : 'bg-sky-300',
-                                )}
-                                style={{ width: `${levelWidth[skill.result.level]}%` }}
-                              />
-                            </div>
-                            <div className="mt-2 flex items-center justify-between gap-2 text-xs text-muted">
-                              <span>
-                                {skill.result.evidenceCount === 0
-                                  ? 'Cần thêm trải nghiệm để đánh giá'
-                                  : `${skill.result.evidenceCount} bằng chứng học tập`}
-                              </span>
-                              {skill.result.scorePercent !== null && (
-                                <span className="font-bold">
-                                  Kết quả gần nhất {skill.result.scorePercent}%
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-3 text-xs leading-relaxed text-muted">{framework.disclaimer}</p>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-    </div>
-  )
-}
 
 function LearningActivitySection({
   studentId,

@@ -110,7 +110,7 @@ describe('ParentLearningPage Component', () => {
     invalidateParentCache()
   })
 
-  it('renders "Nạp Thêm Lượt Tạo Ảnh AI" button in child profile section and opens modal with credits mode', async () => {
+  it('renders streamlined child profile selector without bulky buttons, description, or AI sparkles', async () => {
     await act(async () => {
       root.render(
         createElement(
@@ -121,21 +121,13 @@ describe('ParentLearningPage Component', () => {
       )
     })
 
-    // Find the "Nạp Thêm Lượt Tạo Ảnh AI" button
-    const buttons = Array.from(document.body.querySelectorAll('button'))
-    const topupBtn = buttons.find((b) => b.textContent?.includes('Nạp Thêm Lượt Tạo Ảnh AI'))
-    expect(topupBtn).toBeDefined()
-
-    // Click button to open modal
-    await act(async () => {
-      topupBtn?.click()
-    })
-
-    // Verify modal opened with 'credits' mode
-    const dialog = document.body.querySelector('[role="dialog"]')
-    expect(dialog).not.toBeNull()
-    expect(document.body.textContent).toContain('NẠP LƯỢT TẠO ẢNH AI DỰ PHÒNG')
-    expect(document.body.textContent).toContain('Chọn Gói Lượt Tạo Ảnh Cho Bé')
+    const text = document.body.textContent ?? ''
+    expect(text).toContain('Hồ sơ học tập của con:')
+    expect(text).toContain('Bé Bắp')
+    expect(text).not.toContain('Trung tâm học tập')
+    expect(text).not.toContain('Nạp Thêm Lượt Tạo Ảnh AI')
+    expect(text).not.toContain('THEO DÕI TIẾN ĐỘ HỌC TẬP')
+    expect(text).not.toContain('ĐANG XEM HỒ SƠ HỌC TẬP')
   })
 
   it('does not display bare "Error" when sub-queries fail or reject, and renders gracefully', async () => {
@@ -200,7 +192,8 @@ describe('ParentLearningPage Component', () => {
       )
     })
 
-    expect(document.body.textContent).toContain('Trung tâm học tập')
+    expect(document.body.textContent).toContain('Hồ sơ học tập của con:')
+    expect(document.body.textContent).toContain('Khóa học AIKid')
   })
 
   it('renders concise parent progress report without banner, childish dialogues, or island cert button, and requires 30 stations for graduation', async () => {
@@ -260,11 +253,9 @@ describe('ParentLearningPage Component', () => {
     expect(text).not.toContain('Bo ơi! Cùng tiếp tục hành trình')
     expect(text).not.toContain('Bé đã xuất sắc hoàn thành')
 
-    // 3. Succinct parent progress report
-    expect(text).toContain('TIẾN ĐỘ HỌC TẬP')
-    expect(text).toContain('Khóa học tiếp theo: Đảo 1 - Nhà thám hiểm AI')
-    expect(text).toContain('Con đã hoàn thành Đảo Tiên Quyết (10/10 trạm) và đang tiếp tục học Đảo 1 (4 trạm viết Prompt).')
-    expect(text).toContain('Vào lớp học cùng con ➔')
+    // 3. Next step enter-class card removed from learning page
+    expect(text).not.toContain('Vào lớp học cùng con')
+    expect(text).not.toContain('Bước tiếp theo')
 
     // 4. Official naming
     expect(text).toContain('Khóa học AIKid')
@@ -424,5 +415,64 @@ describe('ParentLearningPage Component', () => {
     expect(text).toContain('🟢 Đã đủ điều kiện')
     expect(text).toContain('Tải Bằng Khen (.SVG)')
     expect(text).not.toContain('Bản xem trước chứng nhận · Mở khi hoàn thành 30 trạm')
+  })
+
+  it('does not display ungrounded "Năng lực & Nhận xét" tab or artificial metric scores', async () => {
+    const mockedApi = vi.mocked(api)
+    mockedApi.mockImplementation((path: string) => {
+      if (path === '/api/parent/children') {
+        return Promise.resolve({
+          children: [
+            { id: 'child-bo', nickname: 'Bo', avatarId: 'avatar-1', level: 11, totalStars: 30, completedQuests: 10 },
+          ],
+        })
+      }
+      if (path.includes('/courses')) {
+        return Promise.resolve({ courses: [] })
+      }
+      if (path.includes('/progress')) {
+        return Promise.resolve({
+          courseId: 'muoi-quy-tac-xuong-sang-tao',
+          courses: [],
+          summary: { completed: 10, total: 30, totalStars: 30, currentPhase: 'learn' },
+          quests: [],
+        })
+      }
+      if (path === '/api/parent/subscription') {
+        return Promise.resolve({
+          subscription: { status: 'active', maxOpenCoursesPerChild: 2 },
+        })
+      }
+      return Promise.resolve({})
+    })
+
+    await act(async () => {
+      root.render(
+        createElement(
+          MemoryRouter,
+          { initialEntries: ['/parent/learning?childId=child-bo'] },
+          createElement(ParentLearningPage, null),
+        ),
+      )
+    })
+
+    const text = document.body.textContent ?? ''
+
+    // 1. "Năng lực & Nhận xét" tab removed
+    expect(text).not.toContain('Năng lực & Nhận xét')
+
+    // 2. Fake ungrounded metrics removed
+    expect(text).not.toContain('Tư Duy Prompt & Ngôn Ngữ AI')
+    expect(text).not.toContain('95% · Xuất Sắc')
+    expect(text).not.toContain('100% · Đạt Chuẩn')
+    expect(text).not.toContain('88% · Đang Bứt Phá')
+    expect(text).not.toContain('Nhận xét ấm áp từ Mèo AIKI')
+
+    // 3. Grounded tabs remain
+    expect(text).toContain('Khóa học AIKid')
+    expect(text).toContain('Bằng khen & Chứng nhận')
+    expect(text).toContain('Hoạt động')
+    expect(text).toContain('Lộ trình')
+    expect(text).toContain('Nhận xét')
   })
 })

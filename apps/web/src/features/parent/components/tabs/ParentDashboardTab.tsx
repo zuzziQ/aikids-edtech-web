@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import {
-  ArrowRight,
+  Award,
   Camera,
   CheckCircle2,
   Download,
@@ -11,7 +11,6 @@ import {
   QrCode,
   RefreshCw,
   ShieldCheck,
-  Sparkles,
   Trash2,
   Users,
 } from 'lucide-react'
@@ -244,7 +243,7 @@ export function ParentDashboardTab({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-brand-200/80 bg-gradient-to-r from-brand-50/80 to-purple-50/80 p-3.5 shadow-2xs w-full lg:w-auto">
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand-500 text-white shadow-clay text-lg">
-                <Sparkles size={20} className="text-white" />
+                <Award size={20} className="text-white" />
               </span>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
@@ -272,7 +271,7 @@ export function ParentDashboardTab({
                 className="flex-1 sm:flex-none gap-1.5 !text-xs font-black shadow-clay bg-brand-500 hover:bg-brand-600 text-white rounded-xl whitespace-nowrap h-11 px-4 cursor-pointer"
                 onClick={() => onOpenCheckout('sub', 'aikids_pro', 129000, 'AI Kids Pro')}
               >
-                <Sparkles size={13} /> Nâng cấp gói
+                Nâng cấp gói
               </Button>
               <Button
                 variant="secondary"
@@ -293,8 +292,8 @@ export function ParentDashboardTab({
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand-100/70 pb-4 mb-5">
           <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-brand-500 text-white shadow-soft text-xl">
-              👨‍👩‍👧‍👦
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-brand-500 text-white shadow-soft">
+              <Users size={22} className="text-white" />
             </span>
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900">
@@ -327,7 +326,7 @@ export function ParentDashboardTab({
           </div>
         ) : (
           <ul
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full min-w-0"
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full min-w-0"
             aria-label="Danh sách hồ sơ các con"
           >
             {kids.map((k) => {
@@ -345,57 +344,26 @@ export function ParentDashboardTab({
                     )}
                   >
                     <div>
-                      {/* ── Header thẻ con ── */}
-                      <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
-                        {/* Avatar & Tên bé */}
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="relative shrink-0">
-                            <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center overflow-hidden rounded-full border-3 border-white bg-gradient-to-tr from-brand-100 to-purple-50 text-3xl shadow-clay">
-                              {img ? (
-                                <img
-                                  src={img}
-                                  alt={k.nickname ?? 'Avatar'}
-                                  className="h-full w-full object-cover"
-                                />
-                              ) : (
-                                av.emoji
-                              )}
-                            </div>
-                            <span className="absolute -bottom-1 -right-1 rounded-full bg-gradient-to-r from-brand-600 to-purple-600 px-2 py-0.5 text-[10px] font-black text-white shadow-2xs border border-white">
-                              Lv.{k.level || 1}
-                            </span>
-                          </div>
-
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-1.5">
-                              <h3 className="font-display text-lg font-black text-slate-900 truncate">
-                                {k.nickname ?? 'Bạn nhỏ'}
-                              </h3>
-                              <span
-                                className={cn(
-                                  'h-2.5 w-2.5 shrink-0 rounded-full',
-                                  k.active !== false ? 'bg-emerald-500' : 'bg-slate-300',
-                                )}
-                                title={k.active !== false ? 'Đang hoạt động' : 'Tạm dừng'}
-                              />
-                            </div>
-                            <p className="text-xs font-bold text-slate-500 mt-0.5 truncate">
-                              {k.ageBand ? `Nhóm ${k.ageBand}` : 'Nhóm 8-11 tuổi'}
-                            </p>
-                            <div className="flex items-center gap-1.5 mt-1 text-[11px] font-bold text-amber-700">
-                              <span>⭐ {childStars} sao</span>
-                              <span className="text-slate-300">·</span>
-                              <span className="text-emerald-700">🎯 {childQuests} trạm</span>
-                            </div>
-                          </div>
+                      {/* ── Header thẻ con: Hàng 1 (Trạng thái + Công cụ) ── */}
+                      <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <span
+                            className={cn(
+                              'h-2.5 w-2.5 shrink-0 rounded-full',
+                              k.active !== false ? 'bg-emerald-500 ring-2 ring-emerald-100' : 'bg-slate-300',
+                            )}
+                          />
+                          <span className="text-xs font-bold text-slate-600 truncate">
+                            {k.active !== false ? 'Đang hoạt động' : 'Tạm dừng'}
+                          </span>
                         </div>
 
-                        {/* Cụm nút công cụ nhỏ gọn */}
+                        {/* Cụm 3 nút công cụ nhỏ gọn */}
                         <div className="flex items-center gap-1 shrink-0">
                           <button
                             type="button"
                             onClick={() => setEditTarget(k)}
-                            className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition border border-slate-200/60 shadow-2xs cursor-pointer"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition border border-slate-200/60 shadow-2xs cursor-pointer"
                             title="Đổi tên / avatar"
                             aria-label="Đổi tên / avatar"
                           >
@@ -404,7 +372,7 @@ export function ParentDashboardTab({
                           <button
                             type="button"
                             onClick={() => setQrModalTarget(k)}
-                            className="p-2 rounded-xl text-brand-600 hover:text-brand-800 hover:bg-brand-50 transition border border-brand-200/60 shadow-2xs cursor-pointer"
+                            className="p-1.5 rounded-lg text-brand-600 hover:text-brand-800 hover:bg-brand-50 transition border border-brand-200/60 shadow-2xs cursor-pointer"
                             title="Thẻ QR đăng nhập"
                             aria-label="Thẻ QR đăng nhập"
                           >
@@ -413,12 +381,46 @@ export function ParentDashboardTab({
                           <button
                             type="button"
                             onClick={() => setDeleteTarget(k)}
-                            className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition border border-slate-200/60 shadow-2xs cursor-pointer"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition border border-slate-200/60 shadow-2xs cursor-pointer"
                             title="Tạm khóa tài khoản con"
                             aria-label="Tạm khóa tài khoản con"
                           >
                             <Trash2 size={14} />
                           </button>
+                        </div>
+                      </div>
+
+                      {/* ── Thân thẻ: Hàng 2 (Avatar + Khối thông tin rộng rãi) ── */}
+                      <div className="flex items-center gap-3.5 pt-3">
+                        <div className="relative shrink-0">
+                          <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-tr from-brand-100 to-purple-50 text-2xl shadow-soft">
+                            {img ? (
+                              <img
+                                src={img}
+                                alt={k.nickname ?? 'Avatar'}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              av.emoji
+                            )}
+                          </div>
+                          <span className="absolute -bottom-1 -right-1 rounded-full bg-gradient-to-r from-brand-600 to-purple-600 px-1.5 py-0.2 text-[9px] font-black text-white shadow-2xs border border-white">
+                            Lv.{k.level || 1}
+                          </span>
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-display text-lg font-black text-slate-900 break-words leading-snug">
+                            {k.nickname ?? 'Bạn nhỏ'}
+                          </h3>
+                          <p className="text-xs font-bold text-slate-500 mt-0.5">
+                            {k.ageBand ? `Nhóm ${k.ageBand}` : 'Nhóm 8-11 tuổi'}
+                          </p>
+                          <div className="flex items-center gap-1.5 mt-1 text-[11px] font-bold text-amber-700">
+                            <span>⭐ {childStars} sao</span>
+                            <span className="text-slate-300">·</span>
+                            <span className="text-emerald-700">🎯 {childQuests} trạm</span>
+                          </div>
                         </div>
                       </div>
 
@@ -430,8 +432,7 @@ export function ParentDashboardTab({
                           onClick={() => void handleEnterChild(k.id)}
                           className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-500 hover:bg-brand-600 active:scale-[0.98] text-white font-extrabold shadow-clay border-2 border-brand-600 transition-all py-3 px-4 text-sm sm:text-base cursor-pointer"
                         >
-                          <span>🚀 Chạm để vào học ngay</span>
-                          <ArrowRight size={16} />
+                          <span>Chạm để vào học ngay</span>
                         </button>
 
                         <Link
@@ -439,7 +440,6 @@ export function ParentDashboardTab({
                           className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs py-2 px-3 border border-slate-200/80 transition"
                         >
                           <span>Xem tiến độ học tập</span>
-                          <ArrowRight size={13} />
                         </Link>
                       </div>
                     </div>
@@ -454,7 +454,7 @@ export function ParentDashboardTab({
                       >
                         <span className="flex items-center gap-1.5">
                           <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
-                          <span>🛡️ Cài đặt & Phân quyền an toàn</span>
+                          <span>Cài đặt & Phân quyền an toàn</span>
                         </span>
                         <span className="text-slate-500 font-black">{isExpanded ? '▴' : '▾'}</span>
                       </button>
@@ -636,7 +636,6 @@ export function ParentDashboardTab({
             className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-extrabold text-xs sm:text-sm px-5 py-2.5 shadow-clay transition whitespace-nowrap self-start sm:self-auto"
           >
             <span>Khám phá Trung tâm học tập</span>
-            <ArrowRight size={15} />
           </Link>
         </div>
       </section>
