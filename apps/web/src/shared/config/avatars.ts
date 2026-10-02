@@ -35,7 +35,7 @@ export const STUDENT_AVATARS: readonly AvatarOption[] = [
     id: 'avatar-dragon',
     label: 'Rồng',
     emoji: '🐉',
-    image: designerAssets.hub.cardMee,
+    image: designerAssets.lobby.cardMee,
   },
   {
     id: 'avatar-fox',
@@ -99,5 +99,14 @@ export function avatarEmoji(id: string | null | undefined): string {
 }
 
 export function avatarImage(id: string | null | undefined): string | undefined {
+  if (
+    id?.startsWith('http://') ||
+    id?.startsWith('https://') ||
+    id?.startsWith('/') ||
+    id?.startsWith('data:') ||
+    id?.startsWith('blob:')
+  ) {
+    return id
+  }
   return getAvatar(id).image
 }

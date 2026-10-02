@@ -1,73 +1,78 @@
 ---
 name: aikids-engineering
 description: >-
-  Engineering workflow for AI Kids monorepo: TDD seams, modular Fastify,
-  Prisma portable schema, Docker, merge seams to StoryMee 2-MCP-Core.
-  Inspired by mattpocock/skills (small composable skills, domain clarity, TDD).
+  FE-only engineering workflow for AI Kids React/Vite: runtime performance,
+  StoryMee Hub contracts, tests, Docker and minimal production-safe changes.
 ---
 
-# Engineering workflow
+# AI Kids frontend engineering
 
-## Layout
+## Orient before editing
 
+- Name the user-visible problem and reproduce or trace its real flow.
+- Touch only `apps/web` and FE configuration in this repo.
+- Treat StoryMee Hub/core services as external contracts.
+- State auth, privacy, API and bundle impact.
+
+## Ponytail ladder
+
+Stop at the first rung that solves the verified problem:
+
+1. Does this need to exist? If not, delete/skip it.
+2. Is the behavior already in this codebase? Reuse it.
+3. Can React, the browser or CSS do it natively?
+4. Can an installed dependency do it without a wrapper?
+5. Only then write the minimum new code.
+
+Never minimize validation, cleanup, error handling, security or accessibility.
+Read the touched route, store, API normalizer and effect lifecycle before
+changing them.
+
+## Boundaries
+
+- All HTTP goes through `shared/lib/api.ts` and StoryMee Hub.
+- Do not call microservice ports or add server/database code here.
+- Server data stays in local feature state; Zustand is for cross-route client
+  state only.
+- Lazy-load route pages and heavyweight optional SDKs.
+- Effects must survive React StrictMode setup → cleanup → setup without leaked
+  listeners, timers or async subscriptions.
+- Do not keep hidden route trees mounted to simulate a cache.
+
+## API Proxy Rule
+
+- Luôn gọi API thông qua proxy `/api/*` từ browser.
+- Browser → `/api/*` → Vite proxy → `https://dev-hub.storymee.com` (dev).
+- Browser → `/api/*` → Vercel/Docker proxy → `https://dev-hub.storymee.com` (prod).
+- KHÔNG gọi trực tiếp `dev-hub.storymee.com` từ browser. Điều này đảm bảo cookie HttpOnly hoạt động đúng.
+
+## XP/Progression Pipeline
+
+Flow từ `submitCheck` đến UI:
+1. `LessonPage.submitCheck` gọi `POST /api/progress/{id}/check`.
+2. Trả về `{ stars, nextQuestId, newAchievements, totalXp?, level? }`.
+3. Phát event `aikids:xp-updated` kèm `{ stars, xp?, level? }`.
+4. Hook `useProgression`:
+   - Nếu `detail.xp` và `detail.level` tồn tại → gọi `setProgressionSnapshot()` NGAY LẬP TỨC.
+   - Nếu không → `invalidateQueries` với độ trễ (reconcile timer: 2000ms).
+5. `GET /api/gamification/profile` → `normalizeProgression()`.
+
+## Local Curriculum Guard
+
+Không gọi API cho các ID tạm/local. Sử dụng `isLocalId` pattern:
+```ts
+const isLocalId = progressId.startsWith('rule-') 
+               || progressId.startsWith('bai-') 
+               || progressId === 'aiki-rules';
 ```
-apps/api     Fastify + Prisma modules
-apps/web     React + Vite features
-packages/domain  pure rules (no I/O)
-.agents/skills   agent-readable skills
-docker-compose.yml
-docs/
-```
 
-## Feedback loops (mattpocock-style)
+## Verification
 
-1. **Align** — change should match FEATURE_MAP + role matrix
-2. **Red-green** — failing domain/API test first for behavior changes
-3. **Deep modules** — domain for rules; modules for HTTP; features for UI
-4. **Small PRs** — one vertical slice (e.g. lecture videoUrl end-to-end)
-
-## Commands
-
-```bash
-npm test                 # domain + api
-npm run db:setup         # generate + push + seed
-npm run dev:api
-npm run dev:web
+```powershell
+cd apps/web && npm run typecheck
+cd apps/web && npx vitest run --reporter=verbose
 npm run build
-docker compose up --build
 ```
+*(Lưu ý: Không dùng `pnpm --filter web test run` vì vitest không nằm trong root PATH).*
 
-## Postgres / Supabase
-
-- Local default: SQLite `file:./dev.db`
-- Production: `provider = "postgresql"` + `DATABASE_URL`
-- DDL reference: `apps/api/prisma/sql/postgres_init.sql`
-- Docker entrypoint switches provider automatically
-
-## StoryMee 2-MCP-Core merge seams
-
-| This app | MCP-Core analog |
-|----------|-----------------|
-| `modules/auth` + session cookie | `core-account-api` sessions |
-| `modules/*` Fastify feature folders | microservice modules |
-| env + helmet + rate-limit | shared fastify-common patterns |
-| catalog/media URLs | `core-media-api` / CDN later |
-| single API process | later split via gateway if needed |
-
-Do **not** rewrite every MCP service in this repo; keep compatible modular shape.
-
-## Production add-ons (recommended)
-
-| Tech | Why |
-|------|-----|
-| **Redis** | multi-instance rate limit + optional session store |
-| **CDN** (Cloudflare/Fastly) | lecture videos + designer assets |
-| **Object storage** (S3/R2) | upload video; store only URL in SQL |
-| **Managed Postgres** (Supabase) | auth optional later; use DB + RLS if desired |
-| **Observability** | OpenTelemetry / structured logs |
-
-## Checklist
-
-- [ ] Tests drive real shipped entry points
-- [ ] No production secrets in git
-- [ ] README/Docker path works for new machine
+Review the production chunk report and `git diff --check` before handoff.

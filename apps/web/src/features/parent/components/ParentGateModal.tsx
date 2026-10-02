@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '@/shared/store/auth'
 import { api, ApiError, type User } from '@/shared/lib/api'
-import { GoogleSignInButton } from '@/features/auth/components/GoogleSignInButton'
+import { ParentHomeIcon } from '@/shared/components/icons/ParentHomeIcon'
 
 /**
- * ParentGateModal — child taps "Ba/Mẹ ơi!" to hand device back to parent.
+ * ParentGateModal — child taps "Ba / Mẹ ơi!" to hand device back to parent.
  *
- * Two auth paths:
- *  1. Password  → POST /api/parent/gate/verify (verifies parent's passwordHash)
- *  2. Google    → GoogleSignInButton renders inline, onSuccess swaps session
+ * Parent password is verified by Core Account before the student session is
+ * replaced. Child PIN is never accepted by this adult boundary.
  *
  * child.pinHash is ONLY for child login — never used here.
  * Session swap happens BEFORE navigation, so Guard sees correct role.
@@ -16,9 +16,11 @@ import { GoogleSignInButton } from '@/features/auth/components/GoogleSignInButto
 export function ParentGateModal({
   open,
   onClose,
+  redirectTo = '/parent',
 }: {
   open: boolean
   onClose: () => void
+  redirectTo?: string
 }) {
   const setUser = useAuth((s) => s.setUser)
 
@@ -44,7 +46,7 @@ export function ParentGateModal({
     setTimeout(() => setShake(false), 500)
   }
 
-  /** Called after successful auth (password OR Google) — force reload for clean session bootstrap */
+  /** Called after successful parent authentication — reload for clean session bootstrap. */
   const onAuthSuccess = useCallback(
     (user: User) => {
       setUser(user)
@@ -52,14 +54,14 @@ export function ParentGateModal({
       // Full page reload so the new session cookie is bootstrapped cleanly.
       // React Router SPA navigation after a session swap causes white screen
       // because auth state and route guards race each other.
-      window.location.replace('/parent')
+      window.location.replace(redirectTo)
     },
-    [setUser, onClose],
+    [setUser, onClose, redirectTo],
   )
 
   const handleSubmit = useCallback(async () => {
     if (!password.trim()) {
-      setError('Nhập mật khẩu của ba/mẹ nhé!')
+      setError('Nhập mật khẩu của Ba / Mẹ nhé!')
       return
     }
     setLoading(true)
@@ -89,24 +91,28 @@ export function ParentGateModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Cổng phụ huynh"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="w-full max-w-sm overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
-        style={shake ? { animation: 'shake 0.4s ease-in-out' } : undefined}
+        className="w-full max-w-sm overflow-y-auto rounded-3xl bg-white shadow-2xl"
+        style={{
+          maxHeight: 'min(95dvh, 680px)',
+          ...(shake ? { animation: 'shake 0.4s ease-in-out' } : {}),
+        }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="bg-gradient-to-br from-amber-400 to-orange-500 px-6 pb-6 pt-8 text-center">
-          <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/20 text-5xl shadow-inner">
-            🏡
+          <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/20 shadow-inner">
+            <ParentHomeIcon size={42} />
           </div>
-          <h2 className="text-2xl font-black text-white">Ba/Mẹ ơi!</h2>
+          <h2 className="text-2xl font-black text-white">Ba / Mẹ ơi!</h2>
           <p className="mt-1 text-sm text-white/85">
-            Nhập mật khẩu hoặc đăng nhập Google của ba/mẹ
+            Nhập mật khẩu đăng nhập của Ba / Mẹ
           </p>
         </div>
 
@@ -131,7 +137,7 @@ export function ParentGateModal({
                   setError(null)
                 }}
                 onKeyDown={(e) => e.key === 'Enter' && void handleSubmit()}
-                placeholder="Nhập mật khẩu đăng nhập của ba/mẹ"
+                placeholder="Nhập mật khẩu đăng nhập của Ba / Mẹ"
                 autoComplete="current-password"
                 disabled={loading}
                 className={`w-full rounded-2xl border-2 px-4 py-3.5 pr-12 text-sm font-medium outline-none transition-all
@@ -142,12 +148,15 @@ export function ParentGateModal({
               />
               <button
                 type="button"
-                tabIndex={-1}
                 onClick={() => setShowPw((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-gray-400 hover:text-gray-600"
+                className="absolute right-1 top-1/2 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-xl text-gray-400 hover:bg-white hover:text-gray-600"
                 aria-label={showPw ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
               >
-                {showPw ? '🙈' : '👁️'}
+                {showPw ? (
+                  <EyeOff size={19} aria-hidden="true" />
+                ) : (
+                  <Eye size={19} aria-hidden="true" />
+                )}
               </button>
             </div>
             {error && (
@@ -175,26 +184,6 @@ export function ParentGateModal({
             </button>
           </div>
 
-          {/* Divider */}
-          <div className="relative mb-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-100" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-3 text-xs text-gray-400">hoặc</span>
-            </div>
-          </div>
-
-          {/*
-           * GoogleSignInButton renders inline — when parent signs in with Google,
-           * onSuccess fires directly here and swaps session without any navigation away.
-           * role='parent' ensures the account is treated as parent role.
-           */}
-          <GoogleSignInButton
-            role="parent"
-            onSuccess={(user) => onAuthSuccess(user)}
-            onError={(msg) => setError(msg)}
-          />
         </div>
       </div>
 

@@ -1,0 +1,941 @@
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { MemoryRouter, Routes, Route } from 'react-router'
+import { describe, it, expect, beforeEach } from 'vitest'
+import {
+  ASMO_LMS_STAGES,
+  getLmsProgress,
+  saveLmsLessonCompletion,
+  isLessonUnlocked,
+  getStageStats,
+  resetLmsProgress,
+  getLessonPracticeChallenges,
+  verifyPracticeChallenge,
+} from '../data/asmo-curriculum-lms'
+import { AsmoCurriculumRoadmapPage } from '../pages/AsmoCurriculumRoadmapPage'
+import { AsmoCurriculumLessonPage } from '../pages/AsmoCurriculumLessonPage'
+import {
+  AsmoIslandWorldMap,
+  ASMO_ISLAND_THEMES,
+  MEE_FLAT_CLAY_MASCOT,
+} from '../components/AsmoIslandWorldMap'
+import { AsmoInteractiveLessonModal } from '../components/AsmoInteractiveLessonModal'
+import { AsmoInteractivePracticeWorkspace } from '../components/AsmoInteractivePracticeWorkspace'
+import { AsmoVisualSecretComicCard } from '../components/AsmoVisualSecretComicCard'
+
+describe('ASMO Curriculum LMS Dataset & Logic', () => {
+  beforeEach(() => {
+    resetLmsProgress()
+  })
+
+  it('contains exactly 5 sequential math stages', () => {
+    expect(ASMO_LMS_STAGES).toHaveLength(5)
+    expect(ASMO_LMS_STAGES.map((s) => s.stageNumber)).toEqual([1, 2, 3, 4, 5])
+    expect(ASMO_LMS_STAGES[0].title).toContain('Phép Cộng')
+    expect(ASMO_LMS_STAGES[1].title).toContain('Phép Nhân')
+    expect(ASMO_LMS_STAGES[2].title).toContain('Phân Số')
+    expect(ASMO_LMS_STAGES[3].title).toContain('Thời Gian')
+    expect(ASMO_LMS_STAGES[4].title).toContain('Không Gian 3D')
+  })
+
+  it('has 23 comprehensive interactive lessons with complete 4-stage pedagogy', () => {
+    const allLessons = ASMO_LMS_STAGES.flatMap((s) => s.lessons)
+    expect(allLessons).toHaveLength(23)
+
+    allLessons.forEach((lesson) => {
+      expect(lesson.id).toBeTruthy()
+      expect(lesson.title).toBeTruthy()
+      expect(lesson.subtitle).toBeTruthy()
+      expect(lesson.icon).toBeTruthy()
+      expect(lesson.xpReward).toBeGreaterThanOrEqual(50)
+      expect(lesson.visualType).toBeTruthy()
+
+      // 1. Visual Theory
+      expect(lesson.theory.title).toBeTruthy()
+      expect(lesson.theory.summary).toBeTruthy()
+      expect(lesson.theory.keyTakeaways.length).toBeGreaterThan(0)
+
+      // 2. Mèo Mee Tips
+      expect(lesson.meeTip.pose).toBeTruthy()
+      expect(lesson.meeTip.quote).toBeTruthy()
+      expect(lesson.meeTip.storyAdvice).toBeTruthy()
+
+      // 3. Hands-on Practice
+      expect(lesson.interactivePractice.instruction).toBeTruthy()
+      expect(lesson.interactivePractice.taskType).toBeTruthy()
+      expect(lesson.interactivePractice.successFeedback).toBeTruthy()
+
+      // 4. Quiz
+      expect(lesson.quiz.questionTitle).toBeTruthy()
+      expect(lesson.quiz.questionText).toBeTruthy()
+      expect(lesson.quiz.options).toHaveLength(4)
+      expect(lesson.quiz.options.some((o) => o.isCorrect)).toBe(true)
+      expect(lesson.quiz.correctExplanation).toBeTruthy()
+    })
+  })
+
+  it('correctly calculates initial unlocked state', () => {
+    const progress = getLmsProgress()
+    expect(progress.totalStars).toBe(0)
+    expect(progress.totalXp).toBe(0)
+
+    // Lesson 1.1 should be unlocked initially
+    const lesson1_1 = ASMO_LMS_STAGES[0].lessons[0]
+    expect(isLessonUnlocked(lesson1_1, progress)).toBe(true)
+
+    // Lesson 1.2 should be locked before completing lesson 1.1
+    const lesson1_2 = ASMO_LMS_STAGES[0].lessons[1]
+    expect(isLessonUnlocked(lesson1_2, progress)).toBe(false)
+  })
+
+  it('saves lesson completion and unlocks subsequent lessons', () => {
+    const lesson1_1 = ASMO_LMS_STAGES[0].lessons[0]
+    const updated = saveLmsLessonCompletion(lesson1_1.id, 3, lesson1_1.xpReward)
+
+    expect(updated.lessons[lesson1_1.id].completed).toBe(true)
+    expect(updated.lessons[lesson1_1.id].stars).toBe(3)
+    expect(updated.totalStars).toBe(3)
+    expect(updated.totalXp).toBe(lesson1_1.xpReward)
+
+    // Now lesson 1.2 should be unlocked
+    const lesson1_2 = ASMO_LMS_STAGES[0].lessons[1]
+    expect(isLessonUnlocked(lesson1_2, updated)).toBe(true)
+  })
+
+  it('computes stage statistics correctly', () => {
+    const progress = getLmsProgress()
+    const stats1 = getStageStats('stage-1', progress)
+    expect(stats1.totalLessons).toBe(5)
+    expect(stats1.maxStars).toBe(15)
+    expect(stats1.completedLessons).toBe(0)
+    expect(stats1.isUnlocked).toBe(true)
+  })
+})
+
+describe('ASMO 5 Island Regions Thematic Specs & Authentic Assets', () => {
+  it('defines unique metadata, background and world scene for all 5 regions', () => {
+    const islandKeys = ['stage-1', 'stage-2', 'stage-3', 'stage-4', 'stage-5']
+    islandKeys.forEach((key) => {
+      const theme = ASMO_ISLAND_THEMES[key]
+      expect(theme).toBeDefined()
+      expect(theme.name).toBeTruthy()
+      expect(theme.shortTitle).toBeTruthy()
+      expect(theme.englishName).toBeTruthy()
+      expect(theme.tagline).toBeTruthy()
+      expect(theme.badgeName).toBeTruthy()
+      expect(theme.background).toBeTruthy()
+      expect(theme.scene).toBeTruthy()
+      expect(theme.scene.endsWith('.png')).toBe(true)
+      expect(theme.image.endsWith('.png')).toBe(true)
+      expect(theme.ribbon).toBeTruthy()
+      expect(theme.pose).toBeTruthy()
+      expect(theme.chest.name).toBeTruthy()
+      expect(theme.chest.bonusXp).toBeGreaterThan(0)
+      expect(theme.meeQuotes.length).toBeGreaterThanOrEqual(3)
+    })
+
+    // Verify 5 distinct region names and titles
+    expect(ASMO_ISLAND_THEMES['stage-1'].name).toContain('VÙNG 1: L1')
+    expect(ASMO_ISLAND_THEMES['stage-1'].shortTitle).toContain('Phép Cộng & Trừ')
+
+    expect(ASMO_ISLAND_THEMES['stage-2'].name).toContain('VÙNG 2: L2')
+    expect(ASMO_ISLAND_THEMES['stage-2'].shortTitle).toContain('Phép Nhân & Chia')
+
+    expect(ASMO_ISLAND_THEMES['stage-3'].name).toContain('VÙNG 3: L3')
+    expect(ASMO_ISLAND_THEMES['stage-3'].shortTitle).toContain('Phân Số Pizza')
+
+    expect(ASMO_ISLAND_THEMES['stage-4'].name).toContain('VÙNG 4: L4')
+    expect(ASMO_ISLAND_THEMES['stage-4'].shortTitle).toContain('Thời Gian Đồng Hồ')
+
+    expect(ASMO_ISLAND_THEMES['stage-5'].name).toContain('VÙNG 5: L5')
+    expect(ASMO_ISLAND_THEMES['stage-5'].shortTitle).toContain('Không Gian 3D')
+  })
+
+  it('exports valid official AI Kids mascot image reference', () => {
+    expect(MEE_FLAT_CLAY_MASCOT).toBe('/assets/aikid-ui/mascot-original/course-wave.webp')
+  })
+})
+
+describe('ASMO Floating Islands & LMS UI Components (100% Original AI Kids World Map)', () => {
+  it('renders AsmoIslandWorldMap detailed trail view with Scene Hero, Ribbon, Winding Trail, and Mèo Mee Companion', () => {
+    const progress = getLmsProgress()
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        null,
+        createElement(AsmoIslandWorldMap, {
+          selectedStageId: 'stage-1',
+          onSelectStage: () => {},
+          progress,
+          onOpenLesson: () => {},
+        }),
+      ),
+    )
+
+    // 1. Check Header Cảnh Quan (Scene Hero)
+    expect(markup).toContain('course-map-hero')
+    expect(markup).toContain('course-map-heading')
+    expect(markup).toContain('course-map-scene')
+    expect(markup).toContain('course-map-scene-art')
+    expect(markup).toContain('course-map-scene-cat')
+    expect(markup).toContain('aikid-cat-character')
+    expect(markup).toContain('VÙNG 1: L1 · Thế Giới Phép Cộng & Phép Trừ')
+
+    // 2. Check Thẻ Ruy Băng Tiến Độ (Course Map Ribbon)
+    expect(markup).toContain('course-map-ribbon')
+    expect(markup).toContain('course-map-ribbon-main')
+    expect(markup).toContain('course-map-next-ticket')
+    expect(markup).toContain('cute-progress')
+    expect(markup).toContain('course-map-stats')
+    expect(markup).toContain('world-station-path')
+
+    // 3. Check Cung Đường Mòn Uốn Lượn (Course Station Map)
+    expect(markup).toContain('course-station-map')
+    expect(markup).toContain('course-station-canvas')
+    expect(markup).toContain('course-game-path-road')
+    expect(markup).toContain('course-game-path-dashes')
+    expect(markup).toContain('course-game-stations')
+    expect(markup).toContain('quest-node')
+    expect(markup).toContain('quest-node-caption')
+
+    // 4. Check Mèo Mee companion standing at current station
+    expect(markup).toContain('Cùng Mee chinh phục Trạm 1 nhé! 🐾')
+
+    // 5. Check Treasure Chest at end of journey
+    expect(markup).toContain('Rương Táo Vàng Phép Thuật')
+  })
+
+  it('renders AsmoIslandWorldMap 5-region overview when viewMode is world', () => {
+    const progress = getLmsProgress()
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        null,
+        createElement(AsmoIslandWorldMap, {
+          selectedStageId: 'stage-1',
+          onSelectStage: () => {},
+          progress,
+          onOpenLesson: () => {},
+          viewMode: 'world',
+        }),
+      ),
+    )
+
+    // Check World Overview structure
+    expect(markup).toContain('world-region-card')
+    expect(markup).toContain('world-region-scene')
+    expect(markup).toContain('world-region-art')
+    expect(markup).toContain('world-region-scene-cat')
+    expect(markup).toContain('world-region-ribbon')
+    expect(markup).toContain('world-region-road')
+    expect(markup).toContain('Vào Bản Đồ Trạm Vùng')
+    expect(markup).toContain('VÙNG 1: L1')
+    expect(markup).toContain('VÙNG 2: L2')
+    expect(markup).toContain('VÙNG 3: L3')
+    expect(markup).toContain('VÙNG 4: L4')
+    expect(markup).toContain('VÙNG 5: L5')
+  })
+
+  it('renders AsmoCurriculumRoadmapPage with 5 Floating Islands Map and Mee Guide avatar', () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        { initialEntries: ['/asmo/curriculum'] },
+        createElement(AsmoCurriculumRoadmapPage),
+      ),
+    )
+
+    expect(markup).toContain('Chinh Phục 5 Chặng Toán Học Olympic Cùng Mèo Mee')
+    expect(markup).toContain('5 Vùng Đảo Thế Giới')
+    expect(markup).toContain('VÙNG 1: L1')
+    expect(markup).toContain('course-map-hero')
+    expect(markup).toContain('course-station-map')
+  })
+
+  it('renders AsmoIslandWorldMap with hideStationTrail=true omitting the 1000px course-station-map and providing 2 action buttons', () => {
+    const progress = getLmsProgress()
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        null,
+        createElement(AsmoIslandWorldMap, {
+          selectedStageId: 'stage-1',
+          onSelectStage: () => {},
+          progress,
+          onOpenLesson: () => {},
+          hideStationTrail: true,
+        }),
+      ),
+    )
+
+    // Scene Hero & Ribbon are present
+    expect(markup).toContain('course-map-hero')
+    expect(markup).toContain('course-map-ribbon')
+    expect(markup).toContain('course-map-next-ticket')
+    expect(markup).toContain('world-station-path')
+
+    // Both action buttons are present on next ticket
+    expect(markup).toContain('Bắt đầu học')
+    expect(markup).toContain('Mở Bản Đồ Trạm Chi Tiết')
+
+    // 1000px course-station-map is completely hidden
+    expect(markup).not.toContain('course-station-map')
+    expect(markup).not.toContain('course-station-canvas')
+  })
+
+  it('renders AsmoIslandWorldMap KaTeX formulas in Stage 3 for Pizza fraction $\\frac{1}{2}, \\frac{1}{4}, \\frac{3}{8}$ with 0 raw strings', () => {
+    const progress = getLmsProgress()
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        null,
+        createElement(AsmoIslandWorldMap, {
+          selectedStageId: 'stage-3',
+          onSelectStage: () => {},
+          progress,
+          onOpenLesson: () => {},
+          hideStationTrail: true,
+        }),
+      ),
+    )
+
+    // Verify KaTeX rendered markup is present in the NEXT TICKET header
+    expect(markup).toContain('course-map-next-ticket')
+    expect(markup).toContain('katex')
+    expect(markup).toContain('frac-line')
+
+    // Verify raw unparsed string is NOT rendered directly as text
+    expect(markup).not.toContain('$\\frac{1}{2}')
+  })
+
+  it('renders AsmoInteractiveLessonModal with 4 pedagogical steps', () => {
+    const lesson = ASMO_LMS_STAGES[0].lessons[0]
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        null,
+        createElement(AsmoInteractiveLessonModal, {
+          lesson,
+          isOpen: true,
+          onClose: () => {},
+          onCompleteLesson: () => {},
+        }),
+      ),
+    )
+
+    expect(markup).toContain('1. Lý Thuyết Trực Quan')
+    expect(markup).toContain('2. Bí Kíp Mèo Mee')
+    expect(markup).toContain('3. Thực Hành Tương Tác')
+    expect(markup).toContain('4. Thử Thách Quiz')
+    expect(markup).toContain('Gộp Táo')
+  })
+
+  it('renders AsmoCurriculumLessonPage fullscreen standard page with 4 Math & Olympic Phase Tabs, Visualizer, and Gamified Companion Sidebar for Elementary', () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        { initialEntries: ['/asmo/curriculum/lesson/s1-apples'] },
+        createElement(
+          Routes,
+          null,
+          createElement(Route, {
+            path: '/asmo/curriculum/lesson/:lessonId',
+            element: createElement(AsmoCurriculumLessonPage),
+          }),
+        ),
+      ),
+    )
+
+    // 1. Compact Hero Header & Badges
+    expect(markup).toContain('Trạm 1')
+    expect(markup).toContain('Gộp Táo')
+    expect(markup).not.toContain('Sản phẩm của trạm:')
+    expect(markup).not.toContain('Sao của trạm')
+    expect(markup).toContain('+50 XP')
+
+    // 2. Compact 1-Row Stepper Tabs
+    expect(markup).toContain('1. Khám phá')
+    expect(markup).toContain('2. Mẹo Mee')
+    expect(markup).toContain('3. Thực hành')
+    expect(markup).toContain('4. Thử tài')
+
+    // 3. Main Stage Visualizer for Elementary (Visual-First Canvas)
+    expect(markup).toContain('Giỏ A (Táo Đỏ):')
+    expect(markup).toContain('Giỏ B (Táo Xanh):')
+    expect(markup).toContain('TỔNG SỐ TÁO TRONG CẢ 2 GIỎ:')
+    expect(markup).not.toContain('Bí Kíp Nhìn Hình:')
+    expect(markup).not.toContain('Trọng Tâm Kiến Thức Bài Học')
+    expect(markup).not.toContain('🌟 Ghi Nhớ Nhanh:')
+
+    // 4. Gamified Companion Sidebar for Elementary (Sidebar <aside> is ALWAYS present with 4 blocks)
+    expect(markup).toContain('<aside')
+    expect(markup).toContain('aikid-cat-character')
+    expect(markup).toContain('Nghe Mee đọc')
+    expect(markup).toContain('grid-cols-[7.5rem_minmax(0,1fr)]')
+    expect(markup).toContain('Nhiệm Vụ Trực Quan')
+    expect(markup).toContain('Thả táo đỏ vào Giỏ A')
+    expect(markup).toContain('Thả táo xanh vào Giỏ B')
+    expect(markup).not.toContain('Mẹo Mee Thông Minh')
+    expect(markup).not.toContain('💡 Bật Mí Gợi Ý')
+    expect(markup).toContain('Huy Hiệu Vùng Đảo')
+
+    // 5. Action Buttons
+    expect(markup).toContain('🎓 Về bản đồ')
+    expect(markup).toContain('Tiếp tục: Mẹo Mèo Mee')
+  })
+
+  it('renders AsmoCurriculumLessonPage for Secondary stage with formula theory card, key takeaways, and sidebar', () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        { initialEntries: ['/asmo/curriculum/lesson/s4-analog-clock'] },
+        createElement(
+          Routes,
+          null,
+          createElement(Route, {
+            path: '/asmo/curriculum/lesson/:lessonId',
+            element: createElement(AsmoCurriculumLessonPage),
+          }),
+        ),
+      ),
+    )
+
+    expect(markup).toContain('Trọng Tâm Kiến Thức Bài Học')
+    expect(markup).toContain('🌟 Ghi Nhớ Nhanh:')
+    expect(markup).toContain('Chỉnh Giờ:')
+    expect(markup).toContain('<aside')
+    expect(markup).toContain('Nghe Mee đọc')
+    expect(markup).toContain('grid-cols-[7.5rem_minmax(0,1fr)]')
+    expect(markup).toContain('🎯 Trọng Tâm Tư Duy Olympic')
+    expect(markup).not.toContain('Mẹo Mee Thông Minh')
+    expect(markup).not.toContain('💡 Bật Mí Gợi Ý')
+    expect(markup).toContain('Huy Hiệu Vùng Đảo')
+  })
+
+  it('renders fallback error message when lessonId does not exist', () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        { initialEntries: ['/asmo/curriculum/lesson/non-existent-lesson-id'] },
+        createElement(
+          Routes,
+          null,
+          createElement(Route, {
+            path: '/asmo/curriculum/lesson/:lessonId',
+            element: createElement(AsmoCurriculumLessonPage),
+          }),
+        ),
+      ),
+    )
+
+    expect(markup).toContain('Không tìm thấy bài học ASMO')
+    expect(markup).toContain('Quay về Bản Đồ 5 Vùng Đảo')
+  })
+})
+
+describe('ASMO Multi-Level Practice Lab & Diagnostic Verification Engine', () => {
+  it('generates exactly 3 sequential interactive challenges (Level 1, 2, 3) for all 23 lessons', () => {
+    const allLessons = ASMO_LMS_STAGES.flatMap((s) => s.lessons)
+    expect(allLessons).toHaveLength(23)
+
+    allLessons.forEach((lesson) => {
+      const challenges = getLessonPracticeChallenges(lesson)
+      expect(challenges).toHaveLength(3)
+      expect(challenges[0].level).toBe(1)
+      expect(challenges[0].levelLabel).toContain('Thử thách 1')
+      expect(challenges[0].instruction).toBeTruthy()
+      expect(challenges[0].successFeedback).toBeTruthy()
+
+      expect(challenges[1].level).toBe(2)
+      expect(challenges[1].levelLabel).toContain('Thử thách 2')
+      expect(challenges[1].instruction).toBeTruthy()
+
+      expect(challenges[2].level).toBe(3)
+      expect(challenges[2].levelLabel).toContain('Thử thách 3')
+      expect(challenges[2].instruction).toBeTruthy()
+    })
+  })
+
+  it('accurately verifies apple_drop multi-level practice challenges with diagnostic feedback', () => {
+    const appleLesson = ASMO_LMS_STAGES[0].lessons[0] // s1-apples
+
+    // Challenge 1: 3 apples A + 4 apples B = 7
+    const ch1Wrong = verifyPracticeChallenge(appleLesson, 0, { applesA: 2, applesB: 4 })
+    expect(ch1Wrong.isCorrect).toBe(false)
+    expect(ch1Wrong.feedback).toContain('Giỏ A đang có 2 quả đỏ')
+
+    const ch1Correct = verifyPracticeChallenge(appleLesson, 0, { applesA: 3, applesB: 4 })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('3 quả đỏ + 4 quả xanh = 7 quả táo')
+
+    // Challenge 2: Missing addend (5 + 3 = 8)
+    const ch2Wrong = verifyPracticeChallenge(appleLesson, 1, { applesA: 5, applesB: 1 })
+    expect(ch2Wrong.isCorrect).toBe(false)
+    expect(ch2Wrong.feedback).toContain('Tổng hiện tại đang là 6 quả')
+
+    const ch2Correct = verifyPracticeChallenge(appleLesson, 1, { applesA: 5, applesB: 3 })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('5 quả đỏ + 3 quả xanh = đúng 8 quả')
+
+    // Challenge 3: Free sum 10
+    const ch3Wrong = verifyPracticeChallenge(appleLesson, 2, { applesA: 4, applesB: 4 })
+    expect(ch3Wrong.isCorrect).toBe(false)
+    expect(ch3Wrong.feedback).toContain('tổng hai giỏ bằng đúng 10 quả táo')
+
+    const ch3Correct = verifyPracticeChallenge(appleLesson, 2, { applesA: 6, applesB: 4 })
+    expect(ch3Correct.isCorrect).toBe(true)
+    expect(ch3Correct.feedback).toContain('10 quả táo')
+  })
+
+  it('accurately verifies balloon_pop practice challenges', () => {
+    const balloonLesson = ASMO_LMS_STAGES[0].lessons[1] // s1-balloons
+
+    // Challenge 1: Pop 4 balloons
+    const ch1Wrong = verifyPracticeChallenge(balloonLesson, 0, { poppedBalloons: [1, 2] })
+    expect(ch1Wrong.isCorrect).toBe(false)
+    expect(ch1Wrong.feedback).toContain('Bé mới nổ 2 quả bóng')
+
+    const ch1Correct = verifyPracticeChallenge(balloonLesson, 0, { poppedBalloons: [1, 2, 3, 4] })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('10 - 4 = 6 quả bóng')
+
+    // Challenge 2: Pop to target 3 remaining (pop 7)
+    const ch2Correct = verifyPracticeChallenge(balloonLesson, 1, { poppedBalloons: [1, 2, 3, 4, 5, 6, 7] })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('10 - 7 = 3 quả bóng')
+  })
+
+  it('accurately verifies cake_tray practice challenges', () => {
+    const cakeLesson = ASMO_LMS_STAGES[1].lessons[0] // s2-cake-tray
+
+    // Challenge 1: 3 rows x 4 cols
+    const ch1Wrong = verifyPracticeChallenge(cakeLesson, 0, { cakeRows: 2, cakeCols: 2 })
+    expect(ch1Wrong.isCorrect).toBe(false)
+    expect(ch1Wrong.feedback).toContain('Khay bánh đang có 2 hàng và 2 cột')
+
+    const ch1Correct = verifyPracticeChallenge(cakeLesson, 0, { cakeRows: 3, cakeCols: 4 })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('3 hàng × 4 cột = 12 chiếc bánh')
+
+    // Challenge 2: 4 rows x 5 cols = 20
+    const ch2Correct = verifyPracticeChallenge(cakeLesson, 1, { cakeRows: 4, cakeCols: 5 })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('20 chiếc bánh')
+
+    // Challenge 3: Product = 24 (4x6 or 3x8)
+    const ch3Correct = verifyPracticeChallenge(cakeLesson, 2, { cakeRows: 4, cakeCols: 6 })
+    expect(ch3Correct.isCorrect).toBe(true)
+    expect(ch3Correct.feedback).toContain('24 chiếc bánh')
+  })
+
+  it('accurately verifies candy_division and div_remainder practice challenges', () => {
+    const candyLesson = ASMO_LMS_STAGES[1].lessons[3] // s2-candy-split
+
+    const ch1Correct = verifyPracticeChallenge(candyLesson, 0, { candyTotal: 12, candyPlates: 3 })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('12 : 3 = 4 cái kẹo')
+
+    const ch2Correct = verifyPracticeChallenge(candyLesson, 1, { candyTotal: 15, candyPlates: 3 })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('15 : 3 = 5 cái kẹo')
+  })
+
+  it('accurately verifies pizza_fraction practice challenges', () => {
+    const pizzaLesson = ASMO_LMS_STAGES[2].lessons[0] // s3-pizza-fractions
+
+    const ch1Correct = verifyPracticeChallenge(pizzaLesson, 0, { pizzaSlices: 8, pizzaShaded: 3 })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('3/8 chiếc bánh pizza')
+
+    const ch2Correct = verifyPracticeChallenge(pizzaLesson, 1, { pizzaSlices: 4, pizzaShaded: 2 })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('1/2 nửa chiếc bánh')
+  })
+
+  it('accurately verifies analog_clock practice challenges', () => {
+    const clockLesson = ASMO_LMS_STAGES[3].lessons[0] // s4-analog-clock
+
+    const ch1Correct = verifyPracticeChallenge(clockLesson, 0, { clockHour: 8, clockMinute: 15 })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('8:15')
+
+    const ch2Correct = verifyPracticeChallenge(clockLesson, 1, { clockHour: 3, clockMinute: 30 })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('3:30')
+  })
+
+  it('accurately verifies make10 multi-level practice challenges with 3 distinct levels', () => {
+    const make10Lesson = ASMO_LMS_STAGES[0].lessons[2] // s1-make10
+
+    const challenges = getLessonPracticeChallenges(make10Lesson)
+    expect(challenges).toHaveLength(3)
+    expect(challenges[0].title).toContain('Khởi Động')
+    expect(challenges[0].taskConfig.numbers).toEqual([1, 9, 3, 7])
+    expect(challenges[1].title).toContain('3 Cặp')
+    expect(challenges[1].taskConfig.numbers).toEqual([2, 8, 4, 6, 5, 5])
+    expect(challenges[2].title).toContain('Dãy Số')
+    expect(challenges[2].taskConfig.numbers).toEqual([1, 3, 5, 7, 9])
+
+    // Challenge 1: 4 numbers [1, 9, 3, 7] -> 2 pairs: (1, 9) and (3, 7)
+    // indices 0 & 1 -> values 1 & 9; indices 2 & 3 -> values 3 & 7
+    const ch1Wrong = verifyPracticeChallenge(make10Lesson, 0, { pairedMake10: [[0, 1]] })
+    expect(ch1Wrong.isCorrect).toBe(false)
+    expect(ch1Wrong.feedback).toContain('1/2 cặp bạn thân')
+
+    const ch1Correct = verifyPracticeChallenge(make10Lesson, 0, { pairedMake10: [[0, 1], [2, 3]] })
+    expect(ch1Correct.isCorrect).toBe(true)
+    expect(ch1Correct.feedback).toContain('1 + 9 = 10 và 3 + 7 = 10')
+
+    // Challenge 2: 6 numbers [2, 8, 4, 6, 5, 5] -> 3 pairs
+    // indices [0, 1] -> (2,8), [2, 3] -> (4,6), [4, 5] -> (5,5)
+    const ch2Wrong = verifyPracticeChallenge(make10Lesson, 1, { pairedMake10: [[0, 1], [2, 3]] })
+    expect(ch2Wrong.isCorrect).toBe(false)
+    expect(ch2Wrong.feedback).toContain('2/3 cặp')
+
+    const ch2Correct = verifyPracticeChallenge(make10Lesson, 1, { pairedMake10: [[0, 1], [2, 3], [4, 5]] })
+    expect(ch2Correct.isCorrect).toBe(true)
+    expect(ch2Correct.feedback).toContain('3 cặp bạn thân: (2, 8), (4, 6) và (5, 5)')
+
+    // Challenge 3: 5 numbers [1, 3, 5, 7, 9] -> pair (1,9) and (3,7), leftover 5, sum 25
+    // indices [0, 4] -> (1,9), [1, 3] -> (3,7)
+    const ch3Wrong = verifyPracticeChallenge(make10Lesson, 2, { pairedMake10: [[0, 4]] })
+    expect(ch3Wrong.isCorrect).toBe(false)
+    expect(ch3Wrong.feedback).toContain('1/2 cặp tròn 10')
+
+    const ch3Correct = verifyPracticeChallenge(make10Lesson, 2, { pairedMake10: [[0, 4], [1, 3]] })
+    expect(ch3Correct.isCorrect).toBe(true)
+    expect(ch3Correct.feedback).toContain('10 + 10 + 5 = 25')
+  })
+
+  it('accurately verifies column_add and column_sub multi-level practice challenges', () => {
+    const colAddLesson = ASMO_LMS_STAGES[0].lessons[3] // s1-column-add
+    const colSubLesson = ASMO_LMS_STAGES[0].lessons[4] // s1-column-sub
+
+    // column_add challenges
+    const addChallenges = getLessonPracticeChallenges(colAddLesson)
+    expect(addChallenges).toHaveLength(3)
+
+    // Challenge 1: 4_ + _7 = 85 -> A=8, B=3
+    const addCh1Wrong = verifyPracticeChallenge(colAddLesson, 0, { columnCarryA: 5, columnCarryB: 3 })
+    expect(addCh1Wrong.isCorrect).toBe(false)
+    const addCh1Correct = verifyPracticeChallenge(colAddLesson, 0, { columnCarryA: 8, columnCarryB: 3 })
+    expect(addCh1Correct.isCorrect).toBe(true)
+    expect(addCh1Correct.feedback).toContain('48 + 37 = 85')
+
+    // Challenge 2: 5_ + 28 = 84 -> A=6
+    const addCh2Correct = verifyPracticeChallenge(colAddLesson, 1, { columnCarryA: 6, columnCarryB: 2 })
+    expect(addCh2Correct.isCorrect).toBe(true)
+
+    // Challenge 3: _9 + 3_ = 92 -> A=5, B=3
+    const addCh3Correct = verifyPracticeChallenge(colAddLesson, 2, { columnCarryA: 5, columnCarryB: 3 })
+    expect(addCh3Correct.isCorrect).toBe(true)
+
+    // column_sub challenges
+    const subChallenges = getLessonPracticeChallenges(colSubLesson)
+    expect(subChallenges).toHaveLength(3)
+
+    // Challenge 1: 63 - 28 = 35 -> A=3, B=5
+    const subCh1Correct = verifyPracticeChallenge(colSubLesson, 0, { columnCarryA: 3, columnCarryB: 5 })
+    expect(subCh1Correct.isCorrect).toBe(true)
+    expect(subCh1Correct.feedback).toContain('63 - 28 = 35')
+
+    // Challenge 2: 72 - _7 = 35 -> A=3
+    const subCh2Correct = verifyPracticeChallenge(colSubLesson, 1, { columnCarryA: 3, columnCarryB: 7 })
+    expect(subCh2Correct.isCorrect).toBe(true)
+
+    // Challenge 3: 8_ - 47 = 34 -> A=1
+    const subCh3Correct = verifyPracticeChallenge(colSubLesson, 2, { columnCarryA: 1, columnCarryB: 4 })
+    expect(subCh3Correct.isCorrect).toBe(true)
+  })
+
+  it('renders AsmoInteractivePracticeWorkspace with Montessori Column Board for column_add and column_sub', () => {
+    const colAddLesson = ASMO_LMS_STAGES[0].lessons[3]
+    const markup = renderToStaticMarkup(
+      createElement(AsmoInteractivePracticeWorkspace, {
+        lesson: colAddLesson,
+        onCompleteAllChallenges: () => {},
+        onAdvanceToQuiz: () => {},
+      }),
+    )
+
+    expect(markup).toContain('Bảng Đặt Tính Cột Dọc Montessori Điền Ô Trống')
+    expect(markup).toContain('Phép Cộng Có Nhớ')
+    expect(markup).toContain('Hàng chục')
+    expect(markup).toContain('Đơn vị')
+    expect(markup).toContain('Chọn số cho ô')
+    expect(markup).toContain('Phép tính đang tạo:')
+    expect(markup).not.toContain('🧮</span><h3') // Ensure no fallback 🧮 header
+  })
+
+  it('renders AsmoInteractivePracticeWorkspace with make10 dynamic balls and challenge step indicators', () => {
+    const make10Lesson = ASMO_LMS_STAGES[0].lessons[2]
+    const markup = renderToStaticMarkup(
+      createElement(AsmoInteractivePracticeWorkspace, {
+        lesson: make10Lesson,
+        onCompleteAllChallenges: () => {},
+        onAdvanceToQuiz: () => {},
+      }),
+    )
+
+    // Check challenge progress header & 3 pills
+    expect(markup).toContain('Phòng Thực Hành Tương Tác Đa Cấp Độ')
+    expect(markup).toContain('Thử thách 1/3:')
+    expect(markup).toContain('Ghép Cặp Tròn 10 Khởi Động')
+    expect(markup).toContain('Thử thách 1')
+    expect(markup).toContain('Thử thách 2')
+    expect(markup).toContain('Thử thách 3')
+    expect(markup).toContain('Bé hãy bấm chọn 2 quả bóng có tổng bằng 10')
+    expect(markup).toContain('Ghép lại')
+    expect(markup).toContain('Kiểm Tra Kết Quả Thử Thách')
+  })
+
+  it('renders AsmoCurriculumLessonPage with 5 Rainbow Make10 friend pairs in Explore tab', () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        { initialEntries: ['/asmo/curriculum/lesson/s1-make10'] },
+        createElement(
+          Routes,
+          null,
+          createElement(Route, {
+            path: '/asmo/curriculum/lesson/:lessonId',
+            element: createElement(AsmoCurriculumLessonPage),
+          }),
+        ),
+      ),
+    )
+
+    // Check 5 Rainbow Pair model
+    expect(markup).toContain('CẦU VỒNG 5 CẶP BẠN THÂN TRÒN 10')
+    expect(markup).toContain('1 + 9 = 10')
+    expect(markup).toContain('2 + 8 = 10')
+    expect(markup).toContain('3 + 7 = 10')
+    expect(markup).toContain('4 + 6 = 10')
+    expect(markup).toContain('5 + 5 = 10')
+    expect(markup).toContain('Xem Cả 5 Cặp')
+    expect(markup).toContain('Mèo Mee Cổ Vũ Bạn Thân:')
+    expect(markup).toContain('Ứng Dụng Olympic ASMO Tính Nhanh:')
+  })
+
+  it('renders AsmoInteractivePracticeWorkspace with 3 challenge step indicators and without pre-baked results', () => {
+    const appleLesson = ASMO_LMS_STAGES[0].lessons[0]
+    const markup = renderToStaticMarkup(
+      createElement(AsmoInteractivePracticeWorkspace, {
+        lesson: appleLesson,
+        onCompleteAllChallenges: () => {},
+        onAdvanceToQuiz: () => {},
+      }),
+    )
+
+    // Check challenge progress header & 3 pills
+    expect(markup).toContain('Phòng Thực Hành Tương Tác Đa Cấp Độ')
+    expect(markup).toContain('Thử thách 1/3:')
+    expect(markup).toContain('Gộp Táo Khởi Động')
+    expect(markup).toContain('Thử thách 1')
+    expect(markup).toContain('Thử thách 2')
+    expect(markup).toContain('Thử thách 3')
+
+    // Check manipulative controls
+    expect(markup).toContain('Giỏ A (Táo Đỏ):')
+    expect(markup).toContain('Giỏ B (Táo Xanh):')
+    expect(markup).toContain('Cây Táo Mẹ')
+    expect(markup).toContain('Kiểm Tra Kết Quả Thử Thách')
+    expect(markup).toContain('Đặt lại thao tác')
+
+    // Ensure NO pre-baked success celebration banner is shown initially
+    expect(markup).not.toContain('XUẤT SẮC BÉ ƠI! BẠN ĐÃ VƯỢT QUA THỬ THÁCH')
+  })
+
+  it('renders AsmoInteractivePracticeWorkspace challenge titles with KaTeX without raw $ delimiters', () => {
+    const cakeLesson = ASMO_LMS_STAGES[1].lessons[0] // s2-cake-tray (Challenge title: "Xếp Khay Bánh $3 \times 4$")
+    const markup = renderToStaticMarkup(
+      createElement(AsmoInteractivePracticeWorkspace, {
+        lesson: cakeLesson,
+        onCompleteAllChallenges: () => {},
+        onAdvanceToQuiz: () => {},
+      }),
+    )
+
+    // Ensure KaTeX rendered markup is present and raw $3 \times 4$ is not leaked
+    expect(markup).toContain('Thử thách 1/3:')
+    expect(markup).toContain('Xếp Khay Bánh')
+    expect(markup).toContain('katex')
+    expect(markup).not.toContain('$3 \\times 4$')
+    expect(markup).not.toContain('$3 \\\\times 4$')
+  })
+})
+
+describe('ASMO Phase 2 Visual Secret Comic Infographic Card (Mẹo Mee 2.5D Soft Clay)', () => {
+  it('renders Trạm 1 (Gộp Táo - apple_drop) with 2 boxes of apples, sum box and skip counting secret', () => {
+    const stage1 = ASMO_LMS_STAGES[0]
+    const lesson1 = stage1.lessons[0] // s1-apples
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lesson1,
+        stage: stage1,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    // Top banner
+    expect(markup).toContain('TRANH BÍ KÍP MÈO MEE · TRẠM 1')
+    expect(markup).not.toContain('aikid-cat-character')
+    expect(markup).toContain('Chỉ cần nhớ')
+    expect(markup).not.toContain('animate-bounce')
+    expect(markup).not.toContain('Phát âm thanh thần chú')
+
+    // Central Secret Diagram for Station 1
+    expect(markup).toContain('Giỏ A (4 Quả Táo Đỏ)')
+    expect(markup).toContain('Giỏ B (3 Quả Táo Xanh)')
+    expect(markup).toContain('Tổng Số Táo Cả 2 Giỏ Sau Khi Gộp:')
+    expect(markup).toContain('Bí Kíp Đếm Tiếp Siêu Tốc')
+    expect(markup).toContain('Giữ số lớn:')
+    expect(markup).toContain('Đếm thêm 3 nấc')
+
+    // Bottom CTA button
+    expect(markup).toContain('🎮 Bắt Đầu Thực Hành Trạm 1 ➔')
+  })
+
+  it('renders Trạm 2 (Nổ Bóng Trừ - balloon_pop) with 3 comic panels: Initial 10, Burst 3, and Reverse Thinking', () => {
+    const stage1 = ASMO_LMS_STAGES[0]
+    const lesson2 = stage1.lessons[1] // s1-balloons
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lesson2,
+        stage: stage1,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('TRANH BÍ KÍP MÈO MEE · TRẠM 2')
+    expect(markup).toContain('Khung 1: Ban Đầu (10 Bóng)')
+    expect(markup).toContain('Khung 2: Nổ 3 Bóng 💥')
+    expect(markup).toContain('Khung 3: Tính Ngược 💡')
+    expect(markup).toContain('Hỏi ngược lại:')
+    expect(markup).toContain('3 + ')
+    expect(markup).toContain('7 Quả Bóng Bay Còn Lại Sau Phép Trừ:')
+    expect(markup).toContain('🎮 Bắt Đầu Thực Hành Trạm 2 ➔')
+  })
+
+  it('renders Trạm 3 (Phép Nhân Khay Bánh - cake_tray) with 3 rows of cupcakes and repeated addition strip', () => {
+    const stage2 = ASMO_LMS_STAGES[1]
+    const lessonCake = stage2.lessons[0] // s2-cake-tray
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lessonCake,
+        stage: stage2,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('Khay Bánh Cupcake Soft Clay (3 Hàng × 4 Cột)')
+    expect(markup).toContain('Hàng 1: 4 Bánh Dâu 🍓 (+4)')
+    expect(markup).toContain('Hàng 2: 4 Bánh Vani 🍦 (+4)')
+    expect(markup).toContain('Hàng 3: 4 Bánh Matcha 🍵 (+4)')
+    expect(markup).toContain('4 + 4 + 4 = 12 bánh')
+    expect(markup).toContain('3 hàng × 4 bánh = 12 bánh')
+  })
+
+  it('renders Trạm 4 (Phép Chia Đĩa Kẹo - candy_division) with 12 candies evenly distributed into 3 plates', () => {
+    const stage2 = ASMO_LMS_STAGES[1]
+    const lessonCandy = stage2.lessons[3] // s2-candy-division
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lessonCandy,
+        stage: stage2,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('Túi 12 Kẹo Mút Cầu Vồng 🍬 Chia Đều Vào 3 Đĩa')
+    expect(markup).toContain('Đĩa Sứ #1')
+    expect(markup).toContain('Đĩa Sứ #2')
+    expect(markup).toContain('Đĩa Sứ #3')
+    expect(markup).toContain('12 Kẹo ÷ 3 Đĩa =')
+    expect(markup).toContain('4')
+    expect(markup).toContain('Kẹo Mỗi Đĩa')
+  })
+
+  it('renders Trạm 5 (Cầu Vồng Make 10 - make10) with 5 rainbow pairs and Olympic fast calculation', () => {
+    const stage1 = ASMO_LMS_STAGES[0]
+    const lessonMake10 = stage1.lessons[2] // s1-make10
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lessonMake10,
+        stage: stage1,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('🌈 Cầu Vồng 5 Cặp Bạn Thân Make 10')
+    expect(markup).toContain('1 &amp; 9')
+    expect(markup).toContain('2 &amp; 8')
+    expect(markup).toContain('3 &amp; 7')
+    expect(markup).toContain('4 &amp; 6')
+    expect(markup).toContain('5 &amp; 5')
+    expect(markup).toContain('Ứng Dụng Olympic: Tính Nhanh 1 + 3 + 5 + 7 + 9')
+    expect(markup).toContain('25')
+  })
+
+  it('renders Trạm 6 (Phân Số Pizza - pizza_fraction) with 8 slices, 3 lifted slices and Numerator/Denominator diagram', () => {
+    const stage3 = ASMO_LMS_STAGES[2]
+    const lessonPizza = stage3.lessons[0] // s3-pizza-intro
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lessonPizza,
+        stage: stage3,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('Chiếc Bánh Pizza 8 Lát Bằng Nhau')
+    expect(markup).toContain('TỬ SỐ (Ở Trên):')
+    expect(markup).toContain('3 (Lát đã lấy)')
+    expect(markup).toContain('MẪU SỐ (Ở Dưới):')
+    expect(markup).toContain('8 (Tổng số lát)')
+    expect(markup).toContain('3/8')
+  })
+
+  it('renders Trạm 7 (Cân Thăng Bằng - balance_scale) with 1 watermelon = 3 apples and substitution rule 2 watermelons = 6 apples', () => {
+    const stage4 = ASMO_LMS_STAGES[3]
+    const lessonScale = stage4.lessons[2] // s4-balance-scale
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lessonScale,
+        stage: stage4,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('⚖️ Cân Thăng Bằng &amp; Phép Thế Olympic')
+    expect(markup).toContain('Cân 1 (Đã Cho):')
+    expect(markup).toContain('1 Dưa Hấu')
+    expect(markup).toContain('3 Quả Táo')
+    expect(markup).toContain('Cân 2 (Suy Ra):')
+    expect(markup).toContain('2 Dưa Hấu')
+    expect(markup).toContain('6 Quả Táo!')
+  })
+
+  it('renders Trạm 8 (Khối Lập Phương 3D - cube_3d) with 3 separated isometric layers (4 + 2 + 1 = 7 cubes)', () => {
+    const stage5 = ASMO_LMS_STAGES[4]
+    const lessonCube = stage5.lessons[0] // s5-cube-counting
+    const markup = renderToStaticMarkup(
+      createElement(AsmoVisualSecretComicCard, {
+        lesson: lessonCube,
+        stage: stage5,
+        onAdvanceToPractice: () => {},
+      }),
+    )
+
+    expect(markup).toContain('🧊 Bí Kíp Tách 3 Tầng Đếm Khối Lập Phương 3D')
+    expect(markup).toContain('Tầng 3 (Tầng Đỉnh)')
+    expect(markup).toContain('1 Khối')
+    expect(markup).toContain('Tầng 2 (Tầng Giữa)')
+    expect(markup).toContain('2 Khối')
+    expect(markup).toContain('Tầng 1 (Tầng Đáy)')
+    expect(markup).toContain('4 Khối')
+    expect(markup).toContain('Tổng cộng:')
+    expect(markup).toContain('7')
+    expect(markup).toContain('khối lập phương')
+  })
+})

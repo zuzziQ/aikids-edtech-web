@@ -1,27 +1,124 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'node:path'
+import { rewriteDevSessionCookie } from './src/shared/lib/dev-session-cookie'
 
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
+function versionGeneratorPlugin() {
+  const buildId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7)
+  return {
+    name: 'vite-plugin-version-generator',
+    generateBundle(this: any) {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'version.json',
+        source: JSON.stringify(
+          {
+            buildId,
+            buildTime: new Date().toISOString(),
+            timestamp: Date.now(),
+          },
+          null,
+          2,
+        ),
+      })
     },
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:4000',
-        changeOrigin: true,
+    configureServer(server: any) {
+      server.middlewares.use('/version.json', (_req: any, res: any) => {
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({ buildId: 'dev', buildTime: new Date().toISOString() }))
+      })
+    },
+  }
+}
+
+export default defineConfig(({ mode }) => {
+  const env = {
+    ...loadEnv(mode, process.cwd(), ''),
+    ...loadEnv(mode, __dirname, ''),
+  }
+  const apiProxyTarget =
+    env.VITE_API_PROXY_TARGET?.trim() || 'http://127.0.0.1:5100'
+
+  return {
+    plugins: [react(), tailwindcss(), versionGeneratorPlugin()],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src'),
       },
     },
-  },
-  test: {
-    environment: 'jsdom',
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
-  },
+    optimizeDeps: {
+      include: ['fflate'],
+    },
+    server: {
+      port: 5173,
+      proxy: {
+        '/api': {
+          // The browser only talks to the local StoryMee gateway.
+          target: apiProxyTarget,
+          changeOrigin: true,
+          secure: apiProxyTarget.startsWith('https:'),
+          configure(proxy) {
+            if (!apiProxyTarget.startsWith('https:')) return
+            proxy.on('proxyRes', (proxyResponse) => {
+              const cookies = proxyResponse.headers['set-cookie']
+              if (!cookies) return
+              proxyResponse.headers['set-cookie'] = cookies.map(rewriteDevSessionCookie)
+            })
+          },
+        },
+      },
+    },
+    build: {
+      target: 'es2022',
+      chunkSizeWarningLimit: 1000,
+      assetsInlineLimit: 4096, // inline SVGs < 4 KB, don't inline images
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/firebase/')) {
+              return 'vendor-firebase'
+            }
+            if (
+              id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/react-router/')
+            ) {
+              return 'vendor-react'
+            }
+            if (id.includes('node_modules/lucide-react/')) {
+              return 'vendor-icons'
+            }
+            if (id.includes('node_modules/three/')) {
+              return 'vendor-three'
+            }
+            if (id.includes('node_modules/katex/')) {
+              return 'vendor-katex'
+            }
+            if (id.includes('@rive-app/react-canvas')) {
+              return 'vendor-rive'
+            }
+            if (id.includes('island-curriculum-registry') || id.includes('features/lesson/data/islands')) {
+              return 'data-island-curriculum'
+            }
+            if (id.includes('node_modules/zustand/')) {
+              return 'vendor-state'
+            }
+          },
+          chunkFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js',
+        },
+      },
+    },
+    test: {
+      environment: 'jsdom',
+      include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+      env: {
+        // Unit tests mock fetch; keep an absolute origin to verify URL joining.
+        VITE_API_URL: 'https://dev-hub.storymee.com',
+      },
+    },
+  }
 })

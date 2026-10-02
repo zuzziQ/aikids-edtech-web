@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom'
-import { Button } from '@/shared/components/ui/Button'
+import { Link } from 'react-router'
 import { BrandLogo } from '@/shared/components/ui/BrandLogo'
 import { designerAssets } from '@/shared/config/assets'
+import { useAuth } from '@/shared/store/auth'
 
 export function WelcomePage() {
+  const user = useAuth((state) => state.user)
+  const loading = useAuth((state) => state.loading)
+  const childDisplayName = user?.nickname || user?.name || 'Bé'
+
   return (
     <div
       className="relative flex min-h-dvh w-full flex-col items-center justify-center gap-8 px-4 py-10"
@@ -40,15 +44,21 @@ export function WelcomePage() {
             truyện tranh / giọng kể / robot, hiểu bản chất AI qua thực hành an toàn.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
-            <Link to="/login">
-              <Button>Bắt đầu ngay</Button>
-            </Link>
-            <Link to="/login?role=parent">
-              <Button variant="secondary">Tôi là ba/mẹ</Button>
-            </Link>
-            <Link to="/kids">
-              <Button variant="ghost">Con chọn hồ sơ</Button>
-            </Link>
+            {!loading && user?.role === 'student' ? (
+              <Link to="/home" className="ui-btn ui-btn-primary">
+                Vào lớp học của {childDisplayName} 🚀
+              </Link>
+            ) : (
+              <Link to="/login" className="ui-btn ui-btn-primary">
+                Bắt đầu ngay
+              </Link>
+            )}
+            <a
+              href="https://play.aikid.vn"
+              className="ui-btn ui-btn-secondary"
+            >
+              AI Studio
+            </a>
           </div>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {[
@@ -67,6 +77,12 @@ export function WelcomePage() {
           <p className="text-xs text-muted">
             Không dùng email của trẻ · Sáng tạo mặc định riêng tư · Có cổng duyệt phụ huynh
           </p>
+          <nav className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold text-brand-600" aria-label="Thông tin pháp lý">
+            <Link to="/privacy">Quyền riêng tư</Link>
+            <Link to="/terms">Điều khoản</Link>
+            <Link to="/account/delete">Xóa tài khoản</Link>
+            <Link to="/support">Hỗ trợ</Link>
+          </nav>
         </div>
       </div>
     </div>

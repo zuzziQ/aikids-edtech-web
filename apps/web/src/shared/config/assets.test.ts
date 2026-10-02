@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { existsSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { ART_STYLES } from '@aikids/domain'
+import { ART_STYLES } from '@/shared/lib/creation/creative'
 import { courseCoverHint, designerAssets, styleImage } from './assets.js'
 import { STUDENT_AVATARS, getAvatar } from './avatars.js'
 
@@ -13,6 +13,7 @@ describe('designer AIKid assets on disk', () => {
   it('brand logo and mascot exist', () => {
     expect(existsSync(publicPath(designerAssets.brand.logo))).toBe(true)
     expect(existsSync(publicPath(designerAssets.brand.mascot))).toBe(true)
+    expect(existsSync(publicPath(designerAssets.brand.modalMascot))).toBe(true)
   })
 
   it('lobby chrome assets exist', () => {
@@ -23,8 +24,8 @@ describe('designer AIKid assets on disk', () => {
     expect(existsSync(publicPath(designerAssets.lobby.homeCharacter))).toBe(true)
   })
 
-  it('hub + full art-style pack exist (AIkid Soft Clay)', () => {
-    expect(existsSync(publicPath(designerAssets.hub.cardMee))).toBe(true)
+  it('lobby + full art-style pack exist (AIkid Soft Clay)', () => {
+    expect(existsSync(publicPath(designerAssets.lobby.cardMee))).toBe(true)
     for (const s of ART_STYLES) {
       const path = styleImage(s.id)
       expect(existsSync(publicPath(path)), `missing style ${s.id}: ${path}`).toBe(
@@ -38,6 +39,9 @@ describe('designer AIKid assets on disk', () => {
     expect(existsSync(publicPath(designerAssets.workshop.style))).toBe(true)
     expect(existsSync(publicPath(designerAssets.workshop.comic))).toBe(true)
     expect(existsSync(publicPath(designerAssets.course.comic))).toBe(true)
+    expect(existsSync(publicPath(designerAssets.game.coach))).toBe(true)
+    expect(existsSync(publicPath(designerAssets.game.map))).toBe(true)
+    expect(existsSync(publicPath(designerAssets.game.mapSmall))).toBe(true)
   })
 
   it('chrome + avatar catalog images exist on disk', () => {
@@ -51,6 +55,26 @@ describe('designer AIKid assets on disk', () => {
     }
     expect(getAvatar('avatar-star').emoji).toBe('⭐')
     expect(getAvatar('unknown-id').id).toBe('avatar-robot')
+  })
+
+  it('includes generated poses that preserve the original Figma cat', () => {
+    for (const pose of ['course-wave', 'world-walking', 'world-celebrate']) {
+      const path = `/assets/aikid-ui/mascot-original/${pose}.webp`
+      expect(existsSync(publicPath(path)), path).toBe(true)
+      expect(statSync(publicPath(path)).size).toBeLessThan(96 * 1024)
+    }
+  })
+
+  it('includes every designer Storybook chapter background', () => {
+    expect(designerAssets.storybook.chapterBackgrounds).toHaveLength(8)
+    expect(designerAssets.storybook.chapterTabs).toHaveLength(8)
+    for (const asset of [
+      ...designerAssets.storybook.chapterBackgrounds,
+      ...designerAssets.storybook.chapterTabs,
+    ]) {
+      expect(existsSync(publicPath(asset)), asset).toBe(true)
+      expect(statSync(publicPath(asset)).size).toBeLessThan(128 * 1024)
+    }
   })
 
   it('courseCoverHint prefers API coverImage then key heuristic', () => {
@@ -68,5 +92,27 @@ describe('designer AIKid assets on disk', () => {
     expect(statSync(publicPath(designerAssets.brand.mascot)).size).toBeLessThan(
       1024 * 1024,
     )
+    expect(statSync(publicPath(designerAssets.brand.modalMascot)).size).toBeLessThan(
+      128 * 1024,
+    )
+    expect(statSync(publicPath(designerAssets.game.coach)).size).toBeLessThan(
+      128 * 1024,
+    )
+    expect(statSync(publicPath(designerAssets.game.map)).size).toBeLessThan(
+      350 * 1024,
+    )
+    expect(statSync(publicPath(designerAssets.game.mapSmall)).size).toBeLessThan(
+      180 * 1024,
+    )
+  })
+
+  it('includes all ASMO Soft Clay transparent diorama scenes (islands + tree mother)', () => {
+    const scenes = Object.values(designerAssets.asmoScenes)
+    expect(scenes).toHaveLength(6)
+    for (const scenePath of scenes) {
+      expect(scenePath.endsWith('.png')).toBe(true)
+      expect(existsSync(publicPath(scenePath)), `scene asset missing: ${scenePath}`).toBe(true)
+      expect(statSync(publicPath(scenePath)).size).toBeLessThan(2 * 1024 * 1024)
+    }
   })
 })

@@ -1,16 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Bell } from 'lucide-react'
+import { useNavigate } from 'react-router'
 import { api, type NotificationRow } from '@/shared/lib/api'
 import { cn } from '@/shared/lib/cn'
-import { enablePushNotifications, listenForForegroundPush } from '@/shared/lib/firebase-client'
+import { useAuth } from '@/shared/store/auth'
+import { displayableNotifications, normalizedUnreadCount, notificationRoute } from '../notification-inventory'
 
 export function NotificationBell() {
+  const navigate = useNavigate()
+  const role = useAuth((state) => state.user?.role ?? 'student')
   const [open, setOpen] = useState(false)
   const [items, setItems] = useState<NotificationRow[]>([])
   const [unread, setUnread] = useState(0)
-  const [pushEnabled, setPushEnabled] = useState(
-    () => typeof Notification !== 'undefined' && Notification.permission === 'granted',
-  )
+  const [message, setMessage] = useState('')
+  const [updating, setUpdating] = useState(false)
+  const hasLoaded = useRef(false)
 
   const load = useCallback(async () => {
     try {
@@ -18,51 +22,87 @@ export function NotificationBell() {
         notifications: NotificationRow[]
         unreadCount: number
       }>('/api/notifications?limit=15')
-      setItems(data.notifications)
-      setUnread(data.unreadCount)
+      const notifications = displayableNotifications(data.notifications)
+      setItems(notifications)
+      setUnread(normalizedUnreadCount(data.unreadCount, notifications))
+      setMessage('')
+      hasLoaded.current = true
     } catch {
-      // silent — bell is non-critical
+      setMessage('Chưa tải được thông báo.')
     }
   }, [])
 
   useEffect(() => {
     void load()
-    if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-      void enablePushNotifications().then(setPushEnabled).catch(() => setPushEnabled(false))
-    }
+  }, [load])
+
+  useEffect(() => {
     const refreshVisible = () => {
-      if (document.visibilityState === 'visible') void load()
+      if (hasLoaded.current && document.visibilityState === 'visible') void load()
     }
     document.addEventListener('visibilitychange', refreshVisible)
-    const t = window.setInterval(refreshVisible, 5 * 60_000)
-    let unsubscribe: () => void = () => undefined
-    void listenForForegroundPush(load).then((stop) => { unsubscribe = stop })
+    window.addEventListener('focus', refreshVisible)
+    window.addEventListener('online', refreshVisible)
+    const t = window.setInterval(refreshVisible, 60_000)
+
     return () => {
       document.removeEventListener('visibilitychange', refreshVisible)
+      window.removeEventListener('focus', refreshVisible)
+      window.removeEventListener('online', refreshVisible)
       window.clearInterval(t)
-      unsubscribe()
     }
   }, [load])
 
+  useEffect(() => {
+    if (!open) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [open])
+
   async function markAll() {
+    if (updating || unread === 0) return
+    setUpdating(true)
     try {
       await api('/api/notifications/read-all', { method: 'POST' })
       setUnread(0)
       setItems((prev) => prev.map((n) => ({ ...n, read: true })))
+      setMessage('')
     } catch {
-      /* ignore */
+      setMessage('Chưa đánh dấu đọc hết được.')
+    } finally {
+      setUpdating(false)
     }
   }
 
-  async function markOne(id: string) {
+  async function openNotification(notification: NotificationRow) {
+    if (updating) return
+    const route = notificationRoute(notification, role)
+    if (notification.read) {
+      if (route) {
+        setOpen(false)
+        navigate(route)
+      }
+      return
+    }
+    setUpdating(true)
     try {
-      await api(`/api/notifications/${id}/read`, { method: 'PATCH' })
+      await api(`/api/notifications/${notification.id}/read`, { method: 'PATCH' })
       setItems((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
+        prev.map((n) => (n.id === notification.id ? { ...n, read: true } : n)),
       )
       setUnread((u) => Math.max(0, u - 1))
+      setMessage('')
+      if (route) {
+        setOpen(false)
+        navigate(route)
+      }
     } catch {
-      /* ignore */
+      setMessage('Chưa đánh dấu thông báo này được.')
+    } finally {
+      setUpdating(false)
     }
   }
 
@@ -70,11 +110,13 @@ export function NotificationBell() {
     <div className="relative">
       <button
         type="button"
-        className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-border/80 bg-white text-muted shadow-xs transition hover:bg-brand-50 hover:text-brand-600"
+        className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-border/80 bg-white text-muted shadow-xs transition hover:bg-brand-50 hover:text-brand-600"
         aria-label="Thông báo"
+        aria-expanded={open}
+        aria-haspopup="dialog"
         onClick={() => {
           setOpen((o) => !o)
-          if (!open) void load()
+          if (!open && !hasLoaded.current) void load()
         }}
       >
         <Bell size={20} strokeWidth={2.2} />
@@ -93,24 +135,14 @@ export function NotificationBell() {
             aria-label="Đóng"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 z-50 mt-2 w-[min(100vw-2rem,22rem)] overflow-hidden rounded-2xl border border-border bg-white shadow-clay">
+          <div role="dialog" aria-label="Danh sách thông báo" className="absolute right-0 z-50 mt-2 w-[min(100vw-2rem,22rem)] overflow-hidden rounded-2xl border border-border bg-white shadow-clay">
             <div className="flex items-center justify-between border-b border-border px-3 py-2">
               <p className="text-sm font-extrabold">Thông báo</p>
-              {!pushEnabled && typeof Notification !== 'undefined' && Notification.permission !== 'denied' && (
-                <button
-                  type="button"
-                  className="text-xs font-bold text-brand-500 hover:underline"
-                  onClick={() => void enablePushNotifications()
-                    .then(setPushEnabled)
-                    .catch(() => setPushEnabled(false))}
-                >
-                  Bật thông báo
-                </button>
-              )}
               {unread > 0 && (
                 <button
                   type="button"
-                  className="text-xs font-bold text-brand-500 hover:underline"
+                  disabled={updating}
+                  className="min-h-11 px-2 text-xs font-bold text-brand-500 hover:underline disabled:opacity-50"
                   onClick={() => void markAll()}
                 >
                   Đọc hết
@@ -118,6 +150,9 @@ export function NotificationBell() {
               )}
             </div>
             <ul className="max-h-80 overflow-y-auto">
+              {message && (
+                <li className="bg-coral-50 px-3 py-2 text-sm font-bold text-coral-700" role="status">{message}</li>
+              )}
               {items.length === 0 && (
                 <li className="px-3 py-6 text-center text-sm text-muted">
                   Chưa có thông báo nào
@@ -127,14 +162,18 @@ export function NotificationBell() {
                 <li key={n.id}>
                   <button
                     type="button"
+                    disabled={updating}
                     className={cn(
-                      'w-full px-3 py-2.5 text-left transition hover:bg-brand-50/80',
+                      'min-h-14 w-full px-3 py-2.5 text-left transition hover:bg-brand-50/80 disabled:cursor-default',
                       !n.read && 'bg-sun-100/40',
                     )}
-                    onClick={() => void markOne(n.id)}
+                    onClick={() => void openNotification(n)}
                   >
                     <p className="text-sm font-bold leading-snug">{n.title}</p>
                     <p className="text-xs text-muted">{n.body}</p>
+                    {notificationRoute(n, role) && (
+                      <p className="mt-1 text-xs font-bold text-brand-600">Xem chi tiết</p>
+                    )}
                   </button>
                 </li>
               ))}

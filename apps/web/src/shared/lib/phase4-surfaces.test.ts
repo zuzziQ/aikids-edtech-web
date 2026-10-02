@@ -15,16 +15,25 @@ function read(rel: string) {
 describe('Phase 4 FE surfaces call shipped APIs', () => {
   it('HomePage loads private progress and courses without a public leaderboard', () => {
     const src = read('features/home/pages/HomePage.tsx')
-    expect(src).toContain('/api/gamification/streak')
-    expect(src).toContain('/api/gamification/check-in')
-    expect(src).toContain('/api/gamification/achievements')
+    expect(src).toContain('useProgression(user)')
+    expect(src).not.toContain("api<{ enrollments: EnrollmentSummary[] }>('/api/enrollments')")
+    expect(src).toContain('lastActivityDate')
+    expect(src).not.toContain('/api/gamification/check-in')
+    expect(src).not.toContain('/api/gamification/achievements')
+    expect(src).toContain('Profile decoration, achievements and inventory are loaded by their owning routes')
     expect(src).not.toContain('/api/gamification/leaderboard')
+    expect(src).toContain('claimedAt')
+    expect(src).not.toContain('aikids.daily-mission-seen.')
+    expect(src).toContain('Khám phá & đăng ký khóa mới')
     expect(src).toContain('/api/courses')
     expect(src).toContain('ageTrack')
   })
 
   it('Lesson ref picker is course-only (no free student photo upload)', () => {
-    const lesson = read('features/lesson/pages/LessonPage.tsx')
+    const lesson =
+      read('features/lesson/pages/LessonPage.tsx') +
+      read('features/lesson/components/LegacyPhaseLessonView.tsx') +
+      read('features/lesson/hooks/useLessonPageState.ts')
     expect(lesson).toContain('RefMediaPicker')
     expect(lesson).toContain('assetIds')
     expect(lesson).toContain('SketchCanvas')
@@ -46,12 +55,46 @@ describe('Phase 4 FE surfaces call shipped APIs', () => {
   })
 
   it('completed lesson review is read-only and stale phase is recovered', () => {
-    const lesson = read('features/lesson/pages/LessonPage.tsx')
+    const lesson =
+      read('features/lesson/pages/LessonPage.tsx') +
+      read('features/lesson/components/LegacyPhaseLessonView.tsx') +
+      read('features/lesson/hooks/useLessonPageState.ts')
     expect(lesson).toContain('reviewMode')
     expect(lesson).toContain('Quay lại kết quả')
     expect(lesson).toContain("detail.reason !== 'phase_mismatch'")
     expect(lesson).toContain('setPhase(detail.currentPhase)')
     expect(lesson).not.toContain('Tiến trình bài học đã thay đổi')
+  })
+
+  it('lesson always tells the child the goal, product and four-step rhythm', () => {
+    const lesson =
+      read('features/lesson/pages/LessonPage.tsx') +
+      read('features/lesson/components/LessonNavigationHeader.tsx') +
+      read('features/lesson/components/LegacyPhaseLessonView.tsx') +
+      read('features/lesson/hooks/useLessonPageState.ts')
+    const sidebar = read('features/lesson/components/LeftPhaseSidebar.tsx')
+    expect(lesson).toContain('Hôm nay con sẽ')
+    expect(lesson).toContain('Sản phẩm của trạm')
+    expect(lesson).toContain("label: 'Khám phá'")
+    expect(lesson).toContain("label: 'Thử cùng Mee'")
+    expect(lesson).toContain("label: 'Tự tay làm'")
+    expect(lesson).toContain("label: 'Thử thách'")
+    expect(sidebar).toContain('Mee đang hỗ trợ')
+  })
+
+  it('loads lessons through the learning boundary and supports visual quiz image options', () => {
+    const lesson =
+      read('features/lesson/pages/LessonPage.tsx') +
+      read('features/lesson/components/LegacyPhaseLessonView.tsx') +
+      read('features/lesson/hooks/useLessonPageState.ts')
+    const learningApi = read('shared/lib/learning-api.ts')
+    expect(lesson).toContain('learningApi.openLesson(questId)')
+    expect(learningApi).toContain('`/api/v1/lms/compat/lessons/${encodeURIComponent(lessonId)}/open`')
+    expect(learningApi).toContain('const [lesson, started] = await Promise.all([')
+    expect(learningApi).toContain('cachedLessonDetail(lessonId)')
+    expect(learningApi).toContain('dedupedLessonStart(lessonId)')
+    expect(lesson).toContain("opt.startsWith('http')")
+    expect(lesson).toContain('alt={`Option ${String.fromCharCode(65 + idx)}`}')
   })
 
   it('AchievementsPage and NotificationBell exist with real endpoints', () => {
@@ -64,12 +107,20 @@ describe('Phase 4 FE surfaces call shipped APIs', () => {
     expect(bell).toContain('/api/notifications/read-all')
   })
 
-  it('Progress page celebrates growth without exposing a child leaderboard', () => {
+  it('Progress page explains the personal learning journey without duplicating achievements', () => {
     const progress = read('features/leaderboard/pages/LeaderboardPage.tsx')
     expect(progress).toContain('/api/gamification/class-celebration')
-    expect(progress).toContain('Bước tiếp theo của con')
-    expect(progress).toContain('Khu vườn chung')
-    expect(progress).toContain('designerAssets.chrome.adventureMap')
+    expect(progress).toContain('Con đang học đến đâu?')
+    expect(progress).toContain('Việc tiếp theo của con')
+    expect(progress).toContain('Điều gì đang lớn lên?')
+    expect(progress).toContain('Con đang đi đến đâu?')
+    expect(progress).toContain('Mở Huy hiệu')
+    expect(progress).not.toContain('/api/gamification/achievements')
+    expect(progress).not.toContain('Khu vườn chung')
+    expect(progress).not.toContain('Con vừa làm được gì?')
+    expect(progress).not.toContain('Kết quả gần nhất')
+    expect(progress).not.toContain('Mã chứng nhận')
+    expect(progress).not.toContain('Nhìn lại 4 tuần')
     expect(progress).not.toContain('Chỉ ghi nhận nỗ lực, không so sánh bạn nào')
     expect(progress).not.toContain('progress-spark')
     expect(progress).not.toContain('lucide-react')
@@ -77,19 +128,102 @@ describe('Phase 4 FE surfaces call shipped APIs', () => {
     expect(progress).not.toContain('nickname')
   })
 
+  it('Level rewards stay contextual instead of duplicating student navigation', () => {
+    const shell = read('shared/components/layout/AppShell.tsx')
+    const level = read('features/level/pages/ExplorerLevelPage.tsx')
+    const profile = read('features/profile/pages/ProfilePage.tsx')
+    expect(shell).not.toContain("{ to: '/level'")
+    expect(level).toContain('Hành trình cấp độ')
+    expect(level).not.toContain('Con muốn làm gì?')
+    expect(profile).toContain('to="/level"')
+    expect(profile).toContain('Xem quà sắp mở và các mốc cấp tiếp theo.')
+  })
+
   it('role shells share icon navigation on desktop and mobile', () => {
     const shell = read('shared/components/layout/AppShell.tsx')
+    const parentGate = read('features/parent/components/ParentGateModal.tsx')
+    const parentHomeIcon = read('shared/components/icons/ParentHomeIcon.tsx')
+    const kidIcons = read('shared/components/icons/KidNavIcons.tsx')
+    const cmsIcons = read('shared/components/icons/CmsIcons.tsx')
     expect(shell).toContain('ParentDashboardIcon')
     expect(shell).toContain('ParentKidsIcon')
     expect(shell).toContain('role-nav-link')
     expect(shell).toContain('role-nav-icon')
-    expect(shell).toContain('role-mobile-nav')
+    expect(shell).toContain('adult-bottom-nav')
+    expect(shell).toContain('student-bottom-nav')
+    expect(shell).toContain('admin-drawer-sheet')
+    expect(shell).toContain('KidWorldImageIcon')
+    expect(shell).not.toContain("{ to: '/lab/mee-cat', label: 'Lab Mee'")
+    expect(shell).toContain('KidStorybookImageIcon')
+    expect(shell).toContain('<SidebarLogoutButton />')
+    expect(shell).toContain('<MobileLogoutButton />')
+    expect(shell).toContain('className="role-nav-link role-sidebar-logout"')
+    expect(shell).toContain('className="student-nav-link student-rail-logout w-[4.5rem]"')
+    expect(shell).toContain('className="student-drawer-item student-drawer-logout"')
+    expect(cmsIcons).toContain('CmsLogoutIcon')
+    expect(cmsIcons).toContain('stroke="currentColor"')
+    expect(shell).not.toContain('UnifiedSwitcher')
+    for (const page of [
+      'features/parent/pages/ParentPage.tsx',
+      'features/teacher/pages/TeacherPage.tsx',
+      'features/admin/pages/AdminPage.tsx',
+    ]) {
+      expect(read(page)).not.toContain('Đăng xuất')
+    }
+    expect(shell).toContain('<ParentHomeIcon size={24} />')
+    expect(shell).toContain('<ParentHomeIcon size={28} />')
+    expect(parentGate).toContain('<ParentHomeIcon size={42} />')
+    expect(parentGate).not.toContain('<House')
+    expect(parentHomeIcon).toContain('🏠')
+    expect(parentHomeIcon).not.toContain('🔒')
+    expect(shell).not.toContain("from 'lucide-react'")
+    expect(kidIcons).toContain('export function NavCreativeIcon')
+  })
+
+  it('login and parent hand-off use the approved adult-gate copy', () => {
+    const login = read('features/auth/pages/LoginPage.tsx')
+    const shell = read('shared/components/layout/AppShell.tsx')
+    const parentGate = read('features/parent/components/ParentGateModal.tsx')
+    expect(login).not.toContain('designerAssets.brand.mascot')
+    expect(login).toContain('Cổng phụ huynh')
+    expect(login).toContain('Đăng nhập cổng phụ huynh AIKid')
+    expect(login).not.toMatch(/Giáo viên|Học sinh|Cổng người lớn|cổng này|quản trị viên/)
+    for (const source of [login, shell, parentGate]) {
+      expect(source).not.toMatch(/Ba\/Mẹ|Ba\/mẹ|ba\/mẹ/)
+    }
+    expect(shell).toContain('Ba / Mẹ')
+    expect(parentGate).toContain('Ba / Mẹ ơi!')
   })
 
   it('ProfilePage surfaces streak + achievements APIs', () => {
-    const src = read('features/profile/pages/ProfilePage.tsx')
-    expect(src).toContain('/api/gamification/streak')
-    expect(src).toContain('/api/gamification/achievements')
+    const page = read('features/profile/pages/ProfilePage.tsx')
+    const overview = read('features/profile/profile-overview-api.ts')
+    expect(page).toContain('loadProfileOverview')
+    expect(overview).toContain('/api/gamification/streak')
+    expect(overview).toContain('/api/gamification/achievements')
+  })
+
+  it('reward ownership and XP projection stay backend-authoritative', () => {
+    const events = read('features/events/pages/EventsPage.tsx')
+    const storybook = read('features/storybook/pages/StorybookPage.tsx')
+    const backpack = read('features/backpack/pages/BackpackPage.tsx')
+    const home = read('features/home/pages/HomePage.tsx')
+    expect(events).toContain('ownedRewardIds.has(ticket.id)')
+    expect(events).not.toContain('isRewardUnlocked(ticket')
+    expect(storybook).toContain('publishedStickerIds.size')
+    expect(storybook).not.toContain('/72 sticker')
+    expect(backpack).toContain('/api/gamification/storybook')
+    expect(backpack).toContain('Quà con đã nhận')
+    expect(backpack).toContain('Ba lô của con')
+    expect(backpack).toContain('Các ngăn trong Ba lô')
+    expect(backpack).toContain('Đồ từ bài học')
+    expect(backpack).toContain('Tác phẩm của con')
+    expect(backpack).toContain('Đồ cho Hồ sơ')
+    expect(backpack).toContain('Vé và quyền đặc biệt')
+    expect(backpack).toContain('PROJECT_FILTERS')
+    expect(backpack).not.toContain('Lọc sản phẩm trong Ba lô')
+    expect(home).toContain('xpIntoLevel')
+    expect(home).toContain('xpToNextLevel')
   })
 
   it('AdminPage wires Vidtory settings + model load-balancing UI', () => {
@@ -104,9 +238,60 @@ describe('Phase 4 FE surfaces call shipped APIs', () => {
   })
 
   it('App routes include /achievements', () => {
-    const src = read('app/App.tsx')
+    const src = read('app/routing/student-routes.tsx')
     expect(src).toContain('/achievements')
     expect(src).toContain('AchievementsPage')
+  })
+
+  it('guest profile sharing is parent-controlled and fail-closed', () => {
+    const routes = read('app/routing/public-routes.tsx')
+    const parentShare = read('features/parent/components/ProfileSharingPanel.tsx')
+    const publicShare = read('features/profile/pages/PublicProfileSharePage.tsx')
+    expect(routes).toContain('/share/:token')
+    expect(parentShare).toContain('/api/parent/profile-shares')
+    expect(parentShare).toContain('Tạo link 30 ngày')
+    expect(parentShare).toContain('Ngừng chia sẻ')
+    expect(parentShare).not.toContain('localStorage')
+    expect(publicShare).toContain('/api/public/profile-shares/')
+    expect(publicShare).toContain('noindex, nofollow, noarchive')
+    expect(publicShare).not.toMatch(/profile\.(email|school|classroom|birthDate)/)
+  })
+
+  it('publishes store-review legal, support and account deletion routes', () => {
+    const routes = read('app/routing/public-routes.tsx')
+    const legal = read('features/legal/pages/LegalPage.tsx')
+    for (const path of ['/privacy', '/terms', '/account/delete', '/support', '/data-safety']) {
+      expect(routes).toContain(path)
+    }
+    expect(legal).toContain('Chính sách quyền riêng tư')
+    expect(legal).toContain('Xóa tài khoản và dữ liệu')
+    expect(legal).toContain('storymee.com@gmail.com')
+  })
+
+  it('creative art uses StoryMee jobs after the safe in-app sketch workflow', () => {
+    const creative = read('features/creative/pages/CreativePage.tsx') +
+      read('features/creative/components/WorkshopCanvas.tsx') +
+      read('shared/lib/creative-api.ts')
+    expect(creative).toContain('WorkshopCanvas')
+    expect(creative).toContain("'/api/v1/jobs'")
+    expect(creative).not.toContain('/api/creative/create')
+    expect(creative).not.toContain('uploadStudentImage')
+    expect(creative).not.toContain("kind: 'mee'")
+    expect(creative).not.toContain('Tạo Mee')
+    expect(creative).toContain('buildArtGenerationPrompt')
+    expect(creative).toContain('URL.createObjectURL')
+  })
+
+  it('creative hub exposes art, character and story through StoryMee jobs', () => {
+    const hub = read('features/creative/components/WorkshopHub.tsx')
+    const page = read('features/creative/pages/CreativePage.tsx')
+    const character = read('features/creative/components/WorkshopCharacter.tsx')
+    expect(hub).toContain('Vẽ Tranh AI')
+    expect(hub).toContain('Nhân Vật AI')
+    expect(hub).toContain('Sáng Tác Truyện')
+    expect(page).toContain('WorkshopCharacter')
+    expect(character).toContain('generateCreativeImage')
+    expect(character).toContain("creativeKind: 'character'")
   })
 
   it('root rendering has a child-friendly recovery boundary', () => {

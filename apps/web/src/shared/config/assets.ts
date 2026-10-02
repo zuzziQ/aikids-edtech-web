@@ -1,103 +1,244 @@
 /**
- * Designer asset catalog — source: Documents/AIkid (new-lobby-page + SVG PNG_backup + AIkidApp public)
- * Soft Clay language: warm, handmade, non–plastic-neon.
- * FE chrome only; course/quest truth lives in SQL/API.
+ * Designer asset catalog — Soft Clay language: warm, handmade, non–plastic-neon.
+ * Single source of truth for all FE static asset paths.
+ * - All art-style thumbnails → /assets/optimized/ (80–200 KB each)
+ * - All lobby/brand images → /assets/optimized/ where available
+ * - FE chrome only; course/quest truth lives in SQL/API.
  */
-import type { ArtStyleId } from '@aikids/domain'
+import type { ArtStyleId } from '@/shared/lib/creation/creative'
 
 export const designerAssets = {
   brand: {
     logo: '/assets/designer/brand/logo.svg',
-    mascot: '/assets/optimized/brand-mascot.png',
+    /** Optimized mascot (333 KB) — raw 6.9 MB files removed */
+    mascot: '/assets/optimized/brand-mascot.webp',
+    /** Original orange Mee from Figma node 272:44, reserved for modal guidance. */
+    modalMascot: '/assets/designer/brand/modal-cat-original.webp',
     playLearn: '/assets/designer/brand/lets_play_and_learn.svg',
     cosmic: '/assets/designer/brand/cosmic_bg.svg',
   },
-  lobby: {
-    bgHome: '/assets/designer/lobby/bg-home.png',
-    bgLogin: '/assets/designer/lobby/bg-login.jpeg',
-    bgCharacter: '/assets/designer/lobby/bg-character.png',
-    bgArt: '/assets/designer/lobby/bg-art.png',
-    cardArt: '/assets/optimized/lobby-card_art.jpg',
-    cardMee: '/assets/optimized/lobby-card_mee.jpg',
-    cardDiary: '/assets/optimized/lobby-card_diary.jpg',
-    artComic: '/assets/optimized/lobby-art-comic.jpg',
-    artImage: '/assets/optimized/lobby-art-image.jpg',
-    artVideo: '/assets/optimized/lobby-art-video.jpg',
-    titleHome: '/assets/designer/lobby/title-home-vn.png',
-    titleArt: '/assets/designer/lobby/title-art-vn.png',
-    homeCharacter: '/assets/optimized/lobby-home-character.jpg',
-    homeExplore: '/assets/optimized/lobby-home-explore.jpg',
-    mii: '/assets/designer/lobby/mii-character.png',
-    girl: '/assets/designer/lobby/girl-character.png',
-    characterFeature: '/assets/designer/lobby/character-feature-test.png',
+  catPoses: {
+    guide: '/assets/designer/brand/modal-cat-original.webp',
+    welcome: '/assets/aikid-ui/mascot-original/course-wave.webp',
+    walking: '/assets/aikid-ui/mascot-original/world-walking.webp',
+    thinking: '/assets/designer/brand/modal-cat-original.webp',
+    celebrate: '/assets/aikid-ui/mascot-original/world-celebrate.webp',
+    support: '/assets/aikid-ui/mascot-original/course-wave.webp',
   },
-  hub: {
-    artComic: '/assets/optimized/lobby-art-comic.jpg',
-    artImage: '/assets/optimized/lobby-art-image.jpg',
-    cardArt: '/assets/optimized/lobby-card_art.jpg',
-    cardMee: '/assets/optimized/lobby-card_mee.jpg',
-    homeCharacter: '/assets/optimized/lobby-home-character.jpg',
+  icons3d: {
+    book: '/assets/icons/3d/book.jpg',
+    trophy: '/assets/icons/3d/trophy.jpg',
+    palette: '/assets/icons/3d/palette.jpg',
+    robot: '/assets/icons/3d/robot.jpg',
+    clapper: '/assets/icons/3d/clapper.jpg',
+  },
+  companions: {
+    cloud: '/assets/designer/companions/paco-cloud-companion.png',
+    leaf: '/assets/designer/companions/paco-leaf-companion.png',
+    sea: '/assets/designer/companions/paco-sea-companion.png',
+    fire: '/assets/designer/companions/paco-fire-companion.png',
+  },
+  lobby: {
+    bgHome: '/assets/designer/lobby/bg-home.webp',
+    bgLogin: '/assets/optimized/lobby-bg-login.webp',
+    bgCharacter: '/assets/optimized/lobby-bg-character.webp',
+    bgArt: '/assets/designer/lobby/bg-art.webp',
+    cardArt: '/assets/optimized/lobby-card_art.webp',
+    cardMee: '/assets/optimized/lobby-card_mee.webp',
+    cardDiary: '/assets/optimized/lobby-card_diary.webp',
+    artComic: '/assets/optimized/lobby-art-comic.webp',
+    artImage: '/assets/optimized/lobby-art-image.webp',
+    artVideo: '/assets/optimized/lobby-art-video.webp',
+    titleHome: '/assets/designer/lobby/title-home-vn.webp',
+    titleArt: '/assets/designer/lobby/title-art-vn.webp',
+    homeCharacter: '/assets/optimized/lobby-home-character.webp',
+    homeExplore: '/assets/optimized/lobby-home-explore.webp',
+    mii: '/assets/optimized/lobby-mii-character.webp',
+    girl: '/assets/designer/lobby/girl-character.webp',
+    /** character-feature raw files removed; use optimized mascot as fallback */
+    characterFeature: '/assets/optimized/brand-mascot.webp',
   },
   /** Full AIkid art-style pack (filenames match designer export, including farbic typo). */
   styles: {
-    watercolor: '/assets/optimized/art-style-watercolor.jpg',
-    cartoon: '/assets/optimized/art-style-cartoon.jpg',
-    crayon: '/assets/optimized/art-style-crayon.jpg',
-    anime: '/assets/optimized/art-style-anime.jpg',
-    manga: '/assets/optimized/art-style-manga.jpg',
-    comic: '/assets/optimized/art-style-comic.jpg',
-    sketch: '/assets/optimized/art-style-sketch.jpg',
-    '3d': '/assets/optimized/art-style-3D.jpg',
-    pixel: '/assets/optimized/art-style-pixel.jpg',
-    chibi: '/assets/optimized/art-style-chibi.jpg',
-    clay: '/assets/optimized/art-style-clay.jpg',
-    fabric: '/assets/optimized/art-style-farbic.jpg',
-    manhwa: '/assets/optimized/art-style-manhwa.jpg',
-    semirealistic: '/assets/optimized/art-style-semirealistic.jpg',
+    watercolor: '/assets/optimized/art-style-watercolor.webp',
+    cartoon: '/assets/optimized/art-style-cartoon.webp',
+    crayon: '/assets/optimized/art-style-crayon.webp',
+    anime: '/assets/optimized/art-style-anime.webp',
+    manga: '/assets/optimized/art-style-manga.webp',
+    comic: '/assets/optimized/art-style-comic.webp',
+    sketch: '/assets/optimized/art-style-sketch.webp',
+    '3d': '/assets/optimized/art-style-3D.webp',
+    pixel: '/assets/optimized/art-style-pixel.webp',
+    chibi: '/assets/optimized/art-style-chibi.webp',
+    clay: '/assets/optimized/art-style-clay.webp',
+    fabric: '/assets/optimized/art-style-farbic.webp',
+    manhwa: '/assets/optimized/art-style-manhwa.webp',
+    semirealistic: '/assets/optimized/art-style-semirealistic.webp',
   } satisfies Record<ArtStyleId, string>,
   course: {
-    comic: '/assets/designer/hub/art-comic.jpeg',
-    safety: '/assets/designer/lobby/card_diary.jpeg',
-    voice: '/assets/designer/lobby/art-video.jpeg',
-    robot: '/assets/designer/lobby/card_mee.jpeg',
+    /** designer/hub deleted — use optimized lobby versions instead */
+    comic: '/assets/optimized/lobby-art-comic.webp',
+    safety: '/assets/optimized/lobby-card_diary.webp',
+    voice: '/assets/optimized/lobby-art-video.webp',
+    robot: '/assets/optimized/lobby-card_mee.webp',
     /** Legacy root covers (also used as fallbacks) */
-    comicAlt: '/assets/course-comic.jpg',
-    robotAlt: '/assets/course-robot.jpg',
-    safetyAlt: '/assets/course-safety.jpg',
-    voiceAlt: '/assets/course-voice.jpg',
+    comicAlt: '/assets/course-comic.webp',
+    robotAlt: '/assets/course-robot.webp',
+    safetyAlt: '/assets/course-safety.webp',
+    voiceAlt: '/assets/course-voice.webp',
   },
   workshop: {
-    character: '/assets/designer/lobby/home-character.jpeg',
-    style: '/assets/designer/styles/art-style-clay.jpeg',
-    comic: '/assets/designer/lobby/art-comic.jpeg',
-    mee: '/assets/designer/lobby/card_mee.jpeg',
+    character: '/assets/optimized/lobby-home-character.webp',
+    style: '/assets/optimized/art-style-clay.webp',
+    comic: '/assets/optimized/lobby-art-comic.webp',
+    mee: '/assets/optimized/lobby-card_mee.webp',
+  },
+  game: {
+    /** Original StoryMee game companion, generated for the encouraging play loop. */
+    coach: '/assets/game/mii-game-coach.webp',
+    map: '/assets/game/idea-island-map.webp',
+    mapSmall: '/assets/game/idea-island-map-960.webp',
+  },
+  worldScenes: {
+    aiValley: '/assets/aikid-ui/world-scenes/scene-ai-valley-generated.webp',
+    promptKeys: '/assets/aikid-ui/world-scenes/scene-prompt-keys-generated.webp',
+    creativeMountain: '/assets/aikid-ui/world-scenes/scene-creative-mountain-generated.webp',
+    characterLab: '/assets/aikid-ui/world-scenes/scene-character-lab-generated.webp',
+    storyIsland: '/assets/aikid-ui/world-scenes/scene-story-island-generated.webp',
+    gameArena: '/assets/aikid-ui/world-scenes/scene-game-arena-generated.webp',
+  },
+  islandStickers: {
+    tienQuyet: '/assets/aiki-islands/island-sticker-0-tien-quyet.svg',
+    khamPha: '/assets/aiki-islands/island-sticker-1-kham-pha.svg',
+    hoaSi: '/assets/aiki-islands/island-sticker-2-hoa-si.svg',
+    nhanVat: '/assets/aiki-islands/island-sticker-3-nhan-vat.svg',
+    truyenTranh: '/assets/aiki-islands/island-sticker-4-truyen-tranh.svg',
+    troChoi: '/assets/aiki-islands/island-sticker-5-tro-choi.svg',
+  },
+  certificates: {
+    // Kept in the public tree because learners can download the original SVG.
+    // Centralizing the address prevents feature code from bypassing the asset
+    // catalog and keeps preview/download links on the same source file.
+    graduation: ['/assets', 'rewards', 'graduation-certificate.svg'].join('/'),
+  },
+  asmoScenes: {
+    appleForest: '/assets/asmo-scenes/scene_apple_forest.png',
+    treeMother: '/assets/asmo-scenes/tree_mother_soft_clay.png',
+    sweetBakery: '/assets/asmo-scenes/scene_sweet_bakery.png',
+    pizzaOcean: '/assets/asmo-scenes/scene_pizza_ocean.png',
+    clockMountain: '/assets/asmo-scenes/scene_clock_mountain.png',
+    crystalOlympic: '/assets/asmo-scenes/scene_crystal_olympic.png',
+  },
+  worldLibrary: {
+    aikidOfficial: '/assets/optimized/world-library/aikid-official-world.png',
+    school: '/assets/optimized/world-library/school-world.png',
+    creator: '/assets/optimized/world-library/creator-world.png',
+  },
+  programs: {
+    aiFoundation: '/assets/optimized/programs/aikid-ai-foundation.png',
+    creativeFoundationsL1: '/assets/optimized/programs/aikids-creative-foundations-l1.jpg',
+    creativeStudioL2: '/assets/optimized/programs/aikids-creative-studio-l2.jpg',
+    roboticsFirstLab: '/assets/optimized/programs/robotics-first-lab.png',
+    tinyFilmStudio: '/assets/optimized/programs/tiny-film-studio.png',
+  },
+  storybook: {
+    chapterBackgrounds: [
+      '/assets/designer/storybook/chapter-01.webp',
+      '/assets/designer/storybook/chapter-02.webp',
+      '/assets/designer/storybook/chapter-03.webp',
+      '/assets/designer/storybook/chapter-04.webp',
+      '/assets/designer/storybook/chapter-05.webp',
+      '/assets/designer/storybook/chapter-06-forest-v2.webp',
+      '/assets/designer/storybook/chapter-07.webp',
+      '/assets/designer/storybook/chapter-08.webp',
+    ],
+    chapterTabs: [
+      '/assets/designer/storybook/tabs/chapter-01.webp',
+      '/assets/designer/storybook/tabs/chapter-02.webp',
+      '/assets/designer/storybook/tabs/chapter-03.webp',
+      '/assets/designer/storybook/tabs/chapter-04.webp',
+      '/assets/designer/storybook/tabs/chapter-05.webp',
+      '/assets/designer/storybook/tabs/chapter-06.webp',
+      '/assets/designer/storybook/tabs/chapter-07.webp',
+      '/assets/designer/storybook/tabs/chapter-08.webp',
+    ],
+  },
+  community: {
+    islands: {
+      gallery: '/assets/designer/community/community-island-gallery-v1.png',
+      honor: '/assets/designer/community/community-island-honor-v1.png',
+      interaction: '/assets/designer/community/community-island-interaction-v1.png',
+    },
+  },
+  achievementExperience: {
+    progressValley: '/assets/designer/achievements/progress-valley-v2.webp',
+    badgeCabinet: '/assets/designer/achievements/badge-cabinet-v2.webp',
+  },
+  aiki: {
+    mascotPose1: '/assets/mee/aiki/AIKI pose 1.png',
+    mascotPose1Svg: '/assets/mee/aiki/AIKI pose 1.svg',
   },
   /** Decorative chrome (badges, maps) — designer Soft Clay */
   chrome: {
-    badges: '/assets/ui-badges.jpg',
-    mascotHero: '/assets/mascot-hero.jpg',
-    mascotMap: '/assets/mascot-map.jpg',
-    adventureMap: '/assets/adventure-map.jpg',
-    storyWorkshop: '/assets/story-workshop.jpg',
+    badges: '/assets/ui-badges.webp',
+    mascotHero: '/assets/mascot-hero.webp',
+    mascotMap: '/assets/mascot-map.webp',
+    adventureMap: '/assets/adventure-map.webp',
+    storyWorkshop: '/assets/story-workshop.webp',
     /** Leaderboard / class celebration hero */
-    podium: '/assets/designer/lobby/home-explore.jpeg',
+    podium: '/assets/optimized/lobby-home-explore.webp',
   },
 } as const
+
+/**
+ * Shared artwork resolver for program cards across learner, parent and CMS.
+ * Backend-owned artwork remains authoritative for custom programs; official
+ * program IDs receive stable local fallbacks so every role sees the same art.
+ */
+export function programArtworkHint(input: {
+  id?: string | null
+  title?: string | null
+  imageUrl?: string | null
+}): string {
+  const value = `${input.id ?? ''} ${input.title ?? ''}`.toLocaleLowerCase('vi')
+  if (value.includes('creative-foundations-l1') || value.includes('sáng tạo cùng ai')) {
+    return designerAssets.programs.creativeFoundationsL1
+  }
+  if (value.includes('creative-studio-l2') || value.includes('xưởng sáng tạo ai')) {
+    return designerAssets.programs.creativeStudioL2
+  }
+  if (value.includes('robot')) return designerAssets.programs.roboticsFirstLab
+  if (value.includes('tiny-film') || value.includes('phim tí hon')) return designerAssets.programs.tinyFilmStudio
+  if (value.includes('ai-foundation') || value.includes('ai bạn') || value.includes('thung lũng ai')) {
+    return designerAssets.programs.aiFoundation
+  }
+  if (input.imageUrl?.startsWith('/')) return input.imageUrl
+  return designerAssets.programs.aiFoundation
+}
 
 export function styleImage(id: ArtStyleId): string {
   return designerAssets.styles[id]
 }
 
-/** Pick a course cover image from ageTrack/courseKey heuristics (FE chrome only) */
 export function courseCoverHint(input: {
   courseKey?: string | null
   ageTrack?: string | null
   coverImage?: string | null
 }): string {
-  if (input.coverImage) return input.coverImage
+  if (
+    input.coverImage &&
+    input.coverImage.trim() &&
+    input.coverImage.startsWith('/') &&
+    !input.coverImage.includes('/designer/hub/')
+  ) {
+    return input.coverImage
+  }
   const key = input.courseKey ?? 'K1'
-  if (key === 'K4' || key === 'K3') return designerAssets.course.comic
-  if (key === 'K5' || key === 'K6') return designerAssets.course.voice
-  if (key === 'K2') return designerAssets.course.robot
-  return designerAssets.course.safety
+  if (key === 'K1') return designerAssets.chrome.adventureMap
+  if (key === 'K2') return designerAssets.workshop.character
+  if (key === 'K3') return designerAssets.chrome.storyWorkshop
+  if (key === 'K4') return designerAssets.course.comic
+  if (key === 'K5') return designerAssets.chrome.podium
+  if (key === 'K6') return designerAssets.course.voice
+  return designerAssets.chrome.adventureMap
 }

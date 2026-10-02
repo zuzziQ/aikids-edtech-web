@@ -9,142 +9,144 @@ type PublicFirebaseConfig = {
   storageBucket: string
   messagingSenderId: string
   appId: string
-  vapidKey: string
+}
+
+function staticConfig(): PublicFirebaseConfig | null {
+  const runtime = typeof window !== 'undefined' ? window.__AIKIDS_RUNTIME_CONFIG__?.firebaseConfig : undefined
+  if (runtime && runtime.apiKey && runtime.projectId) {
+    return runtime
+  }
+  const envApiKey = import.meta.env.VITE_FIREBASE_API_KEY?.trim()
+  const envProjectId = import.meta.env.VITE_FIREBASE_PROJECT_ID?.trim()
+  if (envApiKey && envProjectId) {
+    return {
+      apiKey: envApiKey,
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN?.trim() || `${envProjectId}.firebaseapp.com`,
+      projectId: envProjectId,
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET?.trim() || `${envProjectId}.appspot.com`,
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID?.trim() || '',
+      appId: import.meta.env.VITE_FIREBASE_APP_ID?.trim() || '',
+    }
+  }
+  return null
 }
 
 let configPromise: Promise<PublicFirebaseConfig | null> | null = null
-let authPromise: Promise<import('firebase/auth').Auth | null> | null = null
 
 async function publicConfig(): Promise<PublicFirebaseConfig | null> {
-  configPromise ??= api<{ enabled: boolean; config: PublicFirebaseConfig | null }>(
-    '/api/auth/firebase/config',
-  ).then((result) => result.enabled ? result.config : null)
-  return configPromise
+  const staticConf = staticConfig()
+  if (staticConf) return staticConf
+
+  configPromise ??= api<{
+    enabled: boolean
+    config: PublicFirebaseConfig | null
+  }>('/api/auth/firebase/config').then((response) =>
+    response.enabled ? response.config : null,
+  )
+  const config = await configPromise
+  if (!config || !config.apiKey) return null
+  return config
 }
 
-async function firebaseAuth(): Promise<import('firebase/auth').Auth | null> {
-  if (authPromise) return authPromise
+let appPromise: Promise<import('firebase/app').FirebaseApp | null> | null = null
+
+export async function firebaseApp(): Promise<import('firebase/app').FirebaseApp | null> {
+  if (appPromise) return appPromise
   const pending = (async () => {
     const config = await publicConfig()
     if (!config) return null
-    const [{ getApps, initializeApp }, { getAuth, signInWithCustomToken }] = await Promise.all([
-      import('firebase/app'),
-      import('firebase/auth'),
-    ])
-    const app = getApps().find((candidate) => candidate.name === FIREBASE_APP_NAME) ??
+    const { getApps, initializeApp } = await import('firebase/app')
+    return getApps().find((candidate) => candidate.name === FIREBASE_APP_NAME) ??
       initializeApp(config, FIREBASE_APP_NAME)
-    const auth = getAuth(app)
-    // Always bind persisted Firebase Auth to the current httpOnly app session.
-    const token = await api<{ customToken: string }>('/api/auth/firebase/custom-token', {
-      method: 'POST',
-    })
-    await signInWithCustomToken(auth, token.customToken)
-    return auth
   })()
-  authPromise = pending
+  appPromise = pending
   void pending.catch(() => {
-    if (authPromise === pending) authPromise = null
+    if (appPromise === pending) appPromise = null
   })
   return pending
 }
 
-export async function enablePushNotifications(): Promise<boolean> {
-  if (!('Notification' in window) || !('serviceWorker' in navigator)) return false
-  const permission = Notification.permission === 'granted'
-    ? 'granted'
-    : await Notification.requestPermission()
-  if (permission !== 'granted') return false
-
-  const [config, auth, messagingModule] = await Promise.all([
-    publicConfig(),
-    firebaseAuth(),
-    import('firebase/messaging'),
-  ])
-  if (!config || !auth || !config.vapidKey || !(await messagingModule.isSupported())) return false
-
-  const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js')
-  const token = await messagingModule.getToken(messagingModule.getMessaging(auth.app), {
-    vapidKey: config.vapidKey,
-    serviceWorkerRegistration: registration,
-  })
-  if (!token) return false
-  await api('/api/notifications/devices', {
-    method: 'POST',
-    body: JSON.stringify({ token, platform: 'web' }),
-  })
-  return true
-}
-
-/** Remove the shared-device push token before the app session changes owner. */
 export async function disconnectFirebaseSession(): Promise<void> {
-  const pending = authPromise
-  authPromise = null
-  if (!pending) return
-
-  const auth = await pending.catch(() => null)
-  if (!auth) return
+  const app = await firebaseApp().catch(() => null)
+  if (!app) return
   try {
-    const config = await publicConfig()
-    if (
-      config?.vapidKey &&
-      typeof Notification !== 'undefined' &&
-      Notification.permission === 'granted' &&
-      'serviceWorker' in navigator
-    ) {
-      const messagingModule = await import('firebase/messaging')
-      if (await messagingModule.isSupported()) {
-        const registration = await navigator.serviceWorker.getRegistration('/')
-        const messaging = messagingModule.getMessaging(auth.app)
-        const token = await messagingModule.getToken(messaging, {
-          vapidKey: config.vapidKey,
-          ...(registration ? { serviceWorkerRegistration: registration } : {}),
-        })
-        if (token) {
-          await api('/api/notifications/devices', {
-            method: 'DELETE',
-            body: JSON.stringify({ token }),
-          }).catch(() => undefined)
-        }
-        await messagingModule.deleteToken(messaging).catch(() => false)
-      }
-    }
-  } finally {
-    const { signOut } = await import('firebase/auth')
+    const { getAuth, signOut } = await import('firebase/auth')
+    const auth = getAuth(app)
     await signOut(auth).catch(() => undefined)
+  } finally {
+    // Keep the cleanup narrow: notification delivery is app-internal now.
   }
 }
 
-export async function listenForForegroundPush(onMessage: () => void): Promise<() => void> {
-  if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return () => undefined
-  try {
-    const auth = await firebaseAuth()
-    const messagingModule = await import('firebase/messaging')
-    if (!auth || !(await messagingModule.isSupported())) return () => undefined
-    return messagingModule.onMessage(messagingModule.getMessaging(auth.app), onMessage)
-  } catch {
-    return () => undefined
-  }
+async function firebaseAuth() {
+  const app = await firebaseApp()
+  if (!app) throw new Error('Firebase chưa được cấu hình.')
+  const { getAuth } = await import('firebase/auth')
+  return getAuth(app)
 }
 
-export async function subscribeToClassroomEvents(
-  classId: string,
-  onEvent: (event: { id: string; type: string; payload: Record<string, unknown> }) => void,
-): Promise<() => void> {
+export async function signInWithFirebasePassword(
+  email: string,
+  password: string,
+): Promise<string> {
   const auth = await firebaseAuth()
-  if (!auth) return () => undefined
-  const firestore = await import('firebase/firestore')
-  const events = firestore.collection(
-    firestore.getFirestore(auth.app),
-    'classrooms',
-    classId,
-    'events',
-  )
-  const latest = firestore.query(events, firestore.orderBy('createdAt', 'desc'), firestore.limit(20))
-  return firestore.onSnapshot(latest, (snapshot) => {
-    for (const change of snapshot.docChanges()) {
-      if (change.type !== 'added') continue
-      const data = change.doc.data() as { type: string; payload: Record<string, unknown> }
-      onEvent({ id: change.doc.id, type: data.type, payload: data.payload })
-    }
+  const { signInWithEmailAndPassword } = await import('firebase/auth')
+  const credential = await signInWithEmailAndPassword(auth, email, password)
+  return credential.user.getIdToken()
+}
+
+export async function registerWithFirebasePassword(
+  email: string,
+  password: string,
+): Promise<{ idToken: string; sendVerification: () => Promise<void> }> {
+  const auth = await firebaseAuth()
+  const { createUserWithEmailAndPassword, sendEmailVerification } = await import('firebase/auth')
+  const credential = await createUserWithEmailAndPassword(auth, email, password)
+  return {
+    idToken: await credential.user.getIdToken(),
+    sendVerification: () => sendEmailVerification(credential.user),
+  }
+}
+
+export async function sendFirebasePasswordReset(email: string): Promise<void> {
+  const auth = await firebaseAuth()
+  const { sendPasswordResetEmail } = await import('firebase/auth')
+  auth.languageCode = 'vi'
+  await sendPasswordResetEmail(auth, email, {
+    // This is only the post-action continue URL. It does NOT select the page
+    // opened from the email. The Firebase Password reset template Action URL
+    // must separately be set to https://app.aikid.vn/reset-password.
+    url: `${window.location.origin}/login`,
+    handleCodeInApp: false,
   })
+}
+
+export async function verifyFirebasePasswordResetCode(actionCode: string): Promise<string> {
+  const auth = await firebaseAuth()
+  const { verifyPasswordResetCode } = await import('firebase/auth')
+  return verifyPasswordResetCode(auth, actionCode)
+}
+
+export async function confirmFirebasePasswordReset(
+  actionCode: string,
+  newPassword: string,
+): Promise<void> {
+  const auth = await firebaseAuth()
+  const { confirmPasswordReset } = await import('firebase/auth')
+  await confirmPasswordReset(auth, actionCode, newPassword)
+}
+
+export async function changeFirebasePassword(
+  currentPassword: string,
+  newPassword: string,
+): Promise<void> {
+  const auth = await firebaseAuth()
+  const user = auth.currentUser
+  if (!user?.email) throw new Error('Tài khoản hiện tại không dùng mật khẩu email.')
+  const { EmailAuthProvider, reauthenticateWithCredential, updatePassword } = await import('firebase/auth')
+  await reauthenticateWithCredential(
+    user,
+    EmailAuthProvider.credential(user.email, currentPassword),
+  )
+  await updatePassword(user, newPassword)
 }

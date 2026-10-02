@@ -1,84 +1,57 @@
-import { useMemo, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 import { Button } from '@/shared/components/ui/Button'
-import { useAuth } from '@/shared/store/auth'
-import { ApiError } from '@/shared/lib/api'
-import { cn } from '@/shared/lib/cn'
 import { BrandLogo } from '@/shared/components/ui/BrandLogo'
-import { designerAssets } from '@/shared/config/assets'
-import { PinPadModal } from '@/shared/components/ui/PinPadModal'
-import { useToast } from '@/shared/hooks/useToast'
 import { ToastContainer } from '@/shared/components/ui/Toast'
-import { GoogleSignInButton } from '@/features/auth/components/GoogleSignInButton'
+import { designerAssets } from '@/shared/config/assets'
+import { useToast } from '@/shared/hooks/useToast'
 import type { User } from '@/shared/lib/api'
+import { useAuth } from '@/shared/store/auth'
+import { LoginCatFrame } from '@/features/auth/components/LoginCatFrame'
+import { GoogleSignInButton } from '@/features/auth/components/GoogleSignInButton'
+import { authFeedback } from '@/features/auth/lib/auth-feedback'
 
 export function LoginPage() {
-  const [params] = useSearchParams()
-  const initial =
-    params.get('role') === 'parent' || params.get('role') === 'teacher'
-      ? 'adult'
-      : 'student'
-  const [mode, setMode] = useState<'student' | 'adult'>(initial as 'student' | 'adult')
-  const [nickname, setNickname] = useState('')
-  const [email, setEmail] = useState('')
+  const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
-  const [showPinModal, setShowPinModal] = useState(false)
-  const [pin, setPin] = useState('')
   const { toasts, showToast, dismissToast } = useToast()
-  const loginStudent = useAuth((s) => s.loginStudent)
-  const loginAdult = useAuth((s) => s.loginAdult)
-  const setSessionUser = useAuth((s) => s.setSessionUser)
+  const loginAdult = useAuth((state) => state.loginAdult)
+  const sessionUser = useAuth((state) => state.user)
+  const sessionLoading = useAuth((state) => state.loading)
   const navigate = useNavigate()
 
-  function goAfterAdult(user: User) {
-    if (user.role === 'admin') navigate('/admin')
-    else if (user.role === 'teacher') navigate('/teacher')
-    else navigate('/kids')
-  }
+  const STUDENT_LOGIN_NOTICE =
+    'AIKid hiện chỉ hỗ trợ đăng nhập qua tài khoản Phụ huynh. Ba / Mẹ vui lòng đăng nhập bằng Email rồi chọn hồ sơ của bé nhé!'
 
-  const hint = useMemo(
-    () =>
-      mode === 'student'
-        ? 'Con dùng biệt danh ba/mẹ đã tạo. Không cần mật khẩu của ba/mẹ.'
-        : 'Ba/mẹ hoặc thầy cô đăng nhập bằng email để quản lý và cho con học.',
-    [mode],
-  )
-
-  async function onSubmit(e?: React.FormEvent) {
-    if (e) e.preventDefault()
-    setBusy(true)
-    try {
-      if (mode === 'student') {
-        const user = await loginStudent(nickname.trim(), undefined)
-        navigate(user.onboarded ? '/home' : '/onboarding')
-      } else {
-        const user = await loginAdult(email.trim(), password)
-        goAfterAdult(user)
-      }
-    } catch (err) {
-      const msg = err instanceof ApiError ? err.message : 'Không vào được. Thử lại nhé!'
-      if (mode === 'student' && msg.includes('PIN')) {
-        setShowPinModal(true)
-      } else {
-        showToast(msg, 'error')
-      }
-    } finally {
-      setBusy(false)
+  function goAfterLogin(user: User) {
+    if (user.role === 'student') {
+      showToast(STUDENT_LOGIN_NOTICE, 'error')
+      void useAuth.getState().logout()
+      return
+    }
+    if (user.role === 'parent') {
+      navigate('/kids', { replace: true })
+    } else if (user.role === 'admin') {
+      navigate('/admin', { replace: true })
+    } else if (user.role === 'teacher') {
+      navigate('/teacher', { replace: true })
+    } else {
+      navigate('/kids', { replace: true })
     }
   }
 
-  async function onSubmitPin(enteredPin: string) {
+  useEffect(() => {
+    if (!sessionLoading && sessionUser) goAfterLogin(sessionUser)
+  }, [sessionLoading, sessionUser])
+
+  async function onSubmit(event: React.FormEvent) {
+    event.preventDefault()
     setBusy(true)
     try {
-      const user = await loginStudent(nickname.trim(), undefined, {
-        pin: enteredPin.trim(),
-      })
-      navigate(user.onboarded ? '/home' : '/onboarding')
-    } catch (err) {
-      const msg = err instanceof ApiError ? err.message : 'Không vào được. Thử lại nhé!'
-      showToast(msg, 'error')
-      setPin('')
+      goAfterLogin(await loginAdult(login.trim(), password))
+    } catch (error) {
+      showToast(authFeedback(error, 'login'), 'error')
     } finally {
       setBusy(false)
     }
@@ -86,150 +59,114 @@ export function LoginPage() {
 
   return (
     <div
-      className="relative flex min-h-dvh w-full flex-col justify-center px-4 py-8"
-      style={{
-        backgroundImage: `url(${designerAssets.lobby.bgLogin})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+      className="relative min-h-dvh overflow-x-hidden overflow-y-auto bg-bg bg-cover bg-center"
+      style={{ backgroundImage: `url(${designerAssets.lobby.bgLogin})` }}
     >
-      <div className="absolute inset-0 bg-[#f7f5ff]/75" />
-      <div className="relative z-10 mx-auto flex w-full max-w-lg flex-col gap-4">
-        <Link to="/" className="text-sm font-bold text-brand-500">
-          ← Về trang chào
-        </Link>
-        <div className="ui-card p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <BrandLogo size="lg" className="max-w-[200px]" />
-            <img
-              src={designerAssets.brand.mascot}
-              alt=""
-              className="h-14 w-14 rounded-full object-cover"
-            />
-          </div>
-          <h1 className="font-display text-3xl text-text">Vào cổng sáng tạo</h1>
-          <p className="mt-1 text-sm text-muted">{hint}</p>
+      <div className="absolute inset-0 bg-white/20" />
+      <BrandLogo size="lg" className="absolute left-4 top-4 z-30 max-w-[140px] drop-shadow-sm sm:left-7 sm:top-6 sm:max-w-[180px]" />
+      <Link
+        to="/"
+        aria-label="Đóng và về trang chào"
+        className="absolute right-4 top-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-coral-400 text-3xl font-black leading-none text-white shadow-clay transition-transform hover:-translate-y-0.5 sm:right-7 sm:top-6 sm:h-16 sm:w-16"
+      >
+        ×
+      </Link>
 
-          <div className="mt-4 flex gap-2 rounded-2xl bg-brand-50 p-1">
-            <button
-              type="button"
-              className={cn(
-                'flex-1 rounded-xl py-2 text-sm font-extrabold',
-                mode === 'student'
-                  ? 'bg-white text-brand-600 shadow-soft'
-                  : 'text-muted',
-              )}
-              onClick={() => setMode('student')}
-            >
-              Học sinh
-            </button>
-            <button
-              type="button"
-              className={cn(
-                'flex-1 rounded-xl py-2 text-sm font-extrabold',
-                mode === 'adult'
-                  ? 'bg-white text-brand-600 shadow-soft'
-                  : 'text-muted',
-              )}
-              onClick={() => setMode('adult')}
-            >
-              Ba mẹ / GV
-            </button>
-          </div>
-
-          <form className="mt-5 flex flex-col gap-4" onSubmit={onSubmit}>
-            {mode === 'student' ? (
-              <>
-                <label className="flex flex-col gap-1 text-sm font-bold">
-                  Biệt danh
-                  <input
-                    className="min-h-12 rounded-2xl border-2 border-border px-4 text-base font-semibold outline-none focus:border-brand-500"
-                    value={nickname}
-                    maxLength={16}
-                    onChange={(e) => setNickname(e.target.value)}
-                    required
-                  />
-                </label>
-                <p className="text-xs text-muted">
-                  Chưa có hồ sơ? Nhờ ba/mẹ đăng nhập, vào mục Con và thêm con nhé.
-                </p>
-              </>
-            ) : (
-              <>
-                <label className="flex flex-col gap-1 text-sm font-bold">
-                  Email
-                  <input
-                    type="email"
-                    className="min-h-12 rounded-2xl border-2 border-border px-4 text-base font-semibold outline-none focus:border-brand-500"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </label>
-                <label className="flex flex-col gap-1 text-sm font-bold">
-                  Mật khẩu
-                  <input
-                    type="password"
-                    className="min-h-12 rounded-2xl border-2 border-border px-4 text-base font-semibold outline-none focus:border-brand-500"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </label>
-                <div className="flex items-center justify-between text-xs">
-                  <Link to="/forgot-password" className="font-bold text-brand-500 hover:underline">
-                    Quên mật khẩu?
-                  </Link>
+      <div className="relative min-h-dvh sm:absolute sm:inset-0 flex items-end justify-center overflow-y-auto sm:overflow-hidden pt-12 sm:pt-16 pb-8 sm:pb-0">
+        <div className="h-[85dvh] max-h-[56rem] min-h-[30rem] sm:min-h-[36rem] shrink-0 aspect-[1000/820] sm:h-[86dvh]">
+          <LoginCatFrame
+            variant="adult"
+            isBusy={busy}
+            portalSlot={(
+              <div className="rounded-[1.25rem] border border-white/80 bg-white/90 p-3 text-center shadow-clay backdrop-blur-sm">
+                <div className="flex items-center justify-center gap-2 text-sm font-extrabold text-coral-700 sm:text-base">
+                  <img src="/assets/aikid-ui/figma-icons/login-parent.svg" alt="" className="h-7 w-auto" aria-hidden="true" />
+                  Cổng phụ huynh
                 </div>
-              </>
-            )}
-
-            <Button type="submit" disabled={busy}>
-              {busy ? 'Đang vào…' : mode === 'adult' ? 'Đăng nhập' : 'Vào học!'}
-            </Button>
-
-            {mode === 'adult' && (
-              <div className="flex w-full flex-col gap-2 pt-1">
-                <div className="flex items-center gap-3">
-                  <span className="h-px flex-1 bg-border" />
-                  <span className="text-xs font-bold text-muted">hoặc</span>
-                  <span className="h-px flex-1 bg-border" />
-                </div>
-                <GoogleSignInButton
-                  role={
-                    params.get('role') === 'teacher' ? 'teacher' : 'parent'
-                  }
-                  onSuccess={(user) => {
-                    setSessionUser(user)
-                    goAfterAdult(user)
-                  }}
-                  onError={(msg) => showToast(msg, 'error')}
-                />
+                <p className="mt-1 text-xs font-semibold text-muted">Đăng nhập một lần, sau đó chọn hồ sơ con để vào học.</p>
               </div>
             )}
-
-            <p className="text-center text-sm text-muted">
-              Chưa có tài khoản?{' '}
-              <Link to="/register" className="font-bold text-brand-500 hover:underline">
-                Đăng ký ngay
-              </Link>
-            </p>
-          </form>
+            mouthSlot={(
+              <main>
+                <h1 className="sr-only">Đăng nhập cổng phụ huynh AIKid</h1>
+                <form id="login-form" className="flex h-full flex-col justify-center gap-4 sm:gap-6" onSubmit={onSubmit}>
+                  <label>
+                    <span className="sr-only">Email tài khoản phụ huynh</span>
+                    <input
+                      id="login-email"
+                      name="email"
+                      type="text"
+                      autoComplete="email"
+                      placeholder="Email tài khoản phụ huynh"
+                      className="min-h-12 w-full rounded-2xl border-[3px] border-white/80 bg-white/95 px-4 text-center text-sm font-bold shadow-sm outline-none transition-all focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-50 sm:min-h-14 sm:text-base"
+                      value={login}
+                      onChange={(event) => setLogin(event.target.value)}
+                      required
+                    />
+                  </label>
+                  <label>
+                    <span className="sr-only">Mật khẩu</span>
+                    <input
+                      id="login-password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      placeholder="Mật khẩu"
+                      className="min-h-12 w-full rounded-2xl border-[3px] border-white/80 bg-white/95 px-4 text-center text-sm font-bold shadow-sm outline-none transition-all focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-50 sm:min-h-14 sm:text-base"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      required
+                    />
+                  </label>
+                </form>
+              </main>
+            )}
+            pawsSlot={(
+              <div className="flex w-full justify-center">
+                <Button
+                  form="login-form"
+                  type="submit"
+                  disabled={busy}
+                  className="w-[82%] sm:w-[75%] max-w-[17.5rem] px-5 sm:px-6 !min-h-16 !rounded-[2rem] !border-4 !border-white !bg-brand-500 !text-xl !font-black !text-white shadow-[0_8px_0_rgba(109,94,252,0.3)] transition-transform hover:-translate-y-1 active:translate-y-1 active:shadow-none"
+                >
+                  {busy ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5 text-white shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                      </svg>
+                      <span className="text-base sm:text-lg">Đang vào…</span>
+                    </span>
+                  ) : (
+                    'Đăng nhập'
+                  )}
+                </Button>
+              </div>
+            )}
+            footerSlot={(
+              <aside className="flex w-full flex-col gap-1.5 sm:gap-2 rounded-[1.35rem] border-2 border-border bg-white p-2.5 sm:p-4 text-center shadow-clay" aria-label="Hỗ trợ đăng nhập">
+                <GoogleSignInButton
+                  disabled={busy}
+                  onSuccess={goAfterLogin}
+                  onError={(message) => showToast(message, 'error')}
+                />
+                <div className="flex items-center gap-3" aria-hidden="true">
+                  <span className="h-px flex-1 bg-border" />
+                  <span className="text-xs font-bold text-muted">hoặc dùng mật khẩu</span>
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+                <Link to="/forgot-password" className="inline-flex min-h-8 items-center justify-center text-sm font-bold text-brand-600 hover:underline">
+                  Quên mật khẩu?
+                </Link>
+                <p className="text-sm text-muted">
+                  Chưa có tài khoản?{' '}
+                  <Link to="/register" className="font-bold text-brand-500 hover:underline">Đăng ký phụ huynh</Link>
+                </p>
+              </aside>
+            )}
+          />
         </div>
       </div>
-      <PinPadModal
-        isOpen={showPinModal}
-        onClose={() => {
-          setShowPinModal(false)
-          setPin('')
-        }}
-        onSubmit={onSubmitPin}
-        title={`Xin chào ${nickname}!`}
-        subtitle="Nhập mã PIN 6 số ba/mẹ đã đặt"
-        busy={busy}
-        pin={pin}
-        setPin={setPin}
-      />
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   )

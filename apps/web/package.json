@@ -5,33 +5,47 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "assets:validate": "node scripts/validate-reward-assets.mjs",
+    "rewards:pack": "node scripts/reward-pack-cli.mjs",
+    "rewards:pack:test": "node --test scripts/reward-pack-lib.test.mjs",
+    "asmo:audit": "node scripts/audit-asmo-question-bank.mjs",
+    "build": "npm run assets:validate && tsc -b && vite build && npm run perf:budget",
+    "perf:budget": "node scripts/check-performance-budget.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
-    "@aikids/domain": "*",
-    "@supabase/supabase-js": "^2.110.7",
+    "@rive-app/react-canvas": "^4.30.0",
+    "@tanstack/react-query": "^5.103.1",
+    "@types/katex": "^0.16.8",
+    "@types/three": "^0.185.4",
     "clsx": "^2.1.1",
+    "fflate": "^0.8.3",
     "firebase": "^12.16.0",
-    "framer-motion": "^12.18.1",
+    "katex": "^0.18.4",
     "lucide-react": "^0.515.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router": "^8.3.0",
     "tailwind-merge": "^3.3.1",
+    "three": "^0.185.1",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.10",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.5.2",
     "jsdom": "^26.1.0",
     "tailwindcss": "^4.1.10",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.62.2",
+    "@tailwindcss/oxide-linux-x64-gnu": "4.3.3",
+    "lightningcss-linux-x64-gnu": "1.32.0"
   }
 }

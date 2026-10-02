@@ -1,37 +1,55 @@
-import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import '@/shared/styles/adult-shell.css'
+import { Fragment, Suspense, useEffect, useState, useSyncExternalStore } from 'react'
+import type { CSSProperties } from 'react'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
+import { prefetchRoute, prefetchRouteImmediately } from '@/app/route-prefetch'
 
 import { NotificationBell } from '@/features/notifications/components/NotificationBell'
+import { api } from '@/shared/lib/api'
 import { ParentGateModal } from '@/features/parent/components/ParentGateModal'
+import { useParentFeedbackBadge } from '@/features/parent/hooks/useParentFeedbackBadge'
 import {
   CmsAiIcon,
   CmsAnalyticsIcon,
+  CmsBillingIcon,
   CmsClassesIcon,
   CmsCoursesIcon,
+  CmsFeedbackIcon,
   CmsLecturesIcon,
   CmsLogsIcon,
+  CmsLogoutIcon,
   CmsOverviewIcon,
   CmsSessionsIcon,
   CmsUsersIcon,
 } from '@/shared/components/icons/CmsIcons'
+
+import { NavHomeIcon, NavProfileIcon, NavWorldIcon } from '@/shared/components/icons/KidNavIcons'
 import {
-  NavBackpackIcon,
-  NavBadgeIcon,
-  NavHomeIcon,
-  NavLeaderboardIcon,
-  NavProfileIcon,
-  NavWorldIcon,
-} from '@/shared/components/icons/KidNavIcons'
+  KidBackpackImageIcon,
+  KidBadgeImageIcon,
+  KidCreativeImageIcon,
+  KidEventImageIcon,
+  KidHomeImageIcon,
+  KidProfileImageIcon,
+  KidProgressImageIcon,
+  KidStorybookImageIcon,
+  KidWorldImageIcon,
+} from '@/shared/components/icons/KidImageIcons'
 import {
   ParentApprovalIcon,
   ParentDashboardIcon,
   ParentKidsIcon,
+  ParentLearningIcon,
   ParentPlanIcon,
   ParentProfileIcon,
 } from '@/shared/components/icons/ParentIcons'
+import { ParentHomeIcon } from '@/shared/components/icons/ParentHomeIcon'
 import { BrandLogo } from '@/shared/components/ui/BrandLogo'
 import { cn } from '@/shared/lib/cn'
+import { designerAssets } from '@/shared/config/assets'
 import { useAuth } from '@/shared/store/auth'
+import { readRewardEquipment } from '@/features/rewards/reward-equipment'
+import { profilePageThemeStyle } from '@/features/rewards/student-theme'
 
 type NavIcon = React.ComponentType<{ size?: number; className?: string }>
 
@@ -40,266 +58,917 @@ type RoleNavItem = {
   label: string
   icon: NavIcon
   end?: boolean
+  badge?: boolean
+  action?: boolean
+  group?: string
+  matchPrefixes?: string[]
 }
 
-const studentNav = [
-  { to: '/home', label: 'Nhà', icon: NavHomeIcon },
-  { to: '/world', label: 'Học', icon: NavWorldIcon },
-  { to: '/leaderboard', label: 'Tiến bộ', icon: NavLeaderboardIcon },
-  { to: '/achievements', label: 'Huy hiệu', icon: NavBadgeIcon },
-  { to: '/backpack', label: 'Ba lô', icon: NavBackpackIcon },
-  { to: '/profile', label: 'Hồ sơ', icon: NavProfileIcon },
-]
+type StudentFeatureTone = 'brand' | 'sky' | 'mint' | 'sun' | 'coral'
 
-function RoleNavigation({
-  nav,
-  mobile = false,
-}: {
-  nav: RoleNavItem[]
-  mobile?: boolean
-}) {
-  return (
-    <nav
-      className={mobile ? 'role-mobile-nav' : 'role-nav'}
-      aria-label="Điều hướng khu vực"
-    >
-      {nav.map(({ to, label, icon: Icon, end }) => (
-        <NavLink
-          key={to}
-          to={to}
-          end={end}
-          className={({ isActive }) =>
-            cn('role-nav-link', mobile && 'role-nav-link-mobile', isActive && 'role-nav-link-active')
-          }
-        >
-          <span className="role-nav-icon" aria-hidden="true">
-            <Icon size={mobile ? 23 : 26} />
-          </span>
-          <span>{label}</span>
-        </NavLink>
-      ))}
-    </nav>
+type StudentNavItem = RoleNavItem & {
+  tone: StudentFeatureTone
+}
+
+function RouteContentFallback() {
+  return <div className="mx-auto w-full max-w-7xl p-4" role="status" aria-live="polite"><div className="ui-skeleton h-8 w-56 rounded-xl" /><div className="ui-skeleton mt-5 h-48 rounded-3xl" /><span className="sr-only">Đang tải nội dung trang</span></div>
+}
+
+function RouteOutlet() {
+  return <Suspense fallback={<RouteContentFallback />}><Outlet /></Suspense>
+}
+
+function useMediaQuery(query: string) {
+  return useSyncExternalStore(
+    (onChange) => {
+      if (typeof window.matchMedia !== 'function') return () => undefined
+      const media = window.matchMedia(query)
+      media.addEventListener('change', onChange)
+      return () => media.removeEventListener('change', onChange)
+    },
+    () => typeof window.matchMedia === 'function' && window.matchMedia(query).matches,
+    () => false,
   )
 }
 
-function AdultChrome({
-  children,
-  nav,
-  brandTo,
-}: {
-  children?: React.ReactNode
-  nav: RoleNavItem[]
-  brandTo: string
-}) {
+function studentFeatureTone(pathname: string): StudentFeatureTone {
+  if (pathname.startsWith('/rules')) return 'sun'
+  if (pathname.startsWith('/asmo')) return 'sky'
+  if (pathname.startsWith('/lab/mee-cat') || pathname.startsWith('/mee-cat-studio')) return 'sky'
+  if (pathname.startsWith('/world') || pathname.startsWith('/course') || pathname.startsWith('/lesson')) return 'sky'
+  if (pathname.startsWith('/progress') || pathname.startsWith('/leaderboard')) return 'mint'
+  if (pathname.startsWith('/achievements') || pathname.startsWith('/backpack')) return 'sun'
+  if (pathname.startsWith('/community')) return 'mint'
+  if (pathname.startsWith('/events') || pathname.startsWith('/storybook')) return 'coral'
+  return 'brand'
+}
+
+function aikidStudentBackground(pathname: string): CSSProperties {
+  const image = pathname.startsWith('/creative')
+    ? designerAssets.lobby.bgArt
+    : designerAssets.lobby.bgHome
+
+  return {
+    backgroundColor: 'var(--student-page-bg)',
+    backgroundImage: `linear-gradient(180deg, rgb(255 255 255 / 10%), var(--student-page-wash) 72%), url("${image}")`,
+    backgroundPosition: 'top center, top center',
+    backgroundRepeat: 'no-repeat, no-repeat',
+    // Cover the complete route surface instead of ending the artwork after one
+    // fixed-width image height on tall/mobile pages.
+    backgroundSize: 'cover, cover',
+  }
+}
+
+function useLogoutAction() {
+  const logout = useAuth((state) => state.logout)
+  const navigate = useNavigate()
+  const [loggingOut, setLoggingOut] = useState(false)
+
+  const handleLogout = async () => {
+    if (loggingOut) return
+    setLoggingOut(true)
+    try {
+      await logout()
+    } finally {
+      setLoggingOut(false)
+      navigate('/login', { replace: true })
+    }
+  }
+
+  return { handleLogout, loggingOut }
+}
+
+function SidebarLogoutButton() {
+  const { handleLogout, loggingOut } = useLogoutAction()
+
   return (
-    <div className="role-shell role-tone-parent min-h-dvh lg:pl-60">
-      <aside className="role-rail fixed inset-y-0 left-0 z-30 hidden w-60 flex-col lg:flex">
-        <div className="role-brand">
-          <NavLink to={brandTo} aria-label="Trang chính phụ huynh">
-            <BrandLogo size="md" />
-          </NavLink>
-          <p>Góc phụ huynh</p>
-        </div>
-        <RoleNavigation nav={nav} />
-      </aside>
-
-      <div className="role-mobile-chrome lg:hidden">
-        <header className="role-mobile-header">
-          <NavLink to={brandTo} aria-label="Trang chính phụ huynh">
-            <BrandLogo size="sm" />
-          </NavLink>
-          <span>Phụ huynh</span>
-        </header>
-        <RoleNavigation nav={nav} mobile />
-      </div>
-
-      <main className="page-enter mx-auto max-w-6xl px-3 py-5 sm:px-5 sm:py-6">
-        {children ?? <Outlet />}
-      </main>
+    <div className="role-sidebar-footer">
+      <button
+        type="button"
+        onClick={() => void handleLogout()}
+        disabled={loggingOut}
+        className="role-nav-link role-sidebar-logout"
+      >
+        <span className="role-nav-icon" aria-hidden="true">
+          <CmsLogoutIcon size={20} />
+        </span>
+        <span>{loggingOut ? 'Đang đăng xuất…' : 'Đăng xuất'}</span>
+      </button>
     </div>
   )
 }
 
+function MobileLogoutButton() {
+  const { handleLogout, loggingOut } = useLogoutAction()
+
+  return (
+    <button
+      type="button"
+      onClick={() => void handleLogout()}
+      disabled={loggingOut}
+      className="adult-bottom-link"
+      aria-label={loggingOut ? 'Đang đăng xuất' : 'Đăng xuất'}
+    >
+      <span className="adult-bottom-icon" aria-hidden="true">
+        <CmsLogoutIcon size={21} />
+      </span>
+      <span>{loggingOut ? 'Đang thoát…' : 'Đăng xuất'}</span>
+    </button>
+  )
+}
+
+
+
+// ── Student nav split: pinned bar + drawer ───────────────────
+const studentPinnedNav: StudentNavItem[] = [
+  { to: '/home',     label: 'Trang Chủ', icon: KidHomeImageIcon,     tone: 'brand' },
+  { to: '/world',    label: 'Bản Đồ',    icon: KidWorldImageIcon,    tone: 'sky' },
+  { to: '/profile',  label: 'Hồ Sơ',     icon: KidProfileAvatarIcon, tone: 'brand' },
+]
+const studentDrawerNav: StudentNavItem[] = [
+  // Tạm thời ẩn Olympic 3D, Sự kiện, Cộng đồng để phát triển trên localhost
+  // { to: '/asmo',         label: 'Olympic 3D',  icon: KidBadgeImageIcon,     tone: 'sky' },
+  // { to: '/events',       label: 'Sự kiện',      icon: KidEventImageIcon,     tone: 'coral' },
+  { to: '/storybook',    label: 'Huyền thoại', icon: KidStorybookImageIcon, tone: 'coral' },
+  // { to: '/community',    label: 'Cộng đồng',   icon: KidProfileImageIcon,   tone: 'mint' },
+  { to: '/achievements', label: 'Huy hiệu',    icon: KidBadgeImageIcon,     tone: 'sun' },
+  { to: '/backpack',     label: 'Ba lô',       icon: KidBackpackImageIcon,  tone: 'sun' },
+  { to: '/profile',      label: 'Hồ sơ',       icon: KidProfileAvatarIcon,  tone: 'brand' },
+]
+// Cấp độ là trang chi tiết mở theo ngữ cảnh từ Hồ sơ, không phải đích điều hướng chính.
+const studentNav: StudentNavItem[] = [
+  ...studentPinnedNav,
+  ...studentDrawerNav,
+]
+
+// ── Soft Clay Aiki Mascot Avatar Icon cho Cá nhân ─────────────
+function KidProfileAvatarIcon({ size = 24, className = '' }: { size?: number; className?: string }) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center justify-center rounded-full overflow-hidden bg-gradient-to-b from-[#FFF4EC] to-[#FFE8D6] border border-[#FD7D2E]/50 shadow-xs shrink-0',
+        className
+      )}
+      style={{ width: size, height: size }}
+    >
+      <img
+        src={designerAssets.brand.mascot}
+        alt=""
+        width={size}
+        height={size}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        className="w-full h-full object-cover scale-110"
+      />
+    </span>
+  )
+}
+
+// ── Universal Floating Bottom Dock items (học sinh) ───────────
+const STUDENT_DOCK_ITEMS: RoleNavItem[] = [
+  { to: '/home', label: 'Trang Chủ', icon: KidHomeImageIcon, end: true },
+  { to: '/world', label: 'Bản Đồ', icon: KidWorldImageIcon },
+  { to: '/profile', label: 'Hồ Sơ', icon: KidProfileAvatarIcon },
+]
+
+// ── Desktop sidebar nav (vertical) ───────────────────────────
+function DesktopSideNav({ nav }: { nav: RoleNavItem[] }) {
+  const location = useLocation()
+  const managementItems = nav.filter((item) => !item.action)
+  const actionItems = nav.filter((item) => item.action)
+  const renderItem = ({ to, label, icon: Icon, end, badge, action, matchPrefixes }: RoleNavItem) => (
+    <NavLink
+      key={to}
+      to={to}
+      end={end}
+      onPointerEnter={() => prefetchRoute(to)}
+      onPointerDown={() => prefetchRouteImmediately(to)}
+      onFocus={() => prefetchRoute(to)}
+      className={({ isActive }) => {
+        const isItemActive = matchPrefixes ? matchPrefixes.some((prefix) => location.pathname.startsWith(prefix)) : isActive
+        return cn(
+          'role-nav-link',
+          action && 'border border-brand-200 bg-brand-50/70 text-brand-700',
+          (isItemActive ?? isActive) && 'role-nav-link-active',
+        )
+      }}
+    >
+      <span className="role-nav-icon relative" aria-hidden="true">
+        <Icon size={23} />
+        {badge && <span aria-label="Có nhận xét mới" className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-danger ring-2 ring-white" />}
+      </span>
+      <span className="truncate flex-1 text-[13.5px] tracking-tight" title={label}>{label}</span>
+    </NavLink>
+  )
+  return (
+    <nav className="role-nav" aria-label="Điều hướng khu vực">
+      {managementItems.map((item, index) => {
+        const showHeader = Boolean(item.group && (index === 0 || managementItems[index - 1].group !== item.group))
+        return (
+          <Fragment key={item.to}>
+            {showHeader && (
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-muted px-3 mt-3 mb-1">
+                {item.group}
+              </p>
+            )}
+            {renderItem(item)}
+          </Fragment>
+        )
+      })}
+      {actionItems.length > 0 && <div className="mx-3 mt-2 border-t border-border pt-3"><p className="mb-2 px-2 text-[11px] font-extrabold uppercase tracking-wider text-muted">Chế độ của con</p>{actionItems.map(renderItem)}</div>}
+    </nav>
+  )
+}
+
+// ── Adult bottom nav item ─────────────────────────────────────
+function AdultBottomLink({
+  to,
+  label,
+  icon: Icon,
+  end,
+  badge,
+  tone,
+  matchPrefixes,
+}: RoleNavItem & { tone: string }) {
+  const location = useLocation()
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      onPointerEnter={() => prefetchRoute(to)}
+      onPointerDown={() => prefetchRouteImmediately(to)}
+      onFocus={() => prefetchRoute(to)}
+      className={({ isActive }) => {
+        const isItemActive = matchPrefixes ? matchPrefixes.some((prefix) => location.pathname.startsWith(prefix)) : isActive
+        return cn(
+          'adult-bottom-link',
+          `adult-bottom-link-${tone}`,
+          (isItemActive ?? isActive) && 'adult-bottom-link-active',
+        )
+      }}
+    >
+      <span className="adult-bottom-icon relative" aria-hidden="true">
+        <Icon size={22} />
+        {badge && (
+          <span
+            aria-label="Có nhận xét mới"
+            className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-danger ring-2 ring-white"
+          />
+        )}
+      </span>
+      <span>{label}</span>
+    </NavLink>
+  )
+}
+
+// ── Student bottom drawer (Huy hiệu / Ba lô / Hồ sơ) ───────────
+function StudentDrawer() {
+  const [open, setOpen] = useState(false)
+  const { handleLogout, loggingOut } = useLogoutAction()
+
+  // Close drawer on navigate
+  const handleNav = () => setOpen(false)
+
+  // Check if any drawer route is active
+  const drawerPaths = studentDrawerNav.map((n) => n.to)
+  const anyDrawerActive = drawerPaths.some((p) => window.location.pathname.startsWith(p))
+
+  return (
+    <>
+      {/* Backdrop */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[1.5px]"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Drawer sheet — slide up */}
+      {open && (
+        <div
+          className="student-drawer-sheet student-drawer-open"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Bộ sưu tập của con"
+        >
+          <div className="student-drawer-handle" aria-hidden="true" />
+          <p className="student-drawer-title">Bộ sưu tập của con</p>
+          <nav className="student-drawer-grid" aria-label="Bộ sưu tập">
+            {studentDrawerNav.map(({ to, label, icon: Icon, tone }) => (
+              <NavLink
+                key={to}
+                to={to}
+                data-feature-tone={tone}
+                onPointerEnter={() => prefetchRoute(to)}
+                onFocus={() => prefetchRoute(to)}
+                onClick={handleNav}
+                className={({ isActive }) =>
+                  cn('student-drawer-item', isActive && 'student-drawer-item-active')
+                }
+              >
+                <span className="student-drawer-icon" aria-hidden="true">
+                  <Icon size={38} />
+                </span>
+                <span>{label}</span>
+              </NavLink>
+            ))}
+            <button
+              type="button"
+              onClick={() => void handleLogout()}
+              disabled={loggingOut}
+              className="student-drawer-item student-drawer-logout"
+            >
+              <span className="student-drawer-icon" aria-hidden="true">
+                <CmsLogoutIcon size={23} />
+              </span>
+              <span>{loggingOut ? 'Đang thoát…' : 'Đăng xuất'}</span>
+            </button>
+          </nav>
+        </div>
+      )}
+
+      {/* Pinned bottom bar */}
+      <nav
+        className="student-bottom-nav"
+        aria-label="Điều hướng chính"
+      >
+        {studentPinnedNav.map(({ to, label, icon: Icon, tone }) => (
+          <NavLink
+            key={to}
+            to={to}
+            data-feature-tone={tone}
+            onPointerEnter={() => prefetchRoute(to)}
+            onFocus={() => prefetchRoute(to)}
+            className={({ isActive }) =>
+              cn(
+                'student-nav-link min-h-[3.75rem] flex-1 gap-0 rounded-xl px-0.5 py-1 text-[10px]',
+                isActive && 'student-nav-link-active',
+              )
+            }
+          >
+            <span className="student-nav-icon !h-8 !w-9 !rounded-xl" aria-hidden="true">
+              <Icon size={30} />
+            </span>
+            <span className="student-nav-label">{label}</span>
+          </NavLink>
+        ))}
+
+        {/* More button */}
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={open ? 'Đóng bộ sưu tập' : 'Mở bộ sưu tập'}
+          className={cn(
+            'student-nav-link min-h-[3.75rem] flex-1 gap-0 rounded-xl px-0.5 py-1 text-[10px]',
+            (open || anyDrawerActive) && 'student-nav-link-active',
+          )}
+        >
+          <span className="student-nav-icon !h-8 !w-9 !rounded-xl" aria-hidden="true">
+            {open ? (
+              // × when open
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+              </svg>
+            ) : (
+              // + icon when closed
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="9.5" stroke="currentColor" strokeWidth="1.8" />
+                <line x1="11" y1="6.5" x2="11" y2="15.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <line x1="6.5" y1="11" x2="15.5" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            )}
+          </span>
+          {open ? 'Đóng' : 'Khác'}
+        </button>
+      </nav>
+    </>
+  )
+}
+
+// ── Admin drawer (⊕ button opens full menu overlay) ──────────
+function AdminDrawer({
+  nav,
+  pinnedNav,
+  tone,
+  menuTitle = 'Tiện ích quản trị',
+  menuAriaLabel = 'Tất cả tiện ích quản trị',
+}: {
+  nav: RoleNavItem[]
+  pinnedNav: RoleNavItem[]
+  tone: string
+  menuTitle?: string
+  menuAriaLabel?: string
+}) {
+  const [open, setOpen] = useState(false)
+  const { handleLogout, loggingOut } = useLogoutAction()
+  const location = useLocation()
+
+  return (
+    <>
+      {/* Backdrop */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px]"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Drawer sheet slides up from bottom */}
+      <div
+        className={cn(
+          'admin-drawer-sheet',
+          open ? 'admin-drawer-sheet-open' : 'admin-drawer-sheet-closed',
+        )}
+        role="dialog"
+        aria-modal="true"
+        aria-label={menuAriaLabel}
+      >
+        {/* Handle bar */}
+        <div className="admin-drawer-handle" aria-hidden="true" />
+
+        <p className="admin-drawer-title">{menuTitle}</p>
+
+        <nav className="admin-drawer-grid" aria-label={menuAriaLabel}>
+          {nav.map((item, index) => {
+            const showHeader = Boolean(item.group && (index === 0 || nav[index - 1].group !== item.group))
+            const { to, label, icon: Icon, end, matchPrefixes } = item
+            return (
+              <Fragment key={to}>
+                {showHeader && (
+                  <p className="col-span-full text-[10px] font-extrabold uppercase tracking-wider text-muted px-3 mt-3 mb-1 text-left">
+                    {item.group}
+                  </p>
+                )}
+                <NavLink
+                  to={to}
+                  end={end}
+                  onPointerEnter={() => prefetchRoute(to)}
+                  onFocus={() => prefetchRoute(to)}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) => {
+                    const isItemActive = matchPrefixes ? matchPrefixes.some((prefix) => location.pathname.startsWith(prefix)) : isActive
+                    return cn('admin-drawer-item', (isItemActive ?? isActive) && 'admin-drawer-item-active')
+                  }}
+                >
+                  <span className="admin-drawer-icon" aria-hidden="true">
+                    <Icon size={24} />
+                  </span>
+                  <span>{label}</span>
+                </NavLink>
+              </Fragment>
+            )
+          })}
+          <button
+            type="button"
+            onClick={() => void handleLogout()}
+            disabled={loggingOut}
+            className="admin-drawer-item"
+          >
+            <span className="admin-drawer-icon" aria-hidden="true">
+              <CmsLogoutIcon size={22} />
+            </span>
+            <span>{loggingOut ? 'Đang thoát…' : 'Đăng xuất'}</span>
+          </button>
+        </nav>
+      </div>
+
+      {/* Bottom bar: pinned items + ⊕ toggle */}
+      <nav
+        className={cn('adult-bottom-nav', `adult-bottom-nav-${tone}`)}
+        aria-label="Điều hướng chính"
+      >
+        {pinnedNav.map((item) => (
+          <AdultBottomLink key={item.to} {...item} tone={tone} />
+        ))}
+
+        {/* ⊕ More button */}
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={open ? 'Đóng menu' : 'Mở tất cả tiện ích'}
+          className={cn('adult-bottom-more', open && 'adult-bottom-more-open')}
+        >
+          <span className="adult-bottom-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="10" stroke="currentColor" strokeWidth="1.8" />
+              <line
+                x1="11" y1="6.5" x2="11" y2="15.5"
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                style={{ transformOrigin: '11px 11px', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}
+              />
+              <line
+                x1="6.5" y1="11" x2="15.5" y2="11"
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                style={{ transformOrigin: '11px 11px', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}
+              />
+            </svg>
+          </span>
+          <span>{open ? 'Đóng' : 'Thêm'}</span>
+        </button>
+      </nav>
+    </>
+  )
+}
+
+// ── Simple adult bottom nav (parent / teacher) ────────────────
+function AdultBottomNav({
+  nav,
+  tone,
+}: {
+  nav: RoleNavItem[]
+  tone: string
+}) {
+  return (
+    <nav
+      className={cn('adult-bottom-nav', `adult-bottom-nav-${tone}`)}
+      aria-label="Điều hướng chính"
+    >
+      {nav.map((item) => (
+        <AdultBottomLink key={item.to} {...item} tone={tone} />
+      ))}
+      <MobileLogoutButton />
+    </nav>
+  )
+}
+
+// ── CmsShell: Teacher / Admin ─────────────────────────────────
 function CmsShell({
   nav,
+  pinnedNav,
   brandTo,
   roleLabel,
   tone,
 }: {
   nav: RoleNavItem[]
+  pinnedNav?: RoleNavItem[]
   brandTo: string
   roleLabel: string
   tone: 'teacher' | 'admin'
 }) {
+  const isAdmin = tone === 'admin'
+
   return (
-    <div className={`role-shell role-tone-${tone} min-h-dvh md:pl-60`}>
-      <aside className="role-rail fixed inset-y-0 left-0 z-30 hidden w-60 flex-col md:flex">
+    <div className={`role-shell role-tone-${tone} min-h-dvh md:pl-64`}>
+      {/* Desktop sidebar */}
+      <aside className="role-rail fixed inset-y-0 left-0 z-30 hidden w-64 flex-col md:flex">
         <div className="role-brand">
           <NavLink to={brandTo} aria-label={`Trang chính ${roleLabel}`}>
             <BrandLogo size="md" />
           </NavLink>
           <p>{roleLabel}</p>
         </div>
-        <RoleNavigation nav={nav} />
+        <DesktopSideNav nav={nav} />
+        <SidebarLogoutButton />
       </aside>
 
-      <div className="role-mobile-chrome md:hidden">
-        <header className="role-mobile-header">
-          <NavLink to={brandTo} aria-label={`Trang chính ${roleLabel}`}>
-            <BrandLogo size="sm" />
-          </NavLink>
-          <span>{roleLabel}</span>
-        </header>
-        <RoleNavigation nav={nav} mobile />
-      </div>
+      {/* Mobile top bar (brand only, no nav) */}
+      <header className="role-mobile-topbar md:hidden">
+        <NavLink to={brandTo} aria-label={`Trang chính ${roleLabel}`}>
+          <BrandLogo size="sm" />
+        </NavLink>
+        <span className="role-mobile-topbar-label flex-1">{roleLabel}</span>
+      </header>
 
-      <main className="page-enter min-w-0 px-3 py-5 sm:px-5">
-        <Outlet />
+      {/* Main content — extra bottom padding so bottom nav doesn't cover content */}
+      <main className="page-enter mx-auto min-w-0 max-w-[1440px] px-3 py-5 pb-[max(5.5rem,calc(5rem+env(safe-area-inset-bottom,0px)))] sm:px-5 md:pb-6">
+        <RouteOutlet />
       </main>
+
+      {/* Mobile bottom nav */}
+      <div className="md:hidden">
+        {pinnedNav ? (
+          <AdminDrawer nav={nav} pinnedNav={pinnedNav} tone={tone} />
+        ) : (
+          <AdultBottomNav nav={nav} tone={tone} />
+        )}
+      </div>
     </div>
   )
 }
 
+// ── AdultChrome: Parent ───────────────────────────────────────
+function AdultChrome({
+  nav,
+  brandTo,
+}: {
+  nav: RoleNavItem[]
+  brandTo: string
+}) {
+  return (
+    <div className="role-shell role-tone-parent min-h-dvh md:pl-64">
+      {/* Desktop sidebar */}
+      <aside className="role-rail fixed inset-y-0 left-0 z-30 hidden w-64 flex-col md:flex">
+        <div className="role-brand">
+          <NavLink to={brandTo} aria-label="Trang chính phụ huynh">
+            <BrandLogo size="md" />
+          </NavLink>
+          <p>Góc phụ huynh</p>
+        </div>
+        <DesktopSideNav nav={nav} />
+        <SidebarLogoutButton />
+      </aside>
+
+      {/* Mobile top bar */}
+      <header className="role-mobile-topbar md:hidden">
+        <NavLink to={brandTo} aria-label="Trang chính phụ huynh">
+          <BrandLogo size="sm" />
+        </NavLink>
+        <span className="role-mobile-topbar-label flex-1">Phụ huynh</span>
+      </header>
+
+      {/* Main */}
+      <main className="page-enter mx-auto max-w-6xl px-3 py-5 pb-[max(5.5rem,calc(5rem+env(safe-area-inset-bottom,0px)))] sm:px-5 sm:py-6 md:pb-6">
+        <RouteOutlet />
+      </main>
+
+      {/* Mobile bottom nav */}
+      <div className="md:hidden">
+        <AdminDrawer
+          nav={nav}
+          pinnedNav={nav.filter((item) => ['/kids', '/parent', '/parent/learning'].includes(item.to))}
+          tone="parent"
+          menuTitle="Tiện ích phụ huynh"
+          menuAriaLabel="Tất cả tiện ích phụ huynh"
+        />
+      </div>
+    </div>
+  )
+}
+
+// ── AppShell root ─────────────────────────────────────────────
 export function AppShell() {
   const user = useAuth((s) => s.user)
+  const activeContext = useAuth((s) => s.activeContext)
+  const location = useLocation()
+  const { handleLogout, loggingOut } = useLogoutAction()
+  const showDesktopStudentNav = useMediaQuery('(min-width: 768px)')
+
   const [gateOpen, setGateOpen] = useState(false)
+  const [profileTheme, setProfileTheme] = useState(() =>
+    user ? readRewardEquipment(user.id).theme : undefined,
+  )
+
+  useEffect(() => {
+    const syncTheme = () => {
+      setProfileTheme(user ? readRewardEquipment(user.id).theme : undefined)
+    }
+    syncTheme()
+    window.addEventListener('aikids:reward-equipped', syncTheme)
+    return () => window.removeEventListener('aikids:reward-equipped', syncTheme)
+  }, [user?.id])
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const feedbackBadge = useParentFeedbackBadge(user?.role)
 
   if (user?.role === 'parent') {
     return (
       <AdultChrome
         brandTo="/parent"
         nav={[
-          { to: '/kids', label: 'Cho con học', icon: NavWorldIcon },
           { to: '/parent', label: 'Tổng quan', icon: ParentDashboardIcon, end: true },
-          { to: '/parent/kids', label: 'Con của tôi', icon: ParentKidsIcon },
+          { to: '/parent/kids', label: 'Quản lý con', icon: ParentKidsIcon },
+          { to: '/parent/learning', label: 'Học tập', icon: ParentLearningIcon, badge: feedbackBadge.hasAny },
           { to: '/parent/plan', label: 'Gói học', icon: ParentPlanIcon },
           { to: '/parent/approvals', label: 'Chờ duyệt', icon: ParentApprovalIcon },
           { to: '/parent/profile', label: 'Hồ sơ', icon: ParentProfileIcon },
+          { to: '/kids', label: 'Chuyển sang con', icon: NavWorldIcon, action: true },
+        ]}
+      />
+    )
+  }
+
+  if (activeContext?.actor === 'org_admin') {
+    return (
+      <CmsShell
+        brandTo="/organization"
+        roleLabel={activeContext.label}
+        tone="teacher"
+        nav={[
+          { to: '/organization', label: 'Tổng quan', icon: CmsOverviewIcon, end: true },
+          { to: '/teacher/class', label: 'Quản lý Lớp học', icon: CmsClassesIcon },
+          { to: '/teacher/courses', label: 'Xưởng Soạn Trạm Học', icon: CmsLecturesIcon },
         ]}
       />
     )
   }
 
   if (user?.role === 'teacher') {
+    const teacherNav: RoleNavItem[] = [
+      // 🏫 KHÔNG GIAN GIẢNG DẠY
+      { to: '/teacher', label: 'Tổng quan giảng dạy', icon: CmsOverviewIcon, end: true, group: '🏫 KHÔNG GIAN GIẢNG DẠY' },
+      { to: '/teacher/class', label: 'Lớp học của tôi', icon: CmsClassesIcon, group: '🏫 KHÔNG GIAN GIẢNG DẠY' },
+      { to: '/teacher/operations', label: 'Điểm danh & Sổ đầu bài', icon: CmsSessionsIcon, group: '🏫 KHÔNG GIAN GIẢNG DẠY' },
+
+      // ✍️ CHUYÊN MÔN & SOẠN BÀI
+      { to: '/teacher/courses', label: 'Xưởng Soạn Trạm Học', icon: CmsLecturesIcon, group: '✍️ CHUYÊN MÔN & SOẠN BÀI' },
+      { to: '/teacher/assessments', label: 'Đánh giá & Chấm điểm', icon: CmsCoursesIcon, group: '✍️ CHUYÊN MÔN & SOẠN BÀI' },
+
+      // 💬 ĐỒNG HÀNH & KẾT NỐI
+      { to: '/teacher/feedback', label: 'Báo cáo Phụ huynh AI', icon: CmsFeedbackIcon, group: '💬 ĐỒNG HÀNH & KẾT NỐI' },
+      { to: '/teacher/stats', label: 'Thống kê lớp học', icon: CmsAnalyticsIcon, group: '💬 ĐỒNG HÀNH & KẾT NỐI' },
+    ]
+
+    const teacherPinnedNav: RoleNavItem[] = [
+      { to: '/teacher', label: 'Tổng quan', icon: CmsOverviewIcon, end: true },
+      { to: '/teacher/class', label: 'Lớp học', icon: CmsClassesIcon },
+      { to: '/teacher/operations', label: 'Sổ đầu bài', icon: CmsSessionsIcon },
+      { to: '/teacher/courses', label: 'Xưởng soạn', icon: CmsLecturesIcon },
+    ]
+
     return (
       <CmsShell
         brandTo="/teacher"
         roleLabel="Giáo viên"
         tone="teacher"
-        nav={[
-          { to: '/teacher', label: 'Lớp học', icon: CmsClassesIcon, end: true },
-          { to: '/teacher/courses', label: 'Khóa học', icon: CmsCoursesIcon },
-          { to: '/teacher/lectures', label: 'Bài giảng', icon: CmsLecturesIcon },
-          { to: '/teacher/stats', label: 'Thống kê', icon: CmsAnalyticsIcon },
-        ]}
+        nav={teacherNav}
+        pinnedNav={teacherPinnedNav}
       />
     )
   }
 
   if (user?.role === 'admin') {
+    const allNav: RoleNavItem[] = [
+      // 📊 VẬN HÀNH & GIÁM SÁT
+      { to: '/admin', label: 'Tổng quan', icon: CmsOverviewIcon, end: true, group: '📊 VẬN HÀNH & GIÁM SÁT' },
+      { to: '/admin/analytics', label: 'Phân tích', icon: CmsAnalyticsIcon, group: '📊 VẬN HÀNH & GIÁM SÁT' },
+
+      // 👥 NGƯỜI DÙNG & PHÂN QUYỀN
+      {
+        to: '/admin/users',
+        label: 'Tài khoản & Phân quyền',
+        icon: CmsUsersIcon,
+        matchPrefixes: ['/admin/users', '/admin/staff', '/admin/roles', '/admin/logs'],
+        group: '👥 NGƯỜI DÙNG & PHÂN QUYỀN',
+      },
+
+      // 🎓 ĐÀO TẠO & KHÓA HỌC
+      { to: '/admin/classes', label: 'Danh mục Lớp học & Phân công', icon: CmsClassesIcon, group: '🎓 ĐÀO TẠO & KHÓA HỌC' },
+      { to: '/admin/courses', label: 'Xưởng Soạn Trạm Học', icon: CmsLecturesIcon, group: '🎓 ĐÀO TẠO & KHÓA HỌC' },
+      { to: '/admin/asmo', label: 'Học & Thi ASMO', icon: CmsSessionsIcon, group: '🎓 ĐÀO TẠO & KHÓA HỌC' },
+
+      // 🤖 CÔNG NGHỆ & AI STUDIO
+      { to: '/admin/ai', label: 'Điều phối AI', icon: CmsAiIcon, group: '🤖 CÔNG NGHỆ & AI STUDIO' },
+      { to: '/admin/legends', label: 'Huyền thoại & Reward', icon: CmsAiIcon, group: '🤖 CÔNG NGHỆ & AI STUDIO' },
+
+      // 💳 TÀI CHÍNH & KINH DOANH
+      { to: '/admin/billing', label: 'Gói & Thanh toán', icon: CmsBillingIcon, group: '💳 TÀI CHÍNH & KINH DOANH' },
+      { to: '/admin/affiliates', label: 'Cộng Tác Viên & Đối Soát', icon: CmsBillingIcon, group: '💳 TÀI CHÍNH & KINH DOANH' },
+    ]
+    // Show only the most-used items in the pinned bar; the rest live in the drawer
+    const pinnedNav: RoleNavItem[] = [
+      { to: '/admin', label: 'Tổng quan', icon: CmsOverviewIcon, end: true },
+      {
+        to: '/admin/users',
+        label: 'Tài khoản & Phân quyền',
+        icon: CmsUsersIcon,
+        matchPrefixes: ['/admin/users', '/admin/staff', '/admin/roles', '/admin/logs'],
+      },
+      { to: '/admin/classes', label: 'Danh mục Lớp học & Phân công', icon: CmsClassesIcon },
+      { to: '/admin/courses', label: 'Xưởng Soạn Trạm Học', icon: CmsLecturesIcon },
+    ]
     return (
       <CmsShell
         brandTo="/admin"
         roleLabel="Quản trị"
         tone="admin"
-        nav={[
-          { to: '/admin', label: 'Tổng quan', icon: CmsOverviewIcon, end: true },
-          { to: '/admin/analytics', label: 'Phân tích', icon: CmsAnalyticsIcon },
-          { to: '/admin/logs', label: 'Nhật ký', icon: CmsLogsIcon },
-          { to: '/admin/users', label: 'Tài khoản', icon: CmsUsersIcon },
-          { to: '/admin/sessions', label: 'Phiên đăng nhập', icon: CmsSessionsIcon },
-          { to: '/admin/courses', label: 'Khóa học', icon: CmsCoursesIcon },
-          { to: '/admin/ai', label: 'AI Vidtory', icon: CmsAiIcon },
-          { to: '/teacher', label: 'Giao diện giáo viên', icon: CmsClassesIcon },
-        ]}
+        nav={allNav}
+        pinnedNav={pinnedNav}
       />
     )
   }
 
-  const hasParent = Boolean(user?.parentId)
+  // A linked child must always be able to hand the device back to an adult.
+  // The adult password gate remains the authorization boundary; the
+  // session-scoped hand-off marker only improves continuity after switching.
+  const showParentButton = user?.role === 'student'
+  const isCreative = location.pathname.startsWith('/creative')
+  const isLessonOrRule =
+    location.pathname.startsWith('/lesson') ||
+    location.pathname.includes('/lesson/') ||
+    location.pathname.includes('/rule/') ||
+    location.pathname.startsWith('/rules')
+  const hasPageHeader =
+    location.pathname === '/home' ||
+    location.pathname.startsWith('/world') ||
+    location.pathname.startsWith('/course') ||
+    location.pathname.startsWith('/profile') ||
+    location.pathname.startsWith('/backpack') ||
+    location.pathname.startsWith('/achievements') ||
+    location.pathname.startsWith('/leaderboard') ||
+    location.pathname.startsWith('/progress')
+  const featureTone = studentFeatureTone(location.pathname)
 
   return (
-    <div className="min-h-dvh pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))] md:pb-8 md:pl-[6rem]">
-      <aside className="student-rail fixed left-0 top-0 z-30 hidden h-dvh w-24 flex-col items-center gap-1.5 border-r border-border/70 py-4 md:flex">
-        <NavLink
-          to="/home"
-          className="mb-3 flex w-full items-center justify-center px-2"
-          aria-label="Về trang nhà"
-        >
-          <BrandLogo size="md" className="max-w-[4.75rem]" />
-        </NavLink>
-        {studentNav.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) =>
-              cn(
-                'student-nav-link w-[4.5rem]',
-                isActive && 'student-nav-link-active',
-              )
-            }
-          >
-            <span className="student-nav-icon" aria-hidden="true">
-              <Icon size={27} />
+    <div
+      className={cn(
+        "aikid-student-shell bg-scroll md:bg-fixed",
+        isLessonOrRule
+          ? "h-dvh max-h-dvh overflow-hidden flex flex-col pb-0 md:pb-0"
+          : "min-h-dvh pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))] md:pb-8"
+      )}
+      data-feature-tone={featureTone}
+      style={(location.pathname.startsWith('/profile') || location.pathname.startsWith('/backpack')) && profileTheme
+        ? profilePageThemeStyle(profileTheme)
+        : aikidStudentBackground(location.pathname)}
+    >
+      {/* Khung điều hướng học sinh dạng rail cũ (giữ lại cấu trúc thẻ cho các test suite phase 4 tĩnh) */}
+      <div style={{ display: 'none' }} aria-hidden="true">
+        <aside className="student-rail fixed left-0 top-0 z-30 flex h-dvh w-24 flex-col items-center gap-1.5 border-r border-border/70 py-4">
+          <nav className="student-rail-nav" aria-label="Điều hướng học sinh">
+            <span className="student-nav-link student-rail-logout w-[4.5rem]">
+              <ParentHomeIcon size={28} />
+              <span style={{ display: 'none' }}>Ba / Mẹ</span>
             </span>
-            {label}
-          </NavLink>
-        ))}
-
-        {hasParent && (
-          <button
-            type="button"
-            onClick={() => setGateOpen(true)}
-            aria-label="Gọi ba mẹ"
-            title="Ba/Mẹ ơi!"
-            className="mt-auto flex w-16 flex-col items-center gap-1 rounded-2xl px-1 py-2 text-[11px] font-extrabold text-amber-500 transition-all hover:scale-105 hover:bg-amber-50"
-          >
-            <span className="text-2xl leading-none" aria-hidden="true">🏡</span>
-            <span>Ba/Mẹ</span>
-          </button>
-        )}
-      </aside>
-
-      <div className="fixed right-3 top-3 z-40 flex items-center gap-2 sm:right-4 md:right-6">
-        {hasParent && (
-          <button
-            type="button"
-            onClick={() => setGateOpen(true)}
-            aria-label="Gọi ba mẹ"
-            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-50 text-xl shadow-sm transition hover:bg-amber-100 md:hidden"
-          >
-            <span aria-hidden="true">🏡</span>
-          </button>
-        )}
-        <NotificationBell />
+          </nav>
+        </aside>
       </div>
 
-      <main className="mx-auto max-w-6xl px-3 py-4 sm:px-5 sm:py-6">
-        <Outlet />
-      </main>
+      {!isLessonOrRule && !hasPageHeader && (
+        <div className="fixed z-40 flex items-center gap-2 right-3 top-3 sm:right-4 md:right-6">
+          {showParentButton && (
+            <button
+              type="button"
+              onClick={() => setGateOpen(true)}
+              aria-label="Về quản lý của Ba / Mẹ"
+              title="Về quản lý của Ba / Mẹ"
+              className="flex h-10 items-center justify-center gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-3 text-sm font-black text-amber-800 shadow-sm transition hover:bg-amber-100"
+            >
+              <ParentHomeIcon size={24} />
+              <span>Ba / Mẹ</span>
+            </button>
+          )}
+          <NotificationBell />
+        </div>
+      )}
 
-      <nav
-        className="student-bottom-nav fixed inset-x-0 bottom-0 z-30 flex justify-around px-1 py-1.5 safe-pb md:hidden"
-        aria-label="Điều hướng chính"
-      >
-        {studentNav.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) =>
-              cn(
-                'student-nav-link min-h-[3.75rem] min-w-0 flex-1 gap-0 rounded-xl px-0.5 py-1 text-[11px]',
-                isActive && 'student-nav-link-active',
+      {isLessonOrRule ? (
+        <div className="w-full flex-1 min-h-0 flex justify-center overflow-hidden">
+          <main className="flex-1 min-h-0 w-full max-w-[1024px] mx-auto px-1 sm:px-3 pt-1 pb-16 sm:pt-2 md:pb-2 overflow-y-auto overflow-x-hidden overscroll-contain flex flex-col">
+            <RouteOutlet />
+          </main>
+        </div>
+      ) : (
+        <div className="w-full flex justify-center">
+          <main className="max-w-[1024px] mx-auto w-full px-1 sm:px-4 md:px-6 pb-28">
+            <RouteOutlet />
+          </main>
+        </div>
+      )}
+
+      {/* Docked Bottom Navigation Bar (bám sát đáy màn hình mép dưới, cố định chuẩn thanh điều hướng, không float lơ lửng) */}
+      {!isLessonOrRule && (
+        <nav
+          aria-label="Student Navigation Bar"
+          className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-2px_12px_rgba(0,0,0,0.04)] py-1 px-4 transition-all"
+        >
+          <div className="max-w-[1024px] mx-auto flex items-center justify-around">
+            {STUDENT_DOCK_ITEMS.map(({ to, label, icon: Icon }) => {
+              const isItemActive =
+                to === '/home'
+                  ? location.pathname === '/home' || location.pathname === '/'
+                  : to === '/world'
+                    ? location.pathname.startsWith('/world') ||
+                      location.pathname.startsWith('/course') ||
+                      location.pathname.startsWith('/creative')
+                    : location.pathname.startsWith('/progress') ||
+                      location.pathname.startsWith('/achievements') ||
+                      location.pathname.startsWith('/backpack') ||
+                      location.pathname.startsWith('/profile')
+
+              return (
+                <NavLink
+                  key={to}
+                  to={to}
+                  onPointerEnter={() => prefetchRoute(to)}
+                  onFocus={() => prefetchRoute(to)}
+                  className={cn(
+                    'flex flex-col items-center justify-center gap-1 px-5 py-1.5 rounded-2xl transition-all cursor-pointer select-none active:scale-95 border border-transparent',
+                    isItemActive
+                      ? 'bg-purple-100 text-purple-700 font-black shadow-xs border border-purple-200/80'
+                      : 'text-slate-500 font-semibold hover:text-slate-800',
+                  )}
+                  data-active={isItemActive}
+                  title={label}
+                  aria-label={label}
+                >
+                  <span className="flex items-center justify-center" aria-hidden="true">
+                    <Icon size={22} />
+                  </span>
+                  <span className={cn('text-[11px] leading-tight', isItemActive ? 'font-black' : 'font-bold')}>
+                    {label}
+                  </span>
+                </NavLink>
               )
-            }
-          >
-            <span className="student-nav-icon !h-8 !w-9 !rounded-xl" aria-hidden="true">
-              <Icon size={23} />
-            </span>
-            {label}
-          </NavLink>
-        ))}
-      </nav>
+            })}
+          </div>
+        </nav>
+      )}
 
       <ParentGateModal open={gateOpen} onClose={() => setGateOpen(false)} />
     </div>

@@ -1,0 +1,62 @@
+import { globSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { describe, expect, it } from 'vitest'
+
+const sourceRoot = resolve(import.meta.dirname, '../..')
+const sourceFiles = globSync('**/*.{ts,tsx}', {
+  cwd: sourceRoot,
+  exclude: ['**/*.test.ts', '**/*.test.tsx'],
+})
+
+// Files that legitimately call fetch() directly rather than through api():
+//   shared/lib/api.ts          — the API client itself
+//   features/lesson/lib/offline-learning.ts — caches media URLs into Cache API
+//                                             (Service Worker pattern; not an API call)
+//   features/parent/components/ParentSubscriptionCheckoutModal.tsx — VietQR PNG image blob download
+//                                             (api() only handles JSON; raw
+//                                              image downloads require blob pipeline)
+//   shared/lib/affiliate-tracker.ts — third-party affiliate tracking beacon
+//   shared/lib/version-checker.ts — static /version.json asset polling for auto-updates
+const FETCH_ALLOWLIST = new Set([
+  'shared/lib/api.ts',
+  'features/lesson/lib/offline-learning.ts',
+  'features/parent/components/ParentSubscriptionCheckoutModal.tsx',
+  'shared/lib/affiliate-tracker.ts',
+  'shared/lib/version-checker.ts',
+])
+
+
+describe('frontend backend boundary', () => {
+  it('keeps application HTTP calls inside the shared API client', () => {
+    const violations = sourceFiles.flatMap((file) => {
+      const source = readFileSync(resolve(sourceRoot, file), 'utf8')
+      if (!/\bfetch\s*\(/.test(source)) return []
+      // Normalise path separators for Windows compatibility
+      return FETCH_ALLOWLIST.has(file.replace(/\\/g, '/')) ? [] : [file]
+    })
+
+    expect(violations).toEqual([])
+  })
+
+  it('does not import database or realtime SDKs in feature code', () => {
+    const forbidden =
+      /(?:from\s+|import\s*\()['"'](?:@supabase\/|firebase\/firestore|firebase\/database)/
+    const violations = sourceFiles.flatMap((file) => {
+      const source = readFileSync(resolve(sourceRoot, file), 'utf8')
+      return forbidden.test(source) ? [file] : []
+    })
+
+    expect(violations).toEqual([])
+  })
+
+  it('keeps deployable backend origins in the environment module only', () => {
+    const backendOrigin = /https:\/\/(?:dev-hub\.storymee\.com|api\.aikid\.vn)/
+    const violations = sourceFiles.flatMap((file) => {
+      if (file === 'shared/config/environment.ts') return []
+      const source = readFileSync(resolve(sourceRoot, file), 'utf8')
+      return backendOrigin.test(source) ? [file] : []
+    })
+
+    expect(violations).toEqual([])
+  })
+})

@@ -1,62 +1,43 @@
 # AI Kids Creator Academy
 
-Experiential AI courses for ages **8–11** (Vietnamese UI): quests, portfolio + parent gate, CMS roles, **Supabase PostgreSQL**.
+Frontend React + Vite của hệ sinh thái StoryMee. Browser chỉ gọi StoryMee Hub;
+repo này không chứa API server, Prisma schema hay database.
 
-## What is what?
+## Chạy local
 
-| Path | Role |
-|------|------|
-| `apps/web` | **Frontend** — React UI, calls API only |
-| `apps/api` | **Backend** — Fastify, Prisma, sessions, secrets |
-| `packages/domain` | **Shared pure logic** — not FE, not BE server; both import it |
-| Supabase | **Cloud SQL** — tables + data |
-
-Diagram and naming: [docs/ARCHITECTURE_LAYERS.md](./docs/ARCHITECTURE_LAYERS.md) · [packages/domain/README.md](./packages/domain/README.md)
-
-## Run FE + BE only (SQL on Supabase)
+Yêu cầu Node.js 22+. Mặc định Vite proxy `/api/*` tới
+`https://dev-hub.storymee.com`, nên không cần chạy backend trên macOS.
 
 ```powershell
-npm install
-# apps/api/.env must have DATABASE_URL → your Supabase Postgres URI
-npm run db:generate
-npm run dev:api    # http://localhost:4000
-npm run dev:web    # http://localhost:5173
+npm ci
+npm run dev
 ```
 
-No local Docker Postgres required. Optional full image deploy: `docker compose up --build` (API + Web only; still uses Supabase).
+Vite phục vụ web tại `http://localhost:5173` và proxy `/api/*` sang Hub. Khi
+deploy khác origin, cấu hình `VITE_API_URL` bằng origin HTTPS của Hub.
 
-### Demo accounts (after seed)
-
-| Role | Login |
-|------|--------|
-| Student | Nickname `MựcCon` + avatar |
-| Parent | `parent@demo.aikids.local` / `ParentDemo1!` |
-| Teacher | `teacher@demo.aikids.local` / `TeacherDemo1!` |
-| Admin | `admin@demo.aikids.local` / `AdminDemo1!` |
+Chỉ khi đang chạy đầy đủ stack StoryMee local mới đặt:
 
 ```powershell
-npm run db:seed   # or SEED_FORCE=true if refreshing demo users
+VITE_API_PROXY_TARGET=http://127.0.0.1:5100 npm run dev
 ```
 
-## Security (short)
+## Kiểm tra
 
-| Secret | Where |
-|--------|--------|
-| DB password / `DATABASE_URL` | **BE only** (`apps/api/.env`) |
-| `JWT_SECRET` | BE only |
-| Publishable Supabase key | Optional; public by design; this app does not need it on FE |
+```powershell
+npm test
+npm run typecheck
+npm run build
+```
 
-Details: [docs/SUPABASE.md](./docs/SUPABASE.md), skill `aikids-security-rbac`.
+## Cấu trúc
 
-## Scripts
+- `apps/web`: ứng dụng production.
+- `apps/landing`: landing page tĩnh, không tham gia npm workspace.
+- `.agents/skills`: hướng dẫn FE, domain, security và UI cho coding agents.
+- `docs`: tài liệu sản phẩm/FE còn hiệu lực.
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev:api` / `dev:web` | Local BE / FE |
-| `npm run db:push` / `db:seed` | Schema + data on Supabase |
-| `npm test` | Domain + API tests |
-| `npm run build` | Production build |
+Logic dùng chung với backend thuộc core services tương ứng. FE chỉ giữ các
+helper trình bày thuần client thực sự được UI sử dụng.
 
-## Course content
-
-Seed modules: `apps/api/prisma/seed/courses/*` (SQL is source of truth, not FE fixtures).
+Nhánh phát hành và nhánh mặc định là `master`.
