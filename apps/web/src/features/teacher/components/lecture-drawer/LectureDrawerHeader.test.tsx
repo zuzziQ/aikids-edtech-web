@@ -76,34 +76,34 @@ describe('LectureDrawerHeader Section Navigation Stepper', () => {
     const stage5 = ISLAND_6_STAGE_SECTIONS.find((s) => s.id === 'stage-5')
 
     expect(stage0).toBeDefined()
-    expect(stage0?.label).toBe('1. 🎯 Mục tiêu')
+    expect(stage0?.label).toBe('1. Mục tiêu')
     expect(stage0?.shortLabel).toBe('Mục tiêu')
-    expect(stage0?.fullTitle).toBe('1. 🎯 Mục tiêu bài học (Ảnh minh họa)')
+    expect(stage0?.fullTitle).toBe('1. Mục tiêu bài học (Ảnh minh họa)')
 
     expect(stage1).toBeDefined()
-    expect(stage1?.label).toBe('2. ❓ Xác nhận')
+    expect(stage1?.label).toBe('2. Xác nhận')
     expect(stage1?.shortLabel).toBe('Khởi động')
-    expect(stage1?.fullTitle).toBe('2. ❓ Xác nhận (1 câu hỏi khởi động)')
+    expect(stage1?.fullTitle).toBe('2. Xác nhận (1 câu hỏi khởi động)')
 
     expect(stage2).toBeDefined()
-    expect(stage2?.label).toBe('3. 🎬 Video')
+    expect(stage2?.label).toBe('3. Video')
     expect(stage2?.shortLabel).toBe('Video')
-    expect(stage2?.fullTitle).toBe('3. 🎬 Video bài giảng YouTube / MP4')
+    expect(stage2?.fullTitle).toBe('3. Video bài giảng YouTube / MP4')
 
     expect(stage3).toBeDefined()
-    expect(stage3?.label).toBe('4. 🧩 Trắc nghiệm')
+    expect(stage3?.label).toBe('4. Trắc nghiệm')
     expect(stage3?.shortLabel).toBe('Câu hỏi')
-    expect(stage3?.fullTitle).toBe('4. 🧩 Bộ câu hỏi trắc nghiệm kiểm tra')
+    expect(stage3?.fullTitle).toBe('4. Bộ câu hỏi trắc nghiệm kiểm tra')
 
     expect(stage4).toBeDefined()
-    expect(stage4?.label).toBe('5. 🎨 Thực hành')
+    expect(stage4?.label).toBe('5. Thực hành')
     expect(stage4?.shortLabel).toBe('Thực hành')
-    expect(stage4?.fullTitle).toBe('5. 🎨 Kịch bản thực hành AI Studio')
+    expect(stage4?.fullTitle).toBe('5. Kịch bản thực hành AI Studio')
 
     expect(stage5).toBeDefined()
-    expect(stage5?.label).toBe('6. 🏆 Kết thúc')
+    expect(stage5?.label).toBe('6. Kết thúc')
     expect(stage5?.shortLabel).toBe('Kết thúc')
-    expect(stage5?.fullTitle).toBe('6. 🏆 Màn kết thúc, trao sao & huy hiệu')
+    expect(stage5?.fullTitle).toBe('6. Màn kết thúc, trao sao & huy hiệu')
   })
 
   it('renders dedicated "Thông tin trạm" button on top row and 6-stage full-width stepper when isIslandCourse=true', () => {
@@ -148,15 +148,15 @@ describe('LectureDrawerHeader Section Navigation Stepper', () => {
     expect(basicsBtn).toBeDefined()
 
     // Stepper has all 6 stages rendered simultaneously
-    expect(buttons.some((b) => b.textContent?.includes('1. 🎯 Mục tiêu'))).toBe(true)
-    expect(buttons.some((b) => b.textContent?.includes('2. ❓ Xác nhận'))).toBe(true)
-    expect(buttons.some((b) => b.textContent?.includes('3. 🎬 Video'))).toBe(true)
-    expect(buttons.some((b) => b.textContent?.includes('4. 🧩 Trắc nghiệm'))).toBe(true)
-    expect(buttons.some((b) => b.textContent?.includes('5. 🎨 Thực hành'))).toBe(true)
-    expect(buttons.some((b) => b.textContent?.includes('6. 🏆 Kết thúc'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('1. Mục tiêu'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('2. Xác nhận'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('3. Video'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('4. Trắc nghiệm'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('5. Thực hành'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('6. Kết thúc'))).toBe(true)
 
     // Clicking a stage calls onSelectSection
-    const stage2Btn = buttons.find((b) => b.textContent?.includes('3. 🎬 Video'))
+    const stage2Btn = buttons.find((b) => b.textContent?.includes('3. Video'))
     expect(stage2Btn).toBeDefined()
     act(() => {
       stage2Btn?.click()
@@ -246,7 +246,7 @@ describe('LectureDrawerHeader Section Navigation Stepper', () => {
     })
 
     const buttons = Array.from(container.querySelectorAll('button'))
-    const stage3Btn = buttons.find((b) => b.textContent?.includes('4. 🧩 Trắc nghiệm'))
+    const stage3Btn = buttons.find((b) => b.textContent?.includes('4. Trắc nghiệm'))
     expect(stage3Btn).toBeDefined()
     expect(stage3Btn?.textContent).toContain('1')
   })
@@ -298,7 +298,7 @@ describe('LectureDrawerHeader Section Navigation Stepper', () => {
     })
 
     const buttons = Array.from(container.querySelectorAll('button'))
-    const stage1Btn = buttons.find((b) => b.textContent?.includes('2. ❓ Xác nhận'))
+    const stage1Btn = buttons.find((b) => b.textContent?.includes('2. Xác nhận'))
     expect(stage1Btn).toBeDefined()
 
     // Click during or right after drag should be suppressed
@@ -388,7 +388,7 @@ describe('LectureDrawerHeader Section Navigation Stepper', () => {
     expect(buttons.some((b) => b.textContent?.includes('3. Quy tắc'))).toBe(true)
     expect(buttons.some((b) => b.textContent?.includes('4. Giải thích'))).toBe(true)
     expect(buttons.some((b) => b.textContent?.includes('5. Chốt'))).toBe(true)
-    expect(buttons.some((b) => b.textContent?.includes('Xem song song'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('Xem trước'))).toBe(true)
   })
 
   it('renders custom 3-stage journey stepper correctly when customJourneyStages provides 3 steps', () => {
@@ -479,6 +479,52 @@ describe('LectureDrawerHeader Section Navigation Stepper', () => {
     for (let i = 1; i <= 7; i++) {
       expect(buttons.some((b) => b.textContent?.includes(`${i}. Chặng nâng cao ${i}`))).toBe(true)
     }
+  })
+
+  it('displays readiness indicator with "yêu cầu" and activates 6 island stages for bai-1-1 draft', () => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+    root = createRoot(container)
+
+    act(() => {
+      root?.render(
+        <LectureDrawerHeader
+          uid="drawer-test"
+          draft={{ ...mockDraft, id: 'bai-1-1' }}
+          isEdit={true}
+          isIslandCourse={false}
+          lessonFormat="standard"
+          activeSection="stage-0"
+          readiness={{ completed: 5, total: 6, complete: false }}
+          showInlinePreview={false}
+          recovery={null}
+          draftStorageKey="key"
+          onRequestClose={vi.fn()}
+          onShowFullPreview={vi.fn()}
+          onToggleInlinePreview={vi.fn()}
+          onFormatChange={vi.fn()}
+          onSelectSection={vi.fn()}
+          onDiscardRecovery={vi.fn()}
+          onApplyRecovery={vi.fn()}
+          sectionStatus={vi.fn().mockReturnValue(true)}
+          sectionMissing={vi.fn().mockReturnValue([])}
+        />
+      )
+    })
+
+    // Readiness displays "5/6 yêu cầu" (not "bước")
+    expect(container.textContent).toContain('5/6')
+    expect(container.textContent).toContain('yêu cầu')
+    expect(container.textContent).not.toContain('5/6 bước')
+
+    // Renders 6 island stages even though isIslandCourse was false and lessonFormat was standard
+    const buttons = Array.from(container.querySelectorAll('button'))
+    expect(buttons.some((b) => b.textContent?.includes('1. Mục tiêu'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('2. Xác nhận'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('3. Video'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('4. Trắc nghiệm'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('5. Thực hành'))).toBe(true)
+    expect(buttons.some((b) => b.textContent?.includes('6. Kết thúc'))).toBe(true)
   })
 })
 

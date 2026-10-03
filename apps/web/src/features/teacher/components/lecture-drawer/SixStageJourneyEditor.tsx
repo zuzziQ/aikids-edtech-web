@@ -11,6 +11,7 @@ import {
   Lightbulb,
   ScanSearch,
   Star,
+  Eye,
 } from 'lucide-react'
 import type { LessonSixStageJourney } from '@/shared/lib/api'
 import { resolveIslandSixStageJourney } from '@/features/lesson/lib/island-journey-resolver'
@@ -32,7 +33,6 @@ import {
   type LearnCardDraft,
 } from '../../lib/authoring'
 import { StudentStagePreview } from './StudentStagePreview'
-import { CollapsedPreviewRail } from './PracticeWorkflowStepsAccordion'
 import { StageBlocksCanvas } from './StageBlocksCanvas'
 import {
   GoalBlockEditor,
@@ -130,7 +130,8 @@ export function SixStageJourneyEditor({
   setIsTrashDragOver,
 }: SixStageJourneyEditorProps) {
   // ── 1. ĐẢO AIKIDS 6 CHẶNG ──
-  if (isIslandCourse && lessonFormat !== 'aiki-rule-3steps') {
+  const isIsland6Steps = (isIslandCourse || lessonFormat === 'aiki-island-6steps' || Boolean(draft.id && /^bai-\d+-\d+/i.test(draft.id))) && lessonFormat !== 'aiki-rule-3steps'
+  if (isIsland6Steps) {
     const currentJourney = draft.sixStageJourney || resolveIslandSixStageJourney(draft as any)
     const islandCard = draft.learnCards[stageIndex]
     const islandBlocks = islandCard ? getStageBlocks(islandCard, stageIndex) : []
@@ -141,10 +142,10 @@ export function SixStageJourneyEditor({
     return (
       <div
         className={cn(
-          'grid min-w-0 items-start gap-5 transition-all',
+          'w-full min-w-0 transition-all',
           showInlinePreview
-            ? 'xl:grid-cols-[minmax(0,1.15fr)_minmax(22rem,.85fr)]'
-            : 'xl:grid-cols-[minmax(0,1fr)_56px]'
+            ? 'grid 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)] xl:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] grid-cols-1 items-start gap-5'
+            : 'flex flex-col gap-4'
         )}
       >
         <div className="flex min-w-0 flex-col gap-4">
@@ -158,7 +159,7 @@ export function SixStageJourneyEditor({
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="rounded-md bg-brand-200 px-1.5 py-0.5 text-[10px] font-black text-brand-900 uppercase">
-                      Chặng {stageIndex + 1}/6 · Đảo AIKids
+                      Chặng {stageIndex + 1}/6
                     </span>
                     <h3 className="font-display text-lg text-brand-950">
                       {ISLAND_6_STAGE_NAMES[stageIndex]}
@@ -169,11 +170,22 @@ export function SixStageJourneyEditor({
                     {stageIndex === 1 && '1 câu đố A/B xác nhận mục tiêu và mở khóa video bài học.'}
                     {stageIndex === 2 && 'Video bài giảng YouTube/MP4 và các mốc phân đoạn thời gian.'}
                     {stageIndex === 3 && 'Bộ câu hỏi trắc nghiệm kiểm tra kiến thức sau video.'}
-                    {stageIndex === 4 && 'Kịch bản 4 bước thực hành trên Xưởng Sáng Tạo AI.'}
+                    {stageIndex === 4 && 'Kịch bản 4 bước thực hành trên Xưởng thực hành.'}
                     {stageIndex === 5 && 'Màn kết thúc chúc mừng, trao huy hiệu 3 sao, 50 XP và bài học tiếp.'}
                   </p>
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('aikids:open-stage-preview', { detail: { stageIndex } }))
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-brand-200 bg-white hover:bg-brand-50 text-brand-700 px-3 py-1.5 text-xs font-bold shadow-2xs transition cursor-pointer shrink-0"
+                title="Xem trước chặng này trên màn hình học sinh"
+              >
+                <Eye size={13} />
+                <span>Xem thử chặng</span>
+              </button>
             </div>
 
             {/* Bộ chọn tặng sao cho chặng */}
@@ -334,7 +346,7 @@ export function SixStageJourneyEditor({
                 onClick={() => onSelectSection(`stage-${stageIndex - 1}` as Section)}
                 className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-page px-4 py-2.5 text-xs font-bold text-text hover:bg-slate-100 transition active:scale-95 cursor-pointer shrink-0 whitespace-nowrap max-w-[48%] truncate"
               >
-                ← Chặng trước: {ISLAND_6_STAGE_NAMES[stageIndex - 1]}
+                Chặng trước: {ISLAND_6_STAGE_NAMES[stageIndex - 1]}
               </button>
             ) : (
               <button
@@ -342,7 +354,7 @@ export function SixStageJourneyEditor({
                 onClick={() => onSelectSection('basics')}
                 className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-page px-4 py-2.5 text-xs font-bold text-text hover:bg-slate-100 transition active:scale-95 cursor-pointer shrink-0 whitespace-nowrap max-w-[48%] truncate"
               >
-                ← Thông tin trạm
+                Thông tin trạm
               </button>
             )}
 
@@ -352,7 +364,7 @@ export function SixStageJourneyEditor({
                 onClick={() => onSelectSection(`stage-${stageIndex + 1}` as Section)}
                 className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-extrabold text-white shadow-xs hover:bg-brand-700 transition active:scale-95 cursor-pointer shrink-0 whitespace-nowrap max-w-[50%] truncate"
               >
-                Chặng tiếp theo: {ISLAND_6_STAGE_NAMES[stageIndex + 1]} ➔
+                Chặng tiếp theo: {ISLAND_6_STAGE_NAMES[stageIndex + 1]}
               </button>
             ) : (
               <button
@@ -366,14 +378,14 @@ export function SixStageJourneyEditor({
                     : 'bg-slate-300 cursor-not-allowed opacity-70'
                 )}
               >
-                {saving ? 'Đang lưu...' : 'Hoàn thành & Lưu trạm học ➔'}
+                {saving ? 'Đang lưu...' : 'Hoàn thành và lưu trạm học'}
               </button>
             )}
           </div>
         </div>
 
         {/* Live preview Đảo 6 chặng */}
-        {showInlinePreview ? (
+        {showInlinePreview && (
           (() => {
             const deferredJourney =
               deferredDraft.sixStageJourney || resolveIslandSixStageJourney(deferredDraft as any)
@@ -388,8 +400,6 @@ export function SixStageJourneyEditor({
               />
             )
           })()
-        ) : (
-          <CollapsedPreviewRail onExpand={() => setShowInlinePreview(true)} />
         )}
       </div>
     )
@@ -441,13 +451,13 @@ export function SixStageJourneyEditor({
   return (
     <div
       className={cn(
-        'grid min-w-0 items-start gap-5 transition-all',
+        'w-full min-w-0 transition-all',
         showInlinePreview
-          ? 'xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,.95fr)]'
-          : 'xl:grid-cols-[minmax(0,1fr)_56px]'
+          ? 'grid 2xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)] xl:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] grid-cols-1 items-start gap-5'
+          : 'flex flex-col gap-4'
       )}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className="flex min-w-0 flex-col gap-4">
         {/* Header chặng */}
         <div className="rounded-2xl border-2 border-brand-200 bg-brand-50/60 p-4 shadow-sm">
           <div className="flex items-center justify-between gap-2">
@@ -465,9 +475,22 @@ export function SixStageJourneyEditor({
                 <p className="mt-0.5 text-xs font-semibold text-brand-800">{stageInfo.desc}</p>
               </div>
             </div>
-            <span className="rounded-full bg-brand-100 border border-brand-200 px-2.5 py-1 text-[11px] font-black text-brand-900">
-              {stageBlocks.length} khối nội dung
-            </span>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('aikids:open-stage-preview', { detail: { stageIndex } }))
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-brand-200 bg-white hover:bg-brand-50 text-brand-700 px-3 py-1.5 text-xs font-bold shadow-2xs transition cursor-pointer shrink-0"
+                title="Xem trước chặng này trên màn hình học sinh"
+              >
+                <Eye size={13} />
+                <span>Xem thử chặng</span>
+              </button>
+              <span className="rounded-full bg-brand-100 border border-brand-200 px-2.5 py-1 text-[11px] font-black text-brand-900">
+                {stageBlocks.length} khối nội dung
+              </span>
+            </div>
           </div>
         </div>
 
@@ -576,7 +599,7 @@ export function SixStageJourneyEditor({
               onClick={() => onSelectSection(`stage-${stageIndex - 1}` as Section)}
               className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-page px-4 py-2.5 text-xs font-bold text-text hover:bg-slate-100 transition active:scale-95 shrink-0 whitespace-nowrap max-w-[48%] truncate cursor-pointer"
             >
-              ← Chặng trước: {customStages[stageIndex - 1]?.shortTitle || AIKI_STAGE_NAMES[stageIndex - 1] || `Chặng ${stageIndex}`}
+              Chặng trước: {customStages[stageIndex - 1]?.shortTitle || AIKI_STAGE_NAMES[stageIndex - 1] || `Chặng ${stageIndex}`}
             </button>
           ) : (
             <button
@@ -584,7 +607,7 @@ export function SixStageJourneyEditor({
               onClick={() => onSelectSection('basics')}
               className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-page px-4 py-2.5 text-xs font-bold text-text hover:bg-slate-100 transition active:scale-95 shrink-0 whitespace-nowrap max-w-[48%] truncate cursor-pointer"
             >
-              ← Thông tin trạm
+              Thông tin trạm
             </button>
           )}
 
@@ -594,7 +617,7 @@ export function SixStageJourneyEditor({
               onClick={() => onSelectSection(`stage-${stageIndex + 1}` as Section)}
               className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-5 py-2.5 text-xs font-extrabold text-white shadow-xs hover:bg-brand-700 transition active:scale-95 shrink-0 whitespace-nowrap max-w-[50%] truncate cursor-pointer"
             >
-              Chặng tiếp theo: {customStages[stageIndex + 1]?.shortTitle || AIKI_STAGE_NAMES[stageIndex + 1] || `Chặng ${stageIndex + 2}`} ➔
+              Chặng tiếp theo: {customStages[stageIndex + 1]?.shortTitle || AIKI_STAGE_NAMES[stageIndex + 1] || `Chặng ${stageIndex + 2}`}
             </button>
           ) : (
             <button
@@ -606,14 +629,14 @@ export function SixStageJourneyEditor({
                 readiness.complete ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer' : 'bg-slate-300 cursor-not-allowed opacity-70'
               )}
             >
-              {saving ? 'Đang lưu...' : 'Hoàn thành & Lưu trạm học ➔'}
+              {saving ? 'Đang lưu...' : 'Hoàn thành và lưu trạm học'}
             </button>
           )}
         </div>
       </div>
 
       {/* Live preview */}
-      {showInlinePreview ? (
+      {showInlinePreview && (
         (() => {
           const deferredCard = deferredDraft.learnCards[stageIndex] ?? card
           return (
@@ -626,8 +649,6 @@ export function SixStageJourneyEditor({
             />
           )
         })()
-      ) : (
-        <CollapsedPreviewRail onExpand={() => setShowInlinePreview(true)} />
       )}
     </div>
   )

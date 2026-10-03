@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import {
   CheckCircle2,
-  Circle,
   Eye,
   Split,
   X,
@@ -51,9 +50,9 @@ export interface SectionDefinition {
 
 export const AIKI_3_STAGE_SECTIONS: SectionDefinition[] = [
   { id: 'basics', label: 'Thông tin trạm', shortLabel: 'Trạm', fullTitle: 'Thông tin cơ bản của trạm học', icon: <BookOpen size={14} /> },
-  { id: 'stage-0', label: '1. Bài học', shortLabel: 'Bài học', fullTitle: '1. 🎬 Rạp chiếu video bài học & kiến thức trọng tâm', icon: <Film size={14} /> },
-  { id: 'stage-1', label: '2. Kiểm tra', shortLabel: 'Kiểm tra', fullTitle: '2. ⚡ Thử tài phản xạ (Trắc nghiệm củng cố quy tắc)', icon: <MessageCircleQuestion size={14} /> },
-  { id: 'stage-2', label: '3. Hoàn thành', shortLabel: 'Hoàn thành', fullTitle: '3. 🏆 Vinh danh, trao huy hiệu & nhận sao hoàn thành', icon: <Trophy size={14} /> },
+  { id: 'stage-0', label: '1. Bài học', shortLabel: 'Bài học', fullTitle: '1. Rạp chiếu video bài học & kiến thức trọng tâm', icon: <Film size={14} /> },
+  { id: 'stage-1', label: '2. Kiểm tra', shortLabel: 'Kiểm tra', fullTitle: '2. Thử tài phản xạ (Trắc nghiệm củng cố quy tắc)', icon: <MessageCircleQuestion size={14} /> },
+  { id: 'stage-2', label: '3. Hoàn thành', shortLabel: 'Hoàn thành', fullTitle: '3. Vinh danh, trao huy hiệu & nhận sao hoàn thành', icon: <Trophy size={14} /> },
 ]
 
 export const AIKI_SECTIONS: SectionDefinition[] = [
@@ -67,12 +66,12 @@ export const AIKI_SECTIONS: SectionDefinition[] = [
 
 export const ISLAND_6_STAGE_SECTIONS: SectionDefinition[] = [
   { id: 'basics', label: 'Thông tin trạm', shortLabel: 'Trạm', fullTitle: 'Thông tin cơ bản của trạm học', icon: <BookOpen size={14} /> },
-  { id: 'stage-0', label: '1. 🎯 Mục tiêu', shortLabel: 'Mục tiêu', fullTitle: '1. 🎯 Mục tiêu bài học (Ảnh minh họa)', icon: <Target size={14} /> },
-  { id: 'stage-1', label: '2. ❓ Xác nhận', shortLabel: 'Khởi động', fullTitle: '2. ❓ Xác nhận (1 câu hỏi khởi động)', icon: <HelpCircle size={14} /> },
-  { id: 'stage-2', label: '3. 🎬 Video', shortLabel: 'Video', fullTitle: '3. 🎬 Video bài giảng YouTube / MP4', icon: <Film size={14} /> },
-  { id: 'stage-3', label: '4. 🧩 Trắc nghiệm', shortLabel: 'Câu hỏi', fullTitle: '4. 🧩 Bộ câu hỏi trắc nghiệm kiểm tra', icon: <MessageCircleQuestion size={14} /> },
-  { id: 'stage-4', label: '5. 🎨 Thực hành', shortLabel: 'Thực hành', fullTitle: '5. 🎨 Kịch bản thực hành AI Studio', icon: <Palette size={14} /> },
-  { id: 'stage-5', label: '6. 🏆 Kết thúc', shortLabel: 'Kết thúc', fullTitle: '6. 🏆 Màn kết thúc, trao sao & huy hiệu', icon: <Trophy size={14} /> },
+  { id: 'stage-0', label: '1. Mục tiêu', shortLabel: 'Mục tiêu', fullTitle: '1. Mục tiêu bài học (Ảnh minh họa)', icon: <Target size={14} /> },
+  { id: 'stage-1', label: '2. Xác nhận', shortLabel: 'Khởi động', fullTitle: '2. Xác nhận (1 câu hỏi khởi động)', icon: <HelpCircle size={14} /> },
+  { id: 'stage-2', label: '3. Video', shortLabel: 'Video', fullTitle: '3. Video bài giảng YouTube / MP4', icon: <Film size={14} /> },
+  { id: 'stage-3', label: '4. Trắc nghiệm', shortLabel: 'Câu hỏi', fullTitle: '4. Bộ câu hỏi trắc nghiệm kiểm tra', icon: <MessageCircleQuestion size={14} /> },
+  { id: 'stage-4', label: '5. Thực hành', shortLabel: 'Thực hành', fullTitle: '5. Kịch bản thực hành AI Studio', icon: <Palette size={14} /> },
+  { id: 'stage-5', label: '6. Kết thúc', shortLabel: 'Kết thúc', fullTitle: '6. Màn kết thúc, trao sao & huy hiệu', icon: <Trophy size={14} /> },
 ]
 
 export const STANDARD_SECTIONS: SectionDefinition[] = [
@@ -190,14 +189,18 @@ export function LectureDrawerHeader({
     }
   }, [checkScrollOverflow, activeSection, isIslandCourse, lessonFormat])
 
-  // Tự động cuộn active tab vào giữa tầm mắt khi chuyển chặng
+  // Tự động cuộn active tab vào giữa tầm mắt trong thanh tab (chỉ cuộn nội bộ container, không cuộn window)
   useEffect(() => {
-    if (activeTabRef.current && typeof activeTabRef.current.scrollIntoView === 'function') {
-      activeTabRef.current.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'center',
-        block: 'nearest',
-      })
+    const container = scrollContainerRef.current
+    const tab = activeTabRef.current
+    if (container && tab) {
+      const targetLeft = tab.offsetLeft - container.clientWidth / 2 + tab.clientWidth / 2
+      if (typeof container.scrollTo === 'function') {
+        container.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' })
+      } else if (typeof tab.scrollIntoView === 'function') {
+        // Fallback cho môi trường test jsdom
+        tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+      }
     }
   }, [activeSection])
 
@@ -288,11 +291,14 @@ export function LectureDrawerHeader({
   }
 
   const islandStages = ISLAND_6_STAGE_SECTIONS.filter((s) => s.id !== 'basics')
+  const isIsland6Steps = isIslandCourse || lessonFormat === 'aiki-island-6steps' || Boolean(draft.id && /^bai-\d+-\d+/i.test(draft.id))
   const generalSections = (
     lessonFormat === 'aiki-rule-3steps'
       ? AIKI_3_STAGE_SECTIONS
       : lessonFormat === 'aiki-rule-5steps'
       ? AIKI_SECTIONS
+      : isIsland6Steps
+      ? islandStages
       : STANDARD_SECTIONS
   ).filter((s) => s.id !== 'basics')
 
@@ -314,7 +320,7 @@ export function LectureDrawerHeader({
 
   const displaySections = hasCustomStages
     ? customSections
-    : (isIslandCourse ? islandStages : generalSections)
+    : (isIsland6Steps ? islandStages : generalSections)
 
   return (
     <>
@@ -322,11 +328,8 @@ export function LectureDrawerHeader({
       {archived && (
         <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-amber-300 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-4 py-3 text-white shadow-sm flex-shrink-0">
           <div className="flex items-center gap-2.5 text-xs font-black sm:text-sm">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/20 text-base shadow-inner">
-              📦
-            </span>
             <span>
-              <strong>TRẠM CŨ / ĐÃ ẨN:</strong> Trạm này đang bị ẩn khỏi lộ trình học sinh trên Bản đồ Đảo. Học sinh sẽ không thể nhìn thấy hoặc truy cập.
+              <strong>Trạm đã ẩn:</strong> Trạm này đang bị ẩn khỏi lộ trình học sinh trên Bản đồ Đảo. Học sinh sẽ không thể nhìn thấy hoặc truy cập.
             </span>
           </div>
           {!readOnly && onRestore && (
@@ -335,153 +338,54 @@ export function LectureDrawerHeader({
               onClick={onRestore}
               className="inline-flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-1.5 text-xs font-black text-amber-900 shadow-md transition hover:bg-amber-50 hover:shadow-lg active:scale-95 cursor-pointer"
             >
-              <span>👁️ Bật lại trạm này ngay</span>
+              <span>Bật lại trạm</span>
             </button>
           )}
         </div>
       )}
 
-      {/* Header Top Bar */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '1rem 1.5rem',
-          borderBottom: '1px solid #e2e8f0',
-          background: '#fff',
-          flexShrink: 0,
-        }}
-      >
+      {/* Header Top Bar - Hàng 1: Tiêu đề & Các nút hành động chính */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 bg-white border-b border-slate-100 shrink-0">
         <div className="min-w-0 flex-1 mr-3">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a' }} className="shrink-0 whitespace-nowrap">
+          <div className="flex items-center gap-2">
+            <div className="text-[1.0625rem] font-bold text-slate-900 shrink-0 whitespace-nowrap">
               {readOnly ? 'Xem trạm học' : isEdit ? 'Chỉnh sửa trạm học' : 'Tạo trạm học mới'}
             </div>
             {readOnly && (
-              <span
-                className="shrink-0 whitespace-nowrap"
-                style={{
-                  fontSize: '0.6875rem',
-                  fontWeight: 700,
-                  color: '#92400e',
-                  background: '#fffbeb',
-                  border: '1px solid #fde68a',
-                  borderRadius: '0.375rem',
-                  padding: '0.125rem 0.5rem',
-                }}
-              >
+              <span className="shrink-0 whitespace-nowrap text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-2 py-0.5">
                 Chỉ xem
               </span>
             )}
             {!readOnly && isEdit && archived && (
-              <span
-                className="shrink-0 whitespace-nowrap"
-                style={{
-                  fontSize: '0.6875rem',
-                  fontWeight: 700,
-                  color: '#ea580c',
-                  background: '#fff7ed',
-                  border: '1px solid #fed7aa',
-                  borderRadius: '0.375rem',
-                  padding: '0.125rem 0.5rem',
-                }}
-              >
+              <span className="shrink-0 whitespace-nowrap text-[11px] font-bold text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-2 py-0.5">
                 Đang ẩn
               </span>
             )}
           </div>
           {draft.title && (
-            <div className="truncate" style={{ fontSize: '0.8125rem', color: '#64748b', marginTop: '0.125rem' }} title={draft.title}>
+            <div className="truncate max-w-xs sm:max-w-md text-[13px] text-slate-500 mt-0.5" title={draft.title}>
               {draft.title}
             </div>
           )}
-
-          {/* Hàng cấu trúc trạm học & Nút Thông tin trạm riêng biệt */}
-          <div className="flex items-center gap-2 mt-1.5 min-w-0 flex-wrap">
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Cấu trúc:</span>
-              <select
-                disabled={readOnly || isIslandCourse}
-                value={lessonFormat}
-                onChange={(e) => onFormatChange(e.target.value as LessonFormat)}
-                className="rounded-xl border-2 border-brand-200 bg-brand-50/70 px-2.5 py-1 text-xs font-black text-brand-800 shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-500 truncate max-w-[340px] sm:max-w-[480px]"
-              >
-                {isIslandCourse ? (
-                  <option value="aiki-island-6steps">Khóa học · 6 chặng (Mục tiêu ➔ Khởi động ➔ Video ➔ Trắc nghiệm ➔ Thực hành ➔ Kết thúc)</option>
-                ) : (
-                  <>
-                    <option value="aiki-island-6steps">Khóa học · 6 chặng (Mục tiêu ➔ Khởi động ➔ Video ➔ Trắc nghiệm ➔ Thực hành ➔ Kết thúc)</option>
-                    <option value="aiki-rule-3steps">Quy tắc AIKI · 3 bước (1. Bài học ➔ 2. Kiểm tra ➔ 3. Hoàn thành)</option>
-                    <option value="aiki-rule-5steps">Quy tắc AIKI · 5 bước (cũ)</option>
-                    <option value="standard">Khám phá tiêu chuẩn</option>
-                  </>
-                )}
-              </select>
-            </div>
-
-            {/* Nút riêng biệt Thông tin trạm - Tách độc lập khỏi Stepper 6 chặng */}
-            <button
-              type="button"
-              onClick={() => onSelectSection('basics')}
-              title="Thông tin cơ bản của trạm học (Tiêu đề, mô tả, ảnh bìa, kỹ năng trọng tâm)"
-              className={cn(
-                "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs border shrink-0",
-                activeSection === 'basics'
-                  ? "bg-brand-100 text-brand-900 border-brand-400 font-black ring-2 ring-brand-300/60 shadow-xs"
-                  : "bg-white text-slate-700 border-slate-200 hover:bg-brand-50 hover:text-brand-800 hover:border-brand-200"
-              )}
-            >
-              {sectionStatus('basics') ? (
-                <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
-              ) : (
-                <BookOpen size={13} className={cn("shrink-0", activeSection === 'basics' ? "text-brand-600" : "text-slate-500")} />
-              )}
-              <span>📖 Thông tin trạm</span>
-              {!sectionStatus('basics') && sectionMissing('basics').length > 0 && (
-                <span
-                  title={`Còn thiếu: ${sectionMissing('basics').join(', ')}`}
-                  className="grid min-w-4 h-4 place-items-center rounded-full bg-amber-100 px-1 text-[10px] font-black text-amber-700 shrink-0"
-                >
-                  {sectionMissing('basics').length}
-                </span>
-              )}
-            </button>
-          </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <button
             type="button"
             onClick={onShowFullPreview}
-            className="inline-flex items-center gap-1 rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-xs font-extrabold text-brand-700 hover:bg-brand-100 shrink-0 whitespace-nowrap cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-700 font-extrabold text-xs px-3 py-1.5 shadow-2xs transition cursor-pointer shrink-0 whitespace-nowrap"
+            title="Xem trước trạm học trên màn hình học sinh"
           >
-            <Eye size={14} className="shrink-0" /> Xem toàn bộ
+            <Eye size={14} className="shrink-0" />
+            <span>Xem trước</span>
           </button>
-          {(isIslandCourse || lessonFormat === 'aiki-rule-5steps' || lessonFormat === 'aiki-rule-3steps' || activeSection === 'basics') && (
-            <button
-              type="button"
-              onClick={onToggleInlinePreview}
-              className={cn(
-                'inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-extrabold transition shrink-0 whitespace-nowrap cursor-pointer',
-                showInlinePreview
-                  ? 'border-sky-300 bg-sky-100 text-sky-900 shadow-2xs'
-                  : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50',
-              )}
-              aria-pressed={showInlinePreview}
-              title={showInlinePreview ? 'Thu gọn cột xem trước' : 'Mở xem trước song song'}
-            >
-              {showInlinePreview ? <PanelRightClose size={14} className="shrink-0" /> : <Split size={14} className="shrink-0" />}
-              <span>{showInlinePreview ? 'Thu gọn preview' : 'Xem song song'}</span>
-            </button>
-          )}
 
           {!readOnly && (
             <div className="hidden sm:flex items-center gap-1.5 text-[13px] text-slate-500 shrink-0 whitespace-nowrap">
               <span style={{ color: readiness.complete ? '#10b981' : '#f97316', fontWeight: 700 }}>
                 {readiness.completed}/{readiness.total}
               </span>
-              <span>bước</span>
+              <span>yêu cầu</span>
             </div>
           )}
 
@@ -490,19 +394,17 @@ export function LectureDrawerHeader({
               <button
                 type="button"
                 onClick={onRestore}
-                className="shrink-0 whitespace-nowrap cursor-pointer"
-                style={{ padding: '0.375rem 0.75rem', border: '1px solid #6ee7b7', background: '#ecfdf5', borderRadius: '0.5rem', color: '#059669', fontSize: '0.8125rem', fontWeight: 700 }}
+                className="shrink-0 whitespace-nowrap cursor-pointer px-3 py-1.5 border border-emerald-300 bg-emerald-50 rounded-lg text-emerald-700 text-[13px] font-bold hover:bg-emerald-100 transition"
               >
-                ↩ Khôi phục
+                Khôi phục
               </button>
             ) : (
               <button
                 type="button"
                 onClick={onArchive}
-                className="shrink-0 whitespace-nowrap cursor-pointer"
-                style={{ padding: '0.375rem 0.75rem', border: '1px solid #fca5a5', background: '#fff1f2', borderRadius: '0.5rem', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 700 }}
+                className="shrink-0 whitespace-nowrap cursor-pointer px-3 py-1.5 border border-rose-300 bg-rose-50 rounded-lg text-rose-600 text-[13px] font-bold hover:bg-rose-100 transition"
               >
-                🗃 Ẩn bài
+                Ẩn bài
               </button>
             )
           )}
@@ -511,11 +413,69 @@ export function LectureDrawerHeader({
             type="button"
             id={`${uid}-drawer-close`}
             onClick={onRequestClose}
-            className="shrink-0 cursor-pointer"
-            style={{ padding: '0.5rem', border: '1px solid #e2e8f0', background: '#f8fafc', borderRadius: '0.5rem', color: '#64748b' }}
+            className="shrink-0 cursor-pointer p-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition"
           >
             <X size={16} />
           </button>
+        </div>
+      </div>
+
+      {/* Header Top Bar - Hàng 2: Cấu hình trạm học & Thông tin cơ bản */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5 px-4 py-2 sm:px-6 bg-slate-50/80 border-b border-slate-200/80 shrink-0">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Cấu trúc:</span>
+            <select
+              disabled={readOnly || isIslandCourse}
+              value={lessonFormat}
+              onChange={(e) => onFormatChange(e.target.value as LessonFormat)}
+              className="rounded-xl border-2 border-brand-200 bg-brand-50/70 px-2.5 py-1 text-xs font-black text-brand-800 shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-500 truncate max-w-[280px] sm:max-w-[360px]"
+            >
+              {isIslandCourse ? (
+                <option value="aiki-island-6steps">Khóa học 6 chặng (Mục tiêu, Khởi động, Video, Trắc nghiệm, Thực hành, Kết thúc)</option>
+              ) : (
+                <>
+                  <option value="aiki-island-6steps">Khóa học 6 chặng (Mục tiêu, Khởi động, Video, Trắc nghiệm, Thực hành, Kết thúc)</option>
+                  <option value="aiki-rule-3steps">Quy tắc 3 bước (Bài học, Kiểm tra, Hoàn thành)</option>
+                  <option value="aiki-rule-5steps">Quy tắc AIKI · 5 bước (cũ)</option>
+                  <option value="standard">Khám phá tiêu chuẩn</option>
+                </>
+              )}
+            </select>
+          </div>
+
+          {/* Nút riêng biệt Thông tin trạm - Tách độc lập khỏi Stepper 6 chặng */}
+          <button
+            type="button"
+            onClick={() => onSelectSection('basics')}
+            title="Thông tin cơ bản của trạm học (Tiêu đề, mô tả, ảnh bìa, kỹ năng trọng tâm)"
+            className={cn(
+              "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs border shrink-0",
+              activeSection === 'basics'
+                ? "bg-brand-100 text-brand-900 border-brand-400 font-black ring-2 ring-brand-300/60 shadow-xs"
+                : "bg-white text-slate-700 border-slate-200 hover:bg-brand-50 hover:text-brand-800 hover:border-brand-200"
+            )}
+          >
+            {sectionStatus('basics') ? (
+              <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
+            ) : (
+              <BookOpen size={13} className={cn("shrink-0", activeSection === 'basics' ? "text-brand-600" : "text-slate-500")} />
+            )}
+            <span>Thông tin trạm</span>
+            {!sectionStatus('basics') && sectionMissing('basics').length > 0 && (
+              <span
+                title={`Còn thiếu: ${sectionMissing('basics').join(', ')}`}
+                className="grid min-w-4 h-4 place-items-center rounded-full bg-amber-100 px-1 text-[10px] font-black text-amber-700 shrink-0"
+              >
+                {sectionMissing('basics').length}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Bên phải: Nhãn gợi ý chuẩn sư phạm */}
+        <div className="hidden md:flex items-center gap-2 text-[11px] font-bold text-slate-500 shrink-0">
+          <span>Hải trình 6 chặng chuẩn sư phạm AIKids</span>
         </div>
       </div>
 
@@ -570,16 +530,14 @@ export function LectureDrawerHeader({
                     onClick={(e) => handleTabClick(section.id, e)}
                     title={section.fullTitle || section.label}
                     className={cn(
-                      "group relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-xs transition-all cursor-pointer select-none text-center min-w-0 shadow-2xs",
+                      "group relative flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none text-center min-w-0 shadow-2xs",
                       isActive
                         ? "bg-brand-50 text-brand-700 border-2 border-brand-300 shadow-xs font-black ring-1 ring-brand-200"
                         : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/80 font-bold hover:border-slate-300"
                     )}
                   >
-                    {complete ? (
-                      <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
-                    ) : (
-                      <Circle size={13} className={cn("shrink-0", isActive ? "text-brand-500" : "text-slate-300")} />
+                    {complete && (
+                      <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
                     )}
                     <span className="truncate">{section.label}</span>
                     {!complete && missing.length > 0 && (
@@ -594,7 +552,7 @@ export function LectureDrawerHeader({
                 )
               })}
             </div>
-          ) : isIslandCourse ? (
+          ) : isIsland6Steps ? (
             /* Thanh Stepper 6 chặng dàn đều trọn vẹn 100% bề ngang: grid-cols-3 trên mobile < 640px, grid-cols-6 trên màn hình >= 640px */
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 w-full min-w-0">
               {islandStages.map((section) => {
@@ -609,16 +567,14 @@ export function LectureDrawerHeader({
                     onClick={(e) => handleTabClick(section.id, e)}
                     title={section.fullTitle || section.label}
                     className={cn(
-                      "group relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-xs transition-all cursor-pointer select-none text-center min-w-0 shadow-2xs",
+                      "group relative flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none text-center min-w-0 shadow-2xs",
                       isActive
                         ? "bg-brand-50 text-brand-700 border-2 border-brand-300 shadow-xs font-black ring-1 ring-brand-200"
                         : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/80 font-bold hover:border-slate-300"
                     )}
                   >
-                    {complete ? (
-                      <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
-                    ) : (
-                      <Circle size={13} className={cn("shrink-0", isActive ? "text-brand-500" : "text-slate-300")} />
+                    {complete && (
+                      <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
                     )}
                     <span className="truncate">{section.label}</span>
                     {!complete && missing.length > 0 && (
@@ -638,7 +594,10 @@ export function LectureDrawerHeader({
             <div
               className={cn(
                 "grid gap-1.5 w-full min-w-0",
-                generalSections.length === 5 ? "grid-cols-2 sm:grid-cols-5" : "grid-cols-2 sm:grid-cols-4"
+                generalSections.length === 6 ? "grid-cols-3 sm:grid-cols-6" :
+                generalSections.length === 5 ? "grid-cols-2 sm:grid-cols-5" :
+                generalSections.length === 3 ? "grid-cols-3 sm:grid-cols-3" :
+                "grid-cols-2 sm:grid-cols-4"
               )}
             >
               {generalSections.map((section) => {
@@ -653,16 +612,14 @@ export function LectureDrawerHeader({
                     onClick={(e) => handleTabClick(section.id, e)}
                     title={section.fullTitle || section.label}
                     className={cn(
-                      "group relative flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-xs transition-all cursor-pointer select-none text-center min-w-0 shadow-2xs",
+                      "group relative flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none text-center min-w-0 shadow-2xs",
                       isActive
                         ? "bg-brand-50 text-brand-700 border-2 border-brand-300 shadow-xs font-black ring-1 ring-brand-200"
                         : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/80 font-bold hover:border-slate-300"
                     )}
                   >
-                    {complete ? (
-                      <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
-                    ) : (
-                      <Circle size={13} className={cn("shrink-0", isActive ? "text-brand-500" : "text-slate-300")} />
+                    {complete && (
+                      <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
                     )}
                     <span className="truncate">{section.label}</span>
                     {!complete && missing.length > 0 && (

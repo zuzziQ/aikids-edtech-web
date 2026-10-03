@@ -10,7 +10,7 @@
  * RBAC: teacher (full write) + admin (read-only on class operations)
  */
 import { useEffect, useState, useCallback, useMemo, useRef, type ReactNode, Suspense, lazy } from 'react'
-import { Search, AlertCircle, RefreshCw, Puzzle, ListOrdered, Sparkles, Plus, ChevronDown, ChevronRight, PanelLeftClose, PanelLeftOpen, Target, Columns2, Image, BookOpen } from 'lucide-react'
+import { Search, AlertCircle, RefreshCw, Puzzle, ListOrdered, Plus, ChevronDown, ChevronRight, PanelLeftClose, PanelLeftOpen, Target, Columns2, Image, BookOpen, ArrowLeft } from 'lucide-react'
 
 import { FeatureBlockHoverPreview } from '../components/FeatureBlockHoverPreview'
 import type { FeatureBlockItem } from '../types'
@@ -40,7 +40,7 @@ export const FEATURE_BLOCKS_CATEGORIES: Array<{
       { id: 'versus-ab', name: '2 Ảnh Đối Đầu A/B (So Sánh Tranh)', icon: '🖼️', desc: 'Chọn tranh đúng sai, đối kháng A/B', badge: 'Hot', color: 'border-amber-200 bg-amber-50/80 text-amber-950' },
       { id: 'images', name: 'Bộ Sưu Tập Ảnh (Gallery)', icon: '📸', desc: 'Minh họa đa ảnh kèm chú thích chi tiết', color: 'border-teal-200 bg-teal-50/80 text-teal-950' },
       { id: 'video', name: 'Video Bài Giảng', icon: '🎬', desc: 'Video MP4 / YouTube tự phát có mốc tua', color: 'border-indigo-200 bg-indigo-50/80 text-indigo-950' },
-      { id: 'voice', name: 'Giọng Đọc Mèo AIKI & Lipsync', icon: '🎙️', desc: 'Mèo AIKI đọc bài với cử chỉ ngộ nghĩnh', color: 'border-rose-200 bg-rose-50/80 text-rose-950' },
+      { id: 'voice', name: 'Giọng Đọc & Lời Thoại Bài Học', icon: '🎙️', desc: 'Giọng đọc bài học và lời thoại hướng dẫn', color: 'border-rose-200 bg-rose-50/80 text-rose-950' },
     ],
   },
   {
@@ -49,7 +49,7 @@ export const FEATURE_BLOCKS_CATEGORIES: Array<{
     items: [
       { id: 'layout-callout', name: 'Hộp Ghi Nhớ Nổi Bật (Callout)', icon: '💡', desc: 'Khung bo cong nhấn mạnh thông điệp, mẹo học', badge: 'Mẹo', color: 'border-amber-200 bg-amber-50/80 text-amber-950' },
       { id: 'compare', name: 'Bảng So Sánh 2 Cột (AI vs Con Người)', icon: '⚖️', desc: 'Đối chiếu AI vs Bộ não sáng tạo của con', color: 'border-purple-200 bg-purple-50/80 text-purple-950' },
-      { id: 'dialogue', name: 'Kịch Bản Comic Phân Vai', icon: '💬', desc: 'Hội thoại bong bóng Zico / Sonet / AIKI', badge: 'Mới', color: 'border-sky-200 bg-sky-50/80 text-sky-950' },
+      { id: 'dialogue', name: 'Kịch Bản Phân Vai', icon: '💬', desc: 'Hội thoại bong bóng giữa các nhân vật', badge: 'Mới', color: 'border-sky-200 bg-sky-50/80 text-sky-950' },
       { id: 'layout-formula', name: 'Công Thức KaTeX', icon: '🔤', desc: 'Toán học & tư duy công thức trực quan', color: 'border-indigo-200 bg-indigo-50/80 text-indigo-950' },
       { id: 'poster', name: 'Poster Quy Tắc Vàng', icon: '📜', desc: 'Banner quy tắc to bản phong cách cuộn giấy', color: 'border-emerald-200 bg-emerald-50/80 text-emerald-950' },
       { id: 'layout-confirm-option', name: 'Thẻ Phương Án Trả Lời (A/B/C)', icon: '🔘', desc: 'Phương án trả lời câu hỏi: Ảnh đơn hoặc Text + Ảnh', badge: 'Khóa học', color: 'border-emerald-200 bg-emerald-50/80 text-emerald-950' },
@@ -407,7 +407,7 @@ const MINI_RAIL_CATEGORIES: Array<{
 }> = [
   { name: 'Bố Cục & Cột Nội Dung', icon: Columns2, color: 'text-sky-600', short: 'Bố cục' },
   { name: 'Hình Ảnh & Đa Phương Tiện', icon: Image, color: 'text-purple-600', short: 'Media' },
-  { name: 'Khối Tương Tác & Sư Phạm', icon: Sparkles, color: 'text-amber-600', short: 'Tương tác' },
+  { name: 'Khối Tương Tác & Sư Phạm', icon: BookOpen, color: 'text-amber-600', short: 'Tương tác' },
 ]
 
 function getCategorySvgIcon(categoryName: string, size = 14) {
@@ -417,9 +417,9 @@ function getCategorySvgIcon(categoryName: string, size = 14) {
     case 'Hình Ảnh & Đa Phương Tiện':
       return <Image size={size} className="text-purple-600" />
     case 'Khối Tương Tác & Sư Phạm':
-      return <Sparkles size={size} className="text-amber-600" />
+      return <BookOpen size={size} className="text-amber-600" />
     default:
-      return <Sparkles size={size} className="text-brand-600" />
+      return <BookOpen size={size} className="text-brand-600" />
   }
 }
 
@@ -1156,9 +1156,9 @@ export function TeacherPage({ tab }: { tab: TeacherTab }) {
 
         {/* CẤP 4: Focus Studio Soạn Trạm (Áp dụng Lazy Loading LectureDrawer) */}
         {currentLevel === 4 && selectedCourseId && (
-          <div className={cn("grid items-start gap-4 transition-all duration-300", isSidebarCollapsed ? "md:grid-cols-[56px_minmax(0,1fr)]" : "md:grid-cols-[320px_minmax(0,1fr)]")}>
+          <div className={cn("grid items-start gap-4 transition-all duration-300 w-full min-w-0 overflow-x-hidden", isSidebarCollapsed ? "md:grid-cols-[56px_minmax(0,1fr)]" : "md:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]")}>
             {/* Sidebar Trái: Khối tính năng */}
-            <aside className={cn("shrink-0 sticky top-20 h-[calc(100vh-6rem)] flex flex-col rounded-3xl border-2 border-brand-200/80 bg-white/95 shadow-clay-xs backdrop-blur-xs overflow-hidden transition-all duration-300", isSidebarCollapsed ? "w-14 max-w-[56px]" : "w-full max-w-[320px]")} aria-label="Thanh công cụ Focus Studio">
+            <aside className={cn("shrink-0 sticky top-20 h-[calc(100vh-6rem)] flex flex-col rounded-3xl border-2 border-brand-200/80 bg-white/95 shadow-clay-xs backdrop-blur-xs overflow-hidden transition-all duration-300", isSidebarCollapsed ? "w-14 min-w-[56px] max-w-[56px]" : "w-72 min-w-[280px] max-w-[280px] xl:w-[300px] xl:max-w-[300px]")} aria-label="Thanh công cụ Focus Studio">
               {isSidebarCollapsed ? (
                 <div className="flex flex-col items-center py-3 gap-2.5 h-full bg-brand-50/50">
                   <button
@@ -1204,7 +1204,7 @@ export function TeacherPage({ tab }: { tab: TeacherTab }) {
                         <Puzzle size={15} />
                       </span>
                       <h3 className="font-extrabold text-xs text-brand-950 truncate tracking-wide">
-                        🧩 Khối Tính Năng
+                        Khối nội dung
                       </h3>
                     </div>
                     <button
@@ -1222,7 +1222,6 @@ export function TeacherPage({ tab }: { tab: TeacherTab }) {
                   <div className="flex-1 min-h-0 overflow-y-auto pr-1.5 space-y-2.5 p-2 custom-scrollbar" aria-label="Thư viện khối tính năng">
                   <div className="rounded-lg border border-brand-200 bg-brand-50/70 p-2 text-xs text-brand-900 shadow-2xs shrink-0">
                     <p className="font-extrabold flex items-center gap-1 text-[10px] uppercase tracking-wider text-brand-900">
-                      <Sparkles size={11} className="text-brand-600" />
                       Kéo thả khối nội dung
                     </p>
                     <p className="mt-0.5 text-[10px] leading-tight text-brand-800">
@@ -1334,7 +1333,8 @@ export function TeacherPage({ tab }: { tab: TeacherTab }) {
                     onClick={() => runLectureAction(closeLectureEditor)}
                     className="flex items-center gap-1.5 rounded-xl border border-border bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-2xs hover:border-brand-300 hover:bg-slate-50 transition cursor-pointer"
                   >
-                    <span>◄ Quay lại Bản đồ Trạm học</span>
+                    <ArrowLeft size={14} className="shrink-0" />
+                    <span>Quay lại Bản đồ Trạm</span>
                   </button>
 
                   <div className="hidden sm:block h-5 w-px bg-border/80" />
@@ -1380,7 +1380,7 @@ export function TeacherPage({ tab }: { tab: TeacherTab }) {
                     }}
                     className="flex items-center gap-1 rounded-xl border border-border bg-white px-3 py-1.5 text-xs font-extrabold text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
                   >
-                    <span>◀ Trạm trước</span>
+                    <span>Trạm trước</span>
                   </button>
 
                   <button
@@ -1401,7 +1401,7 @@ export function TeacherPage({ tab }: { tab: TeacherTab }) {
                     }}
                     className="flex items-center gap-1 rounded-xl border border-border bg-white px-3 py-1.5 text-xs font-extrabold text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
                   >
-                    <span>Trạm sau ▶</span>
+                    <span>Trạm sau</span>
                   </button>
                 </div>
               </div>
