@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { Button } from '@/shared/components/ui/Button'
 import { BrandLogo } from '@/shared/components/ui/BrandLogo'
@@ -19,6 +19,8 @@ export function LoginPage() {
   const loginAdult = useAuth((state) => state.loginAdult)
   const sessionUser = useAuth((state) => state.user)
   const sessionLoading = useAuth((state) => state.loading)
+  const sessionError = useAuth((state) => state.error)
+  const studentNoticeHandled = useRef(false)
   const navigate = useNavigate()
 
   const STUDENT_LOGIN_NOTICE =
@@ -26,10 +28,14 @@ export function LoginPage() {
 
   function goAfterLogin(user: User) {
     if (user.role === 'student') {
-      showToast(STUDENT_LOGIN_NOTICE, 'error')
-      void useAuth.getState().logout()
+      if (!studentNoticeHandled.current) {
+        studentNoticeHandled.current = true
+        showToast(STUDENT_LOGIN_NOTICE, 'error')
+      }
+      void useAuth.getState().logout().catch(() => undefined)
       return
     }
+    toasts.forEach((t) => dismissToast(t.id))
     if (user.role === 'parent') {
       navigate('/parent', { replace: true })
     } else if (user.role === 'admin') {
@@ -42,11 +48,25 @@ export function LoginPage() {
   }
 
   useEffect(() => {
-    if (!sessionLoading && sessionUser) goAfterLogin(sessionUser)
-  }, [sessionLoading, sessionUser])
+    if (!sessionLoading && sessionUser) {
+      if (sessionUser.role === 'student') {
+        if (!studentNoticeHandled.current) {
+          studentNoticeHandled.current = true
+          showToast(STUDENT_LOGIN_NOTICE, 'error')
+          void useAuth.getState().logout().catch(() => undefined)
+        }
+        return
+      }
+      // If session was expired (sessionError exists), do not auto-redirect back
+      if (!sessionError) {
+        goAfterLogin(sessionUser)
+      }
+    }
+  }, [sessionLoading, sessionUser, sessionError])
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault()
+    toasts.forEach((t) => dismissToast(t.id))
     setBusy(true)
     try {
       goAfterLogin(await loginAdult(login.trim(), password))
