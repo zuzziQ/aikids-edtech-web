@@ -348,11 +348,16 @@ export function ParentSubscriptionCheckoutModal({
   useEffect(() => {
     if (!open) return
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        if (isSuccess) {
+          onSuccess?.()
+        }
+        onClose()
+      }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [open, onClose])
+  }, [open, isSuccess, onSuccess, onClose])
 
   // Countdown timer: 15 minutes (900 seconds)
   useEffect(() => {
@@ -404,7 +409,6 @@ export function ParentSubscriptionCheckoutModal({
         }
         setPartialPayment(null)
         setIsSuccess(true)
-        onSuccess?.()
       } else if (status === 'partially_paid') {
         setPartialPayment({
           amountPaid,
@@ -412,7 +416,7 @@ export function ParentSubscriptionCheckoutModal({
         })
       }
     },
-    [onSuccess],
+    [],
   )
 
   // Check payment status helper
@@ -458,17 +462,38 @@ export function ParentSubscriptionCheckoutModal({
   // Handle manual transfer confirmation
   const handleManualConfirm = useCallback(async () => {
     setManualSubmitted(true)
-    try {
-      if (activePublicId) {
-        await api(`/api/v1/billing/payment-intents/${activePublicId}/customer-confirm`, {
+    let targetPublicId = serverPublicId
+    if (!targetPublicId && productMode === 'sub') {
+      try {
+        const res = await api<{
+          checkout?: { publicId?: string; paymentCode?: string }
+          data?: { publicId?: string; metadata?: { paymentCode?: string } }
+        }>('/api/v1/billing/me/checkout', {
+          method: 'POST',
+          body: JSON.stringify({
+            plan: defaultPlanId || 'aikids_official_129k',
+            provider: 'manual',
+            paymentCode: activePaymentCode,
+          }),
+        })
+        targetPublicId = res?.checkout?.publicId || res?.data?.publicId || null
+        if (targetPublicId) setServerPublicId(targetPublicId)
+      } catch (err) {
+        console.warn('init checkout fallback on confirm error:', err)
+      }
+    }
+    const effectivePubId = targetPublicId || activePublicId
+    if (effectivePubId) {
+      try {
+        await api(`/api/v1/billing/payment-intents/${effectivePubId}/customer-confirm`, {
           method: 'POST',
         })
+      } catch {
+        // Safe fallback: continue without blocking confirmation UI
       }
-    } catch {
-      // Safe fallback: continue without blocking confirmation UI
     }
     void checkPaymentStatus()
-  }, [activePublicId, checkPaymentStatus])
+  }, [serverPublicId, productMode, defaultPlanId, activePaymentCode, activePublicId, checkPaymentStatus])
 
   // VietQR URL with dynamically computed amount (using remaining amountDue if partially paid)
   const vietQrUrl = `https://img.vietqr.io/image/VCB-9812723359-compact2.png?amount=${effectiveAmount}&addInfo=${encodeURIComponent(activePaymentCode)}&accountName=${encodeURIComponent('LE QUANG MINH')}`
@@ -527,7 +552,12 @@ export function ParentSubscriptionCheckoutModal({
     <div
       className="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-4"
       style={{ background: 'rgba(20, 26, 48, 0.65)', backdropFilter: 'blur(8px)' }}
-      onClick={onClose}
+      onClick={() => {
+        if (isSuccess) {
+          onSuccess?.()
+        }
+        onClose()
+      }}
       role="presentation"
     >
       <div
@@ -565,9 +595,14 @@ export function ParentSubscriptionCheckoutModal({
 
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              if (isSuccess) {
+                onSuccess?.()
+              }
+              onClose()
+            }}
             aria-label="Đóng"
-            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-2xl border border-cream-300/80 bg-white/80 text-muted transition hover:bg-cream-100 hover:text-text"
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-2xl border border-cream-300/80 bg-white/80 text-muted transition hover:bg-cream-100 hover:text-text cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -663,8 +698,11 @@ export function ParentSubscriptionCheckoutModal({
               </div>
 
               <Button
-                onClick={onClose}
-                className="w-full max-w-xs py-3.5 text-base font-black shadow-clay"
+                onClick={() => {
+                  onSuccess?.()
+                  onClose()
+                }}
+                className="w-full max-w-xs py-3.5 text-base font-black shadow-clay cursor-pointer"
               >
                 Bắt Đầu Học Ngay
               </Button>

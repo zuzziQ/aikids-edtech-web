@@ -1,4 +1,6 @@
 import type { Approval, Child, HouseholdSub } from '../types/parent.types'
+import { queryClient } from '@/shared/lib/query-client'
+import { sessionGeneration } from '@/shared/lib/session-scope'
 
 export interface DashboardCacheData {
   kids: Child[]
@@ -11,6 +13,7 @@ const DEFAULT_TTL_MS = 60_000 // 60s TTL
 let dashboardCache: {
   data: DashboardCacheData
   timestamp: number
+  scope: number
 } | null = null
 
 const childLearningCache = new Map<
@@ -18,6 +21,7 @@ const childLearningCache = new Map<
   {
     data: unknown
     timestamp: number
+    scope: number
   }
 >()
 
@@ -25,7 +29,7 @@ const childLearningCache = new Map<
  * Lấy dữ liệu Dashboard từ in-memory cache nếu còn trong hạn TTL (mặc định 60 giây).
  */
 export function getDashboardCache(maxAge: number = DEFAULT_TTL_MS): DashboardCacheData | null {
-  if (!dashboardCache) return null
+  if (!dashboardCache || dashboardCache.scope !== sessionGeneration) return null
   if (Date.now() - dashboardCache.timestamp > maxAge) {
     return null
   }
@@ -39,6 +43,7 @@ export function setDashboardCache(data: DashboardCacheData): void {
   dashboardCache = {
     data,
     timestamp: Date.now(),
+    scope: sessionGeneration,
   }
 }
 
@@ -51,7 +56,7 @@ export function getChildLearningCache<T = unknown>(
 ): T | null {
   if (!childId) return null
   const entry = childLearningCache.get(childId)
-  if (!entry) return null
+  if (!entry || entry.scope !== sessionGeneration) return null
   if (Date.now() - entry.timestamp > maxAge) {
     return null
   }
@@ -66,6 +71,7 @@ export function setChildLearningCache<T = unknown>(childId: string, data: T): vo
   childLearningCache.set(childId, {
     data,
     timestamp: Date.now(),
+    scope: sessionGeneration,
   })
 }
 
@@ -74,6 +80,7 @@ export function setChildLearningCache<T = unknown>(childId: string, data: T): vo
  * (khi thanh toán, thêm/xóa/đổi dữ liệu con).
  */
 export function invalidateParentCache(): void {
+  queryClient.removeQueries({ queryKey: ['parent-read'] })
   dashboardCache = null
   childLearningCache.clear()
 }
