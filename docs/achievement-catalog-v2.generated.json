@@ -1,0 +1,2988 @@
+{
+  "schemaVersion": 2,
+  "catalogId": "aikids-achievements-v2",
+  "release": "2026.08.0-draft",
+  "status": "draft_for_gamification_admin",
+  "tierPolicy": [
+    {
+      "index": 1,
+      "key": "seed",
+      "label": "Mầm xanh"
+    },
+    {
+      "index": 2,
+      "key": "bronze",
+      "label": "Đồng hành"
+    },
+    {
+      "index": 3,
+      "key": "silver",
+      "label": "Bạc sáng"
+    },
+    {
+      "index": 4,
+      "key": "gold",
+      "label": "Vàng rực"
+    },
+    {
+      "index": 5,
+      "key": "crystal",
+      "label": "Pha lê"
+    },
+    {
+      "index": 6,
+      "key": "cosmic",
+      "label": "Vũ trụ"
+    },
+    {
+      "index": 7,
+      "key": "legendary",
+      "label": "Huyền thoại"
+    }
+  ],
+  "series": [
+    {
+      "key": "achievement.app-first-steps",
+      "seriesKey": "app-first-steps",
+      "category": "discovery",
+      "title": "Bước đầu khám phá",
+      "description": "Tiến hoá huy hiệu Bước đầu khám phá qua các hoạt động có ý nghĩa.",
+      "metric": "experience.onboarding_steps",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Bước đầu khám phá",
+          "points": 10,
+          "assetId": "achievement-app-first-steps-level-1",
+          "iconPath": "/assets/designer/achievements/v2/app-first-steps/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Bước đầu khám phá",
+          "points": 20,
+          "assetId": "achievement-app-first-steps-level-2",
+          "iconPath": "/assets/designer/achievements/v2/app-first-steps/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 5,
+          "label": "Bạc sáng · Bước đầu khám phá",
+          "points": 30,
+          "assetId": "achievement-app-first-steps-level-3",
+          "iconPath": "/assets/designer/achievements/v2/app-first-steps/level-3.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.profile-builder",
+      "seriesKey": "profile-builder",
+      "category": "discovery",
+      "title": "Hồ sơ của riêng con",
+      "description": "Tiến hoá huy hiệu Hồ sơ của riêng con qua các hoạt động có ý nghĩa.",
+      "metric": "profile.completed_parts",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Hồ sơ của riêng con",
+          "points": 10,
+          "assetId": "achievement-profile-builder-level-1",
+          "iconPath": "/assets/designer/achievements/v2/profile-builder/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 2,
+          "label": "Đồng hành · Hồ sơ của riêng con",
+          "points": 20,
+          "assetId": "achievement-profile-builder-level-2",
+          "iconPath": "/assets/designer/achievements/v2/profile-builder/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 3,
+          "label": "Bạc sáng · Hồ sơ của riêng con",
+          "points": 30,
+          "assetId": "achievement-profile-builder-level-3",
+          "iconPath": "/assets/designer/achievements/v2/profile-builder/level-3.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.feature-explorer",
+      "seriesKey": "feature-explorer",
+      "category": "discovery",
+      "title": "Nhà khám phá AI Kids",
+      "description": "Tiến hoá huy hiệu Nhà khám phá AI Kids qua các hoạt động có ý nghĩa.",
+      "metric": "experience.features_discovered",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 2,
+          "label": "Mầm xanh · Nhà khám phá AI Kids",
+          "points": 10,
+          "assetId": "achievement-feature-explorer-level-1",
+          "iconPath": "/assets/designer/achievements/v2/feature-explorer/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 4,
+          "label": "Đồng hành · Nhà khám phá AI Kids",
+          "points": 20,
+          "assetId": "achievement-feature-explorer-level-2",
+          "iconPath": "/assets/designer/achievements/v2/feature-explorer/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 6,
+          "label": "Bạc sáng · Nhà khám phá AI Kids",
+          "points": 30,
+          "assetId": "achievement-feature-explorer-level-3",
+          "iconPath": "/assets/designer/achievements/v2/feature-explorer/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Nhà khám phá AI Kids",
+          "points": 40,
+          "assetId": "achievement-feature-explorer-level-4",
+          "iconPath": "/assets/designer/achievements/v2/feature-explorer/level-4.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.world-regions",
+      "seriesKey": "world-regions",
+      "category": "discovery",
+      "title": "Người mở bản đồ",
+      "description": "Tiến hoá huy hiệu Người mở bản đồ qua các hoạt động có ý nghĩa.",
+      "metric": "learning.regions_unlocked",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người mở bản đồ",
+          "points": 10,
+          "assetId": "achievement-world-regions-level-1",
+          "iconPath": "/assets/designer/achievements/v2/world-regions/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Người mở bản đồ",
+          "points": 20,
+          "assetId": "achievement-world-regions-level-2",
+          "iconPath": "/assets/designer/achievements/v2/world-regions/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 5,
+          "label": "Bạc sáng · Người mở bản đồ",
+          "points": 30,
+          "assetId": "achievement-world-regions-level-3",
+          "iconPath": "/assets/designer/achievements/v2/world-regions/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Người mở bản đồ",
+          "points": 40,
+          "assetId": "achievement-world-regions-level-4",
+          "iconPath": "/assets/designer/achievements/v2/world-regions/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 12,
+          "label": "Pha lê · Người mở bản đồ",
+          "points": 50,
+          "assetId": "achievement-world-regions-level-5",
+          "iconPath": "/assets/designer/achievements/v2/world-regions/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.storybook-explorer",
+      "seriesKey": "storybook-explorer",
+      "category": "discovery",
+      "title": "Bạn của Storybook",
+      "description": "Tiến hoá huy hiệu Bạn của Storybook qua các hoạt động có ý nghĩa.",
+      "metric": "storybook.chapters_read",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Bạn của Storybook",
+          "points": 10,
+          "assetId": "achievement-storybook-explorer-level-1",
+          "iconPath": "/assets/designer/achievements/v2/storybook-explorer/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Bạn của Storybook",
+          "points": 20,
+          "assetId": "achievement-storybook-explorer-level-2",
+          "iconPath": "/assets/designer/achievements/v2/storybook-explorer/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 6,
+          "label": "Bạc sáng · Bạn của Storybook",
+          "points": 30,
+          "assetId": "achievement-storybook-explorer-level-3",
+          "iconPath": "/assets/designer/achievements/v2/storybook-explorer/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 12,
+          "label": "Vàng rực · Bạn của Storybook",
+          "points": 40,
+          "assetId": "achievement-storybook-explorer-level-4",
+          "iconPath": "/assets/designer/achievements/v2/storybook-explorer/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 24,
+          "label": "Pha lê · Bạn của Storybook",
+          "points": 50,
+          "assetId": "achievement-storybook-explorer-level-5",
+          "iconPath": "/assets/designer/achievements/v2/storybook-explorer/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.backpack-collector",
+      "seriesKey": "backpack-collector",
+      "category": "discovery",
+      "title": "Nhà sưu tập ba lô",
+      "description": "Tiến hoá huy hiệu Nhà sưu tập ba lô qua các hoạt động có ý nghĩa.",
+      "metric": "inventory.unique_items",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Nhà sưu tập ba lô",
+          "points": 10,
+          "assetId": "achievement-backpack-collector-level-1",
+          "iconPath": "/assets/designer/achievements/v2/backpack-collector/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Nhà sưu tập ba lô",
+          "points": 20,
+          "assetId": "achievement-backpack-collector-level-2",
+          "iconPath": "/assets/designer/achievements/v2/backpack-collector/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 12,
+          "label": "Bạc sáng · Nhà sưu tập ba lô",
+          "points": 30,
+          "assetId": "achievement-backpack-collector-level-3",
+          "iconPath": "/assets/designer/achievements/v2/backpack-collector/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Nhà sưu tập ba lô",
+          "points": 40,
+          "assetId": "achievement-backpack-collector-level-4",
+          "iconPath": "/assets/designer/achievements/v2/backpack-collector/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Nhà sưu tập ba lô",
+          "points": 50,
+          "assetId": "achievement-backpack-collector-level-5",
+          "iconPath": "/assets/designer/achievements/v2/backpack-collector/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.style-explorer",
+      "seriesKey": "style-explorer",
+      "category": "discovery",
+      "title": "Nhà tạo phong cách",
+      "description": "Tiến hoá huy hiệu Nhà tạo phong cách qua các hoạt động có ý nghĩa.",
+      "metric": "inventory.styles_equipped",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Nhà tạo phong cách",
+          "points": 10,
+          "assetId": "achievement-style-explorer-level-1",
+          "iconPath": "/assets/designer/achievements/v2/style-explorer/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Nhà tạo phong cách",
+          "points": 20,
+          "assetId": "achievement-style-explorer-level-2",
+          "iconPath": "/assets/designer/achievements/v2/style-explorer/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 6,
+          "label": "Bạc sáng · Nhà tạo phong cách",
+          "points": 30,
+          "assetId": "achievement-style-explorer-level-3",
+          "iconPath": "/assets/designer/achievements/v2/style-explorer/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 10,
+          "label": "Vàng rực · Nhà tạo phong cách",
+          "points": 40,
+          "assetId": "achievement-style-explorer-level-4",
+          "iconPath": "/assets/designer/achievements/v2/style-explorer/level-4.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.lessons",
+      "seriesKey": "lessons",
+      "category": "learning",
+      "title": "Hành trình bài học",
+      "description": "Tiến hoá huy hiệu Hành trình bài học qua các hoạt động có ý nghĩa.",
+      "metric": "learning.lessons_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Hành trình bài học",
+          "points": 10,
+          "assetId": "achievement-lessons-level-1",
+          "iconPath": "/assets/designer/achievements/v2/lessons/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 10,
+          "label": "Đồng hành · Hành trình bài học",
+          "points": 20,
+          "assetId": "achievement-lessons-level-2",
+          "iconPath": "/assets/designer/achievements/v2/lessons/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 30,
+          "label": "Bạc sáng · Hành trình bài học",
+          "points": 30,
+          "assetId": "achievement-lessons-level-3",
+          "iconPath": "/assets/designer/achievements/v2/lessons/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 75,
+          "label": "Vàng rực · Hành trình bài học",
+          "points": 40,
+          "assetId": "achievement-lessons-level-4",
+          "iconPath": "/assets/designer/achievements/v2/lessons/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 150,
+          "label": "Pha lê · Hành trình bài học",
+          "points": 50,
+          "assetId": "achievement-lessons-level-5",
+          "iconPath": "/assets/designer/achievements/v2/lessons/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 300,
+          "label": "Vũ trụ · Hành trình bài học",
+          "points": 60,
+          "assetId": "achievement-lessons-level-6",
+          "iconPath": "/assets/designer/achievements/v2/lessons/level-6.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.courses",
+      "seriesKey": "courses",
+      "category": "learning",
+      "title": "Chinh phục khóa học",
+      "description": "Tiến hoá huy hiệu Chinh phục khóa học qua các hoạt động có ý nghĩa.",
+      "metric": "learning.courses_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Chinh phục khóa học",
+          "points": 10,
+          "assetId": "achievement-courses-level-1",
+          "iconPath": "/assets/designer/achievements/v2/courses/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Chinh phục khóa học",
+          "points": 20,
+          "assetId": "achievement-courses-level-2",
+          "iconPath": "/assets/designer/achievements/v2/courses/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 5,
+          "label": "Bạc sáng · Chinh phục khóa học",
+          "points": 30,
+          "assetId": "achievement-courses-level-3",
+          "iconPath": "/assets/designer/achievements/v2/courses/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Chinh phục khóa học",
+          "points": 40,
+          "assetId": "achievement-courses-level-4",
+          "iconPath": "/assets/designer/achievements/v2/courses/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 12,
+          "label": "Pha lê · Chinh phục khóa học",
+          "points": 50,
+          "assetId": "achievement-courses-level-5",
+          "iconPath": "/assets/designer/achievements/v2/courses/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 20,
+          "label": "Vũ trụ · Chinh phục khóa học",
+          "points": 60,
+          "assetId": "achievement-courses-level-6",
+          "iconPath": "/assets/designer/achievements/v2/courses/level-6.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.practice-rounds",
+      "seriesKey": "practice-rounds",
+      "category": "learning",
+      "title": "Bậc thầy luyện tập",
+      "description": "Tiến hoá huy hiệu Bậc thầy luyện tập qua các hoạt động có ý nghĩa.",
+      "metric": "learning.practice_rounds_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 3,
+          "label": "Mầm xanh · Bậc thầy luyện tập",
+          "points": 10,
+          "assetId": "achievement-practice-rounds-level-1",
+          "iconPath": "/assets/designer/achievements/v2/practice-rounds/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 10,
+          "label": "Đồng hành · Bậc thầy luyện tập",
+          "points": 20,
+          "assetId": "achievement-practice-rounds-level-2",
+          "iconPath": "/assets/designer/achievements/v2/practice-rounds/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 30,
+          "label": "Bạc sáng · Bậc thầy luyện tập",
+          "points": 30,
+          "assetId": "achievement-practice-rounds-level-3",
+          "iconPath": "/assets/designer/achievements/v2/practice-rounds/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 75,
+          "label": "Vàng rực · Bậc thầy luyện tập",
+          "points": 40,
+          "assetId": "achievement-practice-rounds-level-4",
+          "iconPath": "/assets/designer/achievements/v2/practice-rounds/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 150,
+          "label": "Pha lê · Bậc thầy luyện tập",
+          "points": 50,
+          "assetId": "achievement-practice-rounds-level-5",
+          "iconPath": "/assets/designer/achievements/v2/practice-rounds/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.knowledge-checks",
+      "seriesKey": "knowledge-checks",
+      "category": "learning",
+      "title": "Người kiểm chứng kiến thức",
+      "description": "Tiến hoá huy hiệu Người kiểm chứng kiến thức qua các hoạt động có ý nghĩa.",
+      "metric": "learning.checks_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người kiểm chứng kiến thức",
+          "points": 10,
+          "assetId": "achievement-knowledge-checks-level-1",
+          "iconPath": "/assets/designer/achievements/v2/knowledge-checks/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Người kiểm chứng kiến thức",
+          "points": 20,
+          "assetId": "achievement-knowledge-checks-level-2",
+          "iconPath": "/assets/designer/achievements/v2/knowledge-checks/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Người kiểm chứng kiến thức",
+          "points": 30,
+          "assetId": "achievement-knowledge-checks-level-3",
+          "iconPath": "/assets/designer/achievements/v2/knowledge-checks/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Người kiểm chứng kiến thức",
+          "points": 40,
+          "assetId": "achievement-knowledge-checks-level-4",
+          "iconPath": "/assets/designer/achievements/v2/knowledge-checks/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 100,
+          "label": "Pha lê · Người kiểm chứng kiến thức",
+          "points": 50,
+          "assetId": "achievement-knowledge-checks-level-5",
+          "iconPath": "/assets/designer/achievements/v2/knowledge-checks/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.perfect-lessons",
+      "seriesKey": "perfect-lessons",
+      "category": "learning",
+      "title": "Bài học hoàn hảo",
+      "description": "Tiến hoá huy hiệu Bài học hoàn hảo qua các hoạt động có ý nghĩa.",
+      "metric": "learning.perfect_lessons",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Bài học hoàn hảo",
+          "points": 10,
+          "assetId": "achievement-perfect-lessons-level-1",
+          "iconPath": "/assets/designer/achievements/v2/perfect-lessons/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Bài học hoàn hảo",
+          "points": 20,
+          "assetId": "achievement-perfect-lessons-level-2",
+          "iconPath": "/assets/designer/achievements/v2/perfect-lessons/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Bài học hoàn hảo",
+          "points": 30,
+          "assetId": "achievement-perfect-lessons-level-3",
+          "iconPath": "/assets/designer/achievements/v2/perfect-lessons/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 30,
+          "label": "Vàng rực · Bài học hoàn hảo",
+          "points": 40,
+          "assetId": "achievement-perfect-lessons-level-4",
+          "iconPath": "/assets/designer/achievements/v2/perfect-lessons/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 75,
+          "label": "Pha lê · Bài học hoàn hảo",
+          "points": 50,
+          "assetId": "achievement-perfect-lessons-level-5",
+          "iconPath": "/assets/designer/achievements/v2/perfect-lessons/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.mistakes-fixed",
+      "seriesKey": "mistakes-fixed",
+      "category": "learning",
+      "title": "Thợ sửa lỗi tài ba",
+      "description": "Tiến hoá huy hiệu Thợ sửa lỗi tài ba qua các hoạt động có ý nghĩa.",
+      "metric": "learning.mistakes_fixed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Thợ sửa lỗi tài ba",
+          "points": 10,
+          "assetId": "achievement-mistakes-fixed-level-1",
+          "iconPath": "/assets/designer/achievements/v2/mistakes-fixed/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 10,
+          "label": "Đồng hành · Thợ sửa lỗi tài ba",
+          "points": 20,
+          "assetId": "achievement-mistakes-fixed-level-2",
+          "iconPath": "/assets/designer/achievements/v2/mistakes-fixed/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 30,
+          "label": "Bạc sáng · Thợ sửa lỗi tài ba",
+          "points": 30,
+          "assetId": "achievement-mistakes-fixed-level-3",
+          "iconPath": "/assets/designer/achievements/v2/mistakes-fixed/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 75,
+          "label": "Vàng rực · Thợ sửa lỗi tài ba",
+          "points": 40,
+          "assetId": "achievement-mistakes-fixed-level-4",
+          "iconPath": "/assets/designer/achievements/v2/mistakes-fixed/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 150,
+          "label": "Pha lê · Thợ sửa lỗi tài ba",
+          "points": 50,
+          "assetId": "achievement-mistakes-fixed-level-5",
+          "iconPath": "/assets/designer/achievements/v2/mistakes-fixed/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.review-master",
+      "seriesKey": "review-master",
+      "category": "learning",
+      "title": "Người giữ trí nhớ",
+      "description": "Tiến hoá huy hiệu Người giữ trí nhớ qua các hoạt động có ý nghĩa.",
+      "metric": "learning.review_sessions_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người giữ trí nhớ",
+          "points": 10,
+          "assetId": "achievement-review-master-level-1",
+          "iconPath": "/assets/designer/achievements/v2/review-master/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Người giữ trí nhớ",
+          "points": 20,
+          "assetId": "achievement-review-master-level-2",
+          "iconPath": "/assets/designer/achievements/v2/review-master/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Người giữ trí nhớ",
+          "points": 30,
+          "assetId": "achievement-review-master-level-3",
+          "iconPath": "/assets/designer/achievements/v2/review-master/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Người giữ trí nhớ",
+          "points": 40,
+          "assetId": "achievement-review-master-level-4",
+          "iconPath": "/assets/designer/achievements/v2/review-master/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 80,
+          "label": "Pha lê · Người giữ trí nhớ",
+          "points": 50,
+          "assetId": "achievement-review-master-level-5",
+          "iconPath": "/assets/designer/achievements/v2/review-master/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.skill-variety",
+      "seriesKey": "skill-variety",
+      "category": "learning",
+      "title": "Nhà sưu tập kỹ năng",
+      "description": "Tiến hoá huy hiệu Nhà sưu tập kỹ năng qua các hoạt động có ý nghĩa.",
+      "metric": "learning.skill_groups_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 2,
+          "label": "Mầm xanh · Nhà sưu tập kỹ năng",
+          "points": 10,
+          "assetId": "achievement-skill-variety-level-1",
+          "iconPath": "/assets/designer/achievements/v2/skill-variety/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 4,
+          "label": "Đồng hành · Nhà sưu tập kỹ năng",
+          "points": 20,
+          "assetId": "achievement-skill-variety-level-2",
+          "iconPath": "/assets/designer/achievements/v2/skill-variety/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 6,
+          "label": "Bạc sáng · Nhà sưu tập kỹ năng",
+          "points": 30,
+          "assetId": "achievement-skill-variety-level-3",
+          "iconPath": "/assets/designer/achievements/v2/skill-variety/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Nhà sưu tập kỹ năng",
+          "points": 40,
+          "assetId": "achievement-skill-variety-level-4",
+          "iconPath": "/assets/designer/achievements/v2/skill-variety/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 10,
+          "label": "Pha lê · Nhà sưu tập kỹ năng",
+          "points": 50,
+          "assetId": "achievement-skill-variety-level-5",
+          "iconPath": "/assets/designer/achievements/v2/skill-variety/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.independent-solve",
+      "seriesKey": "independent-solve",
+      "category": "learning",
+      "title": "Tự mình giải được",
+      "description": "Tiến hoá huy hiệu Tự mình giải được qua các hoạt động có ý nghĩa.",
+      "metric": "learning.independent_challenges",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Tự mình giải được",
+          "points": 10,
+          "assetId": "achievement-independent-solve-level-1",
+          "iconPath": "/assets/designer/achievements/v2/independent-solve/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Tự mình giải được",
+          "points": 20,
+          "assetId": "achievement-independent-solve-level-2",
+          "iconPath": "/assets/designer/achievements/v2/independent-solve/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Tự mình giải được",
+          "points": 30,
+          "assetId": "achievement-independent-solve-level-3",
+          "iconPath": "/assets/designer/achievements/v2/independent-solve/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Tự mình giải được",
+          "points": 40,
+          "assetId": "achievement-independent-solve-level-4",
+          "iconPath": "/assets/designer/achievements/v2/independent-solve/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 100,
+          "label": "Pha lê · Tự mình giải được",
+          "points": 50,
+          "assetId": "achievement-independent-solve-level-5",
+          "iconPath": "/assets/designer/achievements/v2/independent-solve/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.smart-hints",
+      "seriesKey": "smart-hints",
+      "category": "learning",
+      "title": "Dùng gợi ý thông minh",
+      "description": "Tiến hoá huy hiệu Dùng gợi ý thông minh qua các hoạt động có ý nghĩa.",
+      "metric": "learning.successful_hint_uses",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Dùng gợi ý thông minh",
+          "points": 10,
+          "assetId": "achievement-smart-hints-level-1",
+          "iconPath": "/assets/designer/achievements/v2/smart-hints/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Dùng gợi ý thông minh",
+          "points": 20,
+          "assetId": "achievement-smart-hints-level-2",
+          "iconPath": "/assets/designer/achievements/v2/smart-hints/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Dùng gợi ý thông minh",
+          "points": 30,
+          "assetId": "achievement-smart-hints-level-3",
+          "iconPath": "/assets/designer/achievements/v2/smart-hints/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 30,
+          "label": "Vàng rực · Dùng gợi ý thông minh",
+          "points": 40,
+          "assetId": "achievement-smart-hints-level-4",
+          "iconPath": "/assets/designer/achievements/v2/smart-hints/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 60,
+          "label": "Pha lê · Dùng gợi ý thông minh",
+          "points": 50,
+          "assetId": "achievement-smart-hints-level-5",
+          "iconPath": "/assets/designer/achievements/v2/smart-hints/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.improvement",
+      "seriesKey": "improvement",
+      "category": "learning",
+      "title": "Mỗi lần một tiến bộ",
+      "description": "Tiến hoá huy hiệu Mỗi lần một tiến bộ qua các hoạt động có ý nghĩa.",
+      "metric": "learning.improved_attempts",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Mỗi lần một tiến bộ",
+          "points": 10,
+          "assetId": "achievement-improvement-level-1",
+          "iconPath": "/assets/designer/achievements/v2/improvement/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Mỗi lần một tiến bộ",
+          "points": 20,
+          "assetId": "achievement-improvement-level-2",
+          "iconPath": "/assets/designer/achievements/v2/improvement/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Mỗi lần một tiến bộ",
+          "points": 30,
+          "assetId": "achievement-improvement-level-3",
+          "iconPath": "/assets/designer/achievements/v2/improvement/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Mỗi lần một tiến bộ",
+          "points": 40,
+          "assetId": "achievement-improvement-level-4",
+          "iconPath": "/assets/designer/achievements/v2/improvement/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Mỗi lần một tiến bộ",
+          "points": 50,
+          "assetId": "achievement-improvement-level-5",
+          "iconPath": "/assets/designer/achievements/v2/improvement/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.quests",
+      "seriesKey": "quests",
+      "category": "challenge",
+      "title": "Nhà chinh phục nhiệm vụ",
+      "description": "Tiến hoá huy hiệu Nhà chinh phục nhiệm vụ qua các hoạt động có ý nghĩa.",
+      "metric": "quests.completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Nhà chinh phục nhiệm vụ",
+          "points": 10,
+          "assetId": "achievement-quests-level-1",
+          "iconPath": "/assets/designer/achievements/v2/quests/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Nhà chinh phục nhiệm vụ",
+          "points": 20,
+          "assetId": "achievement-quests-level-2",
+          "iconPath": "/assets/designer/achievements/v2/quests/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Nhà chinh phục nhiệm vụ",
+          "points": 30,
+          "assetId": "achievement-quests-level-3",
+          "iconPath": "/assets/designer/achievements/v2/quests/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Nhà chinh phục nhiệm vụ",
+          "points": 40,
+          "assetId": "achievement-quests-level-4",
+          "iconPath": "/assets/designer/achievements/v2/quests/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 100,
+          "label": "Pha lê · Nhà chinh phục nhiệm vụ",
+          "points": 50,
+          "assetId": "achievement-quests-level-5",
+          "iconPath": "/assets/designer/achievements/v2/quests/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 200,
+          "label": "Vũ trụ · Nhà chinh phục nhiệm vụ",
+          "points": 60,
+          "assetId": "achievement-quests-level-6",
+          "iconPath": "/assets/designer/achievements/v2/quests/level-6.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.daily-missions",
+      "seriesKey": "daily-missions",
+      "category": "challenge",
+      "title": "Nhiệm vụ hôm nay",
+      "description": "Tiến hoá huy hiệu Nhiệm vụ hôm nay qua các hoạt động có ý nghĩa.",
+      "metric": "missions.daily_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Nhiệm vụ hôm nay",
+          "points": 10,
+          "assetId": "achievement-daily-missions-level-1",
+          "iconPath": "/assets/designer/achievements/v2/daily-missions/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Nhiệm vụ hôm nay",
+          "points": 20,
+          "assetId": "achievement-daily-missions-level-2",
+          "iconPath": "/assets/designer/achievements/v2/daily-missions/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Nhiệm vụ hôm nay",
+          "points": 30,
+          "assetId": "achievement-daily-missions-level-3",
+          "iconPath": "/assets/designer/achievements/v2/daily-missions/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 30,
+          "label": "Vàng rực · Nhiệm vụ hôm nay",
+          "points": 40,
+          "assetId": "achievement-daily-missions-level-4",
+          "iconPath": "/assets/designer/achievements/v2/daily-missions/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 60,
+          "label": "Pha lê · Nhiệm vụ hôm nay",
+          "points": 50,
+          "assetId": "achievement-daily-missions-level-5",
+          "iconPath": "/assets/designer/achievements/v2/daily-missions/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.weekly-goals",
+      "seriesKey": "weekly-goals",
+      "category": "challenge",
+      "title": "Người giữ mục tiêu tuần",
+      "description": "Tiến hoá huy hiệu Người giữ mục tiêu tuần qua các hoạt động có ý nghĩa.",
+      "metric": "goals.weekly_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người giữ mục tiêu tuần",
+          "points": 10,
+          "assetId": "achievement-weekly-goals-level-1",
+          "iconPath": "/assets/designer/achievements/v2/weekly-goals/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Người giữ mục tiêu tuần",
+          "points": 20,
+          "assetId": "achievement-weekly-goals-level-2",
+          "iconPath": "/assets/designer/achievements/v2/weekly-goals/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 8,
+          "label": "Bạc sáng · Người giữ mục tiêu tuần",
+          "points": 30,
+          "assetId": "achievement-weekly-goals-level-3",
+          "iconPath": "/assets/designer/achievements/v2/weekly-goals/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 16,
+          "label": "Vàng rực · Người giữ mục tiêu tuần",
+          "points": 40,
+          "assetId": "achievement-weekly-goals-level-4",
+          "iconPath": "/assets/designer/achievements/v2/weekly-goals/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 32,
+          "label": "Pha lê · Người giữ mục tiêu tuần",
+          "points": 50,
+          "assetId": "achievement-weekly-goals-level-5",
+          "iconPath": "/assets/designer/achievements/v2/weekly-goals/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.challenge-variety",
+      "seriesKey": "challenge-variety",
+      "category": "challenge",
+      "title": "Bộ sưu tập thử thách",
+      "description": "Tiến hoá huy hiệu Bộ sưu tập thử thách qua các hoạt động có ý nghĩa.",
+      "metric": "challenges.types_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 2,
+          "label": "Mầm xanh · Bộ sưu tập thử thách",
+          "points": 10,
+          "assetId": "achievement-challenge-variety-level-1",
+          "iconPath": "/assets/designer/achievements/v2/challenge-variety/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 4,
+          "label": "Đồng hành · Bộ sưu tập thử thách",
+          "points": 20,
+          "assetId": "achievement-challenge-variety-level-2",
+          "iconPath": "/assets/designer/achievements/v2/challenge-variety/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 6,
+          "label": "Bạc sáng · Bộ sưu tập thử thách",
+          "points": 30,
+          "assetId": "achievement-challenge-variety-level-3",
+          "iconPath": "/assets/designer/achievements/v2/challenge-variety/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Bộ sưu tập thử thách",
+          "points": 40,
+          "assetId": "achievement-challenge-variety-level-4",
+          "iconPath": "/assets/designer/achievements/v2/challenge-variety/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 10,
+          "label": "Pha lê · Bộ sưu tập thử thách",
+          "points": 50,
+          "assetId": "achievement-challenge-variety-level-5",
+          "iconPath": "/assets/designer/achievements/v2/challenge-variety/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.event-journeys",
+      "seriesKey": "event-journeys",
+      "category": "challenge",
+      "title": "Nhà du hành sự kiện",
+      "description": "Tiến hoá huy hiệu Nhà du hành sự kiện qua các hoạt động có ý nghĩa.",
+      "metric": "events.journeys_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Nhà du hành sự kiện",
+          "points": 10,
+          "assetId": "achievement-event-journeys-level-1",
+          "iconPath": "/assets/designer/achievements/v2/event-journeys/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 2,
+          "label": "Đồng hành · Nhà du hành sự kiện",
+          "points": 20,
+          "assetId": "achievement-event-journeys-level-2",
+          "iconPath": "/assets/designer/achievements/v2/event-journeys/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 4,
+          "label": "Bạc sáng · Nhà du hành sự kiện",
+          "points": 30,
+          "assetId": "achievement-event-journeys-level-3",
+          "iconPath": "/assets/designer/achievements/v2/event-journeys/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Nhà du hành sự kiện",
+          "points": 40,
+          "assetId": "achievement-event-journeys-level-4",
+          "iconPath": "/assets/designer/achievements/v2/event-journeys/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 12,
+          "label": "Pha lê · Nhà du hành sự kiện",
+          "points": 50,
+          "assetId": "achievement-event-journeys-level-5",
+          "iconPath": "/assets/designer/achievements/v2/event-journeys/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.boss-challenges",
+      "seriesKey": "boss-challenges",
+      "category": "challenge",
+      "title": "Người vượt đỉnh",
+      "description": "Tiến hoá huy hiệu Người vượt đỉnh qua các hoạt động có ý nghĩa.",
+      "metric": "challenges.boss_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người vượt đỉnh",
+          "points": 10,
+          "assetId": "achievement-boss-challenges-level-1",
+          "iconPath": "/assets/designer/achievements/v2/boss-challenges/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Người vượt đỉnh",
+          "points": 20,
+          "assetId": "achievement-boss-challenges-level-2",
+          "iconPath": "/assets/designer/achievements/v2/boss-challenges/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 8,
+          "label": "Bạc sáng · Người vượt đỉnh",
+          "points": 30,
+          "assetId": "achievement-boss-challenges-level-3",
+          "iconPath": "/assets/designer/achievements/v2/boss-challenges/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 20,
+          "label": "Vàng rực · Người vượt đỉnh",
+          "points": 40,
+          "assetId": "achievement-boss-challenges-level-4",
+          "iconPath": "/assets/designer/achievements/v2/boss-challenges/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 40,
+          "label": "Pha lê · Người vượt đỉnh",
+          "points": 50,
+          "assetId": "achievement-boss-challenges-level-5",
+          "iconPath": "/assets/designer/achievements/v2/boss-challenges/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.creative-projects",
+      "seriesKey": "creative-projects",
+      "category": "creative",
+      "title": "Nhà sáng tạo nhỏ",
+      "description": "Tiến hoá huy hiệu Nhà sáng tạo nhỏ qua các hoạt động có ý nghĩa.",
+      "metric": "creative.projects_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Nhà sáng tạo nhỏ",
+          "points": 10,
+          "assetId": "achievement-creative-projects-level-1",
+          "iconPath": "/assets/designer/achievements/v2/creative-projects/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Nhà sáng tạo nhỏ",
+          "points": 20,
+          "assetId": "achievement-creative-projects-level-2",
+          "iconPath": "/assets/designer/achievements/v2/creative-projects/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 12,
+          "label": "Bạc sáng · Nhà sáng tạo nhỏ",
+          "points": 30,
+          "assetId": "achievement-creative-projects-level-3",
+          "iconPath": "/assets/designer/achievements/v2/creative-projects/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 30,
+          "label": "Vàng rực · Nhà sáng tạo nhỏ",
+          "points": 40,
+          "assetId": "achievement-creative-projects-level-4",
+          "iconPath": "/assets/designer/achievements/v2/creative-projects/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 60,
+          "label": "Pha lê · Nhà sáng tạo nhỏ",
+          "points": 50,
+          "assetId": "achievement-creative-projects-level-5",
+          "iconPath": "/assets/designer/achievements/v2/creative-projects/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 120,
+          "label": "Vũ trụ · Nhà sáng tạo nhỏ",
+          "points": 60,
+          "assetId": "achievement-creative-projects-level-6",
+          "iconPath": "/assets/designer/achievements/v2/creative-projects/level-6.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.project-iterations",
+      "seriesKey": "project-iterations",
+      "category": "creative",
+      "title": "Tác phẩm ngày một hay",
+      "description": "Tiến hoá huy hiệu Tác phẩm ngày một hay qua các hoạt động có ý nghĩa.",
+      "metric": "creative.project_iterations",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Tác phẩm ngày một hay",
+          "points": 10,
+          "assetId": "achievement-project-iterations-level-1",
+          "iconPath": "/assets/designer/achievements/v2/project-iterations/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Tác phẩm ngày một hay",
+          "points": 20,
+          "assetId": "achievement-project-iterations-level-2",
+          "iconPath": "/assets/designer/achievements/v2/project-iterations/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Tác phẩm ngày một hay",
+          "points": 30,
+          "assetId": "achievement-project-iterations-level-3",
+          "iconPath": "/assets/designer/achievements/v2/project-iterations/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Tác phẩm ngày một hay",
+          "points": 40,
+          "assetId": "achievement-project-iterations-level-4",
+          "iconPath": "/assets/designer/achievements/v2/project-iterations/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 100,
+          "label": "Pha lê · Tác phẩm ngày một hay",
+          "points": 50,
+          "assetId": "achievement-project-iterations-level-5",
+          "iconPath": "/assets/designer/achievements/v2/project-iterations/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.creative-tools",
+      "seriesKey": "creative-tools",
+      "category": "creative",
+      "title": "Hộp công cụ sáng tạo",
+      "description": "Tiến hoá huy hiệu Hộp công cụ sáng tạo qua các hoạt động có ý nghĩa.",
+      "metric": "creative.tools_used",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 2,
+          "label": "Mầm xanh · Hộp công cụ sáng tạo",
+          "points": 10,
+          "assetId": "achievement-creative-tools-level-1",
+          "iconPath": "/assets/designer/achievements/v2/creative-tools/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 4,
+          "label": "Đồng hành · Hộp công cụ sáng tạo",
+          "points": 20,
+          "assetId": "achievement-creative-tools-level-2",
+          "iconPath": "/assets/designer/achievements/v2/creative-tools/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 6,
+          "label": "Bạc sáng · Hộp công cụ sáng tạo",
+          "points": 30,
+          "assetId": "achievement-creative-tools-level-3",
+          "iconPath": "/assets/designer/achievements/v2/creative-tools/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 8,
+          "label": "Vàng rực · Hộp công cụ sáng tạo",
+          "points": 40,
+          "assetId": "achievement-creative-tools-level-4",
+          "iconPath": "/assets/designer/achievements/v2/creative-tools/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 10,
+          "label": "Pha lê · Hộp công cụ sáng tạo",
+          "points": 50,
+          "assetId": "achievement-creative-tools-level-5",
+          "iconPath": "/assets/designer/achievements/v2/creative-tools/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.ai-tools",
+      "seriesKey": "ai-tools",
+      "category": "creative",
+      "title": "Bạn đồng hành cùng AI",
+      "description": "Tiến hoá huy hiệu Bạn đồng hành cùng AI qua các hoạt động có ý nghĩa.",
+      "metric": "creative.ai_activities_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Bạn đồng hành cùng AI",
+          "points": 10,
+          "assetId": "achievement-ai-tools-level-1",
+          "iconPath": "/assets/designer/achievements/v2/ai-tools/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Bạn đồng hành cùng AI",
+          "points": 20,
+          "assetId": "achievement-ai-tools-level-2",
+          "iconPath": "/assets/designer/achievements/v2/ai-tools/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Bạn đồng hành cùng AI",
+          "points": 30,
+          "assetId": "achievement-ai-tools-level-3",
+          "iconPath": "/assets/designer/achievements/v2/ai-tools/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Bạn đồng hành cùng AI",
+          "points": 40,
+          "assetId": "achievement-ai-tools-level-4",
+          "iconPath": "/assets/designer/achievements/v2/ai-tools/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 100,
+          "label": "Pha lê · Bạn đồng hành cùng AI",
+          "points": 50,
+          "assetId": "achievement-ai-tools-level-5",
+          "iconPath": "/assets/designer/achievements/v2/ai-tools/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.prompt-refinement",
+      "seriesKey": "prompt-refinement",
+      "category": "creative",
+      "title": "Người luyện ý tưởng",
+      "description": "Tiến hoá huy hiệu Người luyện ý tưởng qua các hoạt động có ý nghĩa.",
+      "metric": "creative.prompts_refined",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người luyện ý tưởng",
+          "points": 10,
+          "assetId": "achievement-prompt-refinement-level-1",
+          "iconPath": "/assets/designer/achievements/v2/prompt-refinement/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Người luyện ý tưởng",
+          "points": 20,
+          "assetId": "achievement-prompt-refinement-level-2",
+          "iconPath": "/assets/designer/achievements/v2/prompt-refinement/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Người luyện ý tưởng",
+          "points": 30,
+          "assetId": "achievement-prompt-refinement-level-3",
+          "iconPath": "/assets/designer/achievements/v2/prompt-refinement/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Người luyện ý tưởng",
+          "points": 40,
+          "assetId": "achievement-prompt-refinement-level-4",
+          "iconPath": "/assets/designer/achievements/v2/prompt-refinement/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 60,
+          "label": "Pha lê · Người luyện ý tưởng",
+          "points": 50,
+          "assetId": "achievement-prompt-refinement-level-5",
+          "iconPath": "/assets/designer/achievements/v2/prompt-refinement/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.story-creator",
+      "seriesKey": "story-creator",
+      "category": "creative",
+      "title": "Người kể chuyện",
+      "description": "Tiến hoá huy hiệu Người kể chuyện qua các hoạt động có ý nghĩa.",
+      "metric": "creative.stories_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người kể chuyện",
+          "points": 10,
+          "assetId": "achievement-story-creator-level-1",
+          "iconPath": "/assets/designer/achievements/v2/story-creator/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Người kể chuyện",
+          "points": 20,
+          "assetId": "achievement-story-creator-level-2",
+          "iconPath": "/assets/designer/achievements/v2/story-creator/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 8,
+          "label": "Bạc sáng · Người kể chuyện",
+          "points": 30,
+          "assetId": "achievement-story-creator-level-3",
+          "iconPath": "/assets/designer/achievements/v2/story-creator/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 20,
+          "label": "Vàng rực · Người kể chuyện",
+          "points": 40,
+          "assetId": "achievement-story-creator-level-4",
+          "iconPath": "/assets/designer/achievements/v2/story-creator/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Người kể chuyện",
+          "points": 50,
+          "assetId": "achievement-story-creator-level-5",
+          "iconPath": "/assets/designer/achievements/v2/story-creator/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.image-creator",
+      "seriesKey": "image-creator",
+      "category": "creative",
+      "title": "Họa sĩ hình ảnh",
+      "description": "Tiến hoá huy hiệu Họa sĩ hình ảnh qua các hoạt động có ý nghĩa.",
+      "metric": "creative.images_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Họa sĩ hình ảnh",
+          "points": 10,
+          "assetId": "achievement-image-creator-level-1",
+          "iconPath": "/assets/designer/achievements/v2/image-creator/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Họa sĩ hình ảnh",
+          "points": 20,
+          "assetId": "achievement-image-creator-level-2",
+          "iconPath": "/assets/designer/achievements/v2/image-creator/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Họa sĩ hình ảnh",
+          "points": 30,
+          "assetId": "achievement-image-creator-level-3",
+          "iconPath": "/assets/designer/achievements/v2/image-creator/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Họa sĩ hình ảnh",
+          "points": 40,
+          "assetId": "achievement-image-creator-level-4",
+          "iconPath": "/assets/designer/achievements/v2/image-creator/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 80,
+          "label": "Pha lê · Họa sĩ hình ảnh",
+          "points": 50,
+          "assetId": "achievement-image-creator-level-5",
+          "iconPath": "/assets/designer/achievements/v2/image-creator/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.code-creator",
+      "seriesKey": "code-creator",
+      "category": "creative",
+      "title": "Kiến trúc sư code",
+      "description": "Tiến hoá huy hiệu Kiến trúc sư code qua các hoạt động có ý nghĩa.",
+      "metric": "creative.code_activities_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Kiến trúc sư code",
+          "points": 10,
+          "assetId": "achievement-code-creator-level-1",
+          "iconPath": "/assets/designer/achievements/v2/code-creator/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Kiến trúc sư code",
+          "points": 20,
+          "assetId": "achievement-code-creator-level-2",
+          "iconPath": "/assets/designer/achievements/v2/code-creator/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Kiến trúc sư code",
+          "points": 30,
+          "assetId": "achievement-code-creator-level-3",
+          "iconPath": "/assets/designer/achievements/v2/code-creator/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Kiến trúc sư code",
+          "points": 40,
+          "assetId": "achievement-code-creator-level-4",
+          "iconPath": "/assets/designer/achievements/v2/code-creator/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 100,
+          "label": "Pha lê · Kiến trúc sư code",
+          "points": 50,
+          "assetId": "achievement-code-creator-level-5",
+          "iconPath": "/assets/designer/achievements/v2/code-creator/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.portfolio-ready",
+      "seriesKey": "portfolio-ready",
+      "category": "creative",
+      "title": "Sẵn sàng khoe với gia đình",
+      "description": "Tiến hoá huy hiệu Sẵn sàng khoe với gia đình qua các hoạt động có ý nghĩa.",
+      "metric": "portfolio.projects_submitted",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Sẵn sàng khoe với gia đình",
+          "points": 10,
+          "assetId": "achievement-portfolio-ready-level-1",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-ready/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Sẵn sàng khoe với gia đình",
+          "points": 20,
+          "assetId": "achievement-portfolio-ready-level-2",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-ready/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Sẵn sàng khoe với gia đình",
+          "points": 30,
+          "assetId": "achievement-portfolio-ready-level-3",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-ready/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Sẵn sàng khoe với gia đình",
+          "points": 40,
+          "assetId": "achievement-portfolio-ready-level-4",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-ready/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Sẵn sàng khoe với gia đình",
+          "points": 50,
+          "assetId": "achievement-portfolio-ready-level-5",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-ready/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.portfolio-approved",
+      "seriesKey": "portfolio-approved",
+      "category": "creative",
+      "title": "Tác phẩm được ghi nhận",
+      "description": "Tiến hoá huy hiệu Tác phẩm được ghi nhận qua các hoạt động có ý nghĩa.",
+      "metric": "portfolio.projects_approved",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Tác phẩm được ghi nhận",
+          "points": 10,
+          "assetId": "achievement-portfolio-approved-level-1",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-approved/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Tác phẩm được ghi nhận",
+          "points": 20,
+          "assetId": "achievement-portfolio-approved-level-2",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-approved/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Tác phẩm được ghi nhận",
+          "points": 30,
+          "assetId": "achievement-portfolio-approved-level-3",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-approved/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Tác phẩm được ghi nhận",
+          "points": 40,
+          "assetId": "achievement-portfolio-approved-level-4",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-approved/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Tác phẩm được ghi nhận",
+          "points": 50,
+          "assetId": "achievement-portfolio-approved-level-5",
+          "iconPath": "/assets/designer/achievements/v2/portfolio-approved/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.active-days",
+      "seriesKey": "active-days",
+      "category": "habit",
+      "title": "Ngày học có ý nghĩa",
+      "description": "Tiến hoá huy hiệu Ngày học có ý nghĩa qua các hoạt động có ý nghĩa.",
+      "metric": "habit.active_learning_days",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Ngày học có ý nghĩa",
+          "points": 10,
+          "assetId": "achievement-active-days-level-1",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Ngày học có ý nghĩa",
+          "points": 20,
+          "assetId": "achievement-active-days-level-2",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 7,
+          "label": "Bạc sáng · Ngày học có ý nghĩa",
+          "points": 30,
+          "assetId": "achievement-active-days-level-3",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 14,
+          "label": "Vàng rực · Ngày học có ý nghĩa",
+          "points": 40,
+          "assetId": "achievement-active-days-level-4",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 30,
+          "label": "Pha lê · Ngày học có ý nghĩa",
+          "points": 50,
+          "assetId": "achievement-active-days-level-5",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 60,
+          "label": "Vũ trụ · Ngày học có ý nghĩa",
+          "points": 60,
+          "assetId": "achievement-active-days-level-6",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-6.png"
+        },
+        {
+          "level": 7,
+          "tier": "legendary",
+          "threshold": 120,
+          "label": "Huyền thoại · Ngày học có ý nghĩa",
+          "points": 70,
+          "assetId": "achievement-active-days-level-7",
+          "iconPath": "/assets/designer/achievements/v2/active-days/level-7.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.streak",
+      "seriesKey": "streak",
+      "category": "habit",
+      "title": "Ngọn lửa bền bỉ",
+      "description": "Tiến hoá huy hiệu Ngọn lửa bền bỉ qua các hoạt động có ý nghĩa.",
+      "metric": "habit.learning_streak",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 3,
+          "label": "Mầm xanh · Ngọn lửa bền bỉ",
+          "points": 10,
+          "assetId": "achievement-streak-level-1",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 7,
+          "label": "Đồng hành · Ngọn lửa bền bỉ",
+          "points": 20,
+          "assetId": "achievement-streak-level-2",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 14,
+          "label": "Bạc sáng · Ngọn lửa bền bỉ",
+          "points": 30,
+          "assetId": "achievement-streak-level-3",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 30,
+          "label": "Vàng rực · Ngọn lửa bền bỉ",
+          "points": 40,
+          "assetId": "achievement-streak-level-4",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 60,
+          "label": "Pha lê · Ngọn lửa bền bỉ",
+          "points": 50,
+          "assetId": "achievement-streak-level-5",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 100,
+          "label": "Vũ trụ · Ngọn lửa bền bỉ",
+          "points": 60,
+          "assetId": "achievement-streak-level-6",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-6.png"
+        },
+        {
+          "level": 7,
+          "tier": "legendary",
+          "threshold": 180,
+          "label": "Huyền thoại · Ngọn lửa bền bỉ",
+          "points": 70,
+          "assetId": "achievement-streak-level-7",
+          "iconPath": "/assets/designer/achievements/v2/streak/level-7.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.comeback",
+      "seriesKey": "comeback",
+      "category": "habit",
+      "title": "Trở lại thật tuyệt",
+      "description": "Tiến hoá huy hiệu Trở lại thật tuyệt qua các hoạt động có ý nghĩa.",
+      "metric": "habit.successful_comebacks",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Trở lại thật tuyệt",
+          "points": 10,
+          "assetId": "achievement-comeback-level-1",
+          "iconPath": "/assets/designer/achievements/v2/comeback/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Trở lại thật tuyệt",
+          "points": 20,
+          "assetId": "achievement-comeback-level-2",
+          "iconPath": "/assets/designer/achievements/v2/comeback/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 5,
+          "label": "Bạc sáng · Trở lại thật tuyệt",
+          "points": 30,
+          "assetId": "achievement-comeback-level-3",
+          "iconPath": "/assets/designer/achievements/v2/comeback/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 10,
+          "label": "Vàng rực · Trở lại thật tuyệt",
+          "points": 40,
+          "assetId": "achievement-comeback-level-4",
+          "iconPath": "/assets/designer/achievements/v2/comeback/level-4.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.balanced-week",
+      "seriesKey": "balanced-week",
+      "category": "habit",
+      "title": "Tuần học cân bằng",
+      "description": "Tiến hoá huy hiệu Tuần học cân bằng qua các hoạt động có ý nghĩa.",
+      "metric": "habit.balanced_weeks",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Tuần học cân bằng",
+          "points": 10,
+          "assetId": "achievement-balanced-week-level-1",
+          "iconPath": "/assets/designer/achievements/v2/balanced-week/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Tuần học cân bằng",
+          "points": 20,
+          "assetId": "achievement-balanced-week-level-2",
+          "iconPath": "/assets/designer/achievements/v2/balanced-week/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 8,
+          "label": "Bạc sáng · Tuần học cân bằng",
+          "points": 30,
+          "assetId": "achievement-balanced-week-level-3",
+          "iconPath": "/assets/designer/achievements/v2/balanced-week/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 16,
+          "label": "Vàng rực · Tuần học cân bằng",
+          "points": 40,
+          "assetId": "achievement-balanced-week-level-4",
+          "iconPath": "/assets/designer/achievements/v2/balanced-week/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 32,
+          "label": "Pha lê · Tuần học cân bằng",
+          "points": 50,
+          "assetId": "achievement-balanced-week-level-5",
+          "iconPath": "/assets/designer/achievements/v2/balanced-week/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.goal-keeper",
+      "seriesKey": "goal-keeper",
+      "category": "habit",
+      "title": "Người giữ lời với mục tiêu",
+      "description": "Tiến hoá huy hiệu Người giữ lời với mục tiêu qua các hoạt động có ý nghĩa.",
+      "metric": "goals.personal_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người giữ lời với mục tiêu",
+          "points": 10,
+          "assetId": "achievement-goal-keeper-level-1",
+          "iconPath": "/assets/designer/achievements/v2/goal-keeper/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Người giữ lời với mục tiêu",
+          "points": 20,
+          "assetId": "achievement-goal-keeper-level-2",
+          "iconPath": "/assets/designer/achievements/v2/goal-keeper/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Người giữ lời với mục tiêu",
+          "points": 30,
+          "assetId": "achievement-goal-keeper-level-3",
+          "iconPath": "/assets/designer/achievements/v2/goal-keeper/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 30,
+          "label": "Vàng rực · Người giữ lời với mục tiêu",
+          "points": 40,
+          "assetId": "achievement-goal-keeper-level-4",
+          "iconPath": "/assets/designer/achievements/v2/goal-keeper/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 60,
+          "label": "Pha lê · Người giữ lời với mục tiêu",
+          "points": 50,
+          "assetId": "achievement-goal-keeper-level-5",
+          "iconPath": "/assets/designer/achievements/v2/goal-keeper/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.healthy-session",
+      "seriesKey": "healthy-session",
+      "category": "habit",
+      "title": "Phiên học khỏe khoắn",
+      "description": "Tiến hoá huy hiệu Phiên học khỏe khoắn qua các hoạt động có ý nghĩa.",
+      "metric": "habit.healthy_sessions",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 3,
+          "label": "Mầm xanh · Phiên học khỏe khoắn",
+          "points": 10,
+          "assetId": "achievement-healthy-session-level-1",
+          "iconPath": "/assets/designer/achievements/v2/healthy-session/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 10,
+          "label": "Đồng hành · Phiên học khỏe khoắn",
+          "points": 20,
+          "assetId": "achievement-healthy-session-level-2",
+          "iconPath": "/assets/designer/achievements/v2/healthy-session/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 30,
+          "label": "Bạc sáng · Phiên học khỏe khoắn",
+          "points": 30,
+          "assetId": "achievement-healthy-session-level-3",
+          "iconPath": "/assets/designer/achievements/v2/healthy-session/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 75,
+          "label": "Vàng rực · Phiên học khỏe khoắn",
+          "points": 40,
+          "assetId": "achievement-healthy-session-level-4",
+          "iconPath": "/assets/designer/achievements/v2/healthy-session/level-4.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.collaboration",
+      "seriesKey": "collaboration",
+      "category": "social",
+      "title": "Cùng nhau làm được",
+      "description": "Tiến hoá huy hiệu Cùng nhau làm được qua các hoạt động có ý nghĩa.",
+      "metric": "social.collaborations_approved",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Cùng nhau làm được",
+          "points": 10,
+          "assetId": "achievement-collaboration-level-1",
+          "iconPath": "/assets/designer/achievements/v2/collaboration/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Cùng nhau làm được",
+          "points": 20,
+          "assetId": "achievement-collaboration-level-2",
+          "iconPath": "/assets/designer/achievements/v2/collaboration/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Cùng nhau làm được",
+          "points": 30,
+          "assetId": "achievement-collaboration-level-3",
+          "iconPath": "/assets/designer/achievements/v2/collaboration/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Cùng nhau làm được",
+          "points": 40,
+          "assetId": "achievement-collaboration-level-4",
+          "iconPath": "/assets/designer/achievements/v2/collaboration/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Cùng nhau làm được",
+          "points": 50,
+          "assetId": "achievement-collaboration-level-5",
+          "iconPath": "/assets/designer/achievements/v2/collaboration/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.helpful-feedback",
+      "seriesKey": "helpful-feedback",
+      "category": "social",
+      "title": "Lời góp ý tử tế",
+      "description": "Tiến hoá huy hiệu Lời góp ý tử tế qua các hoạt động có ý nghĩa.",
+      "metric": "social.feedback_approved",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Lời góp ý tử tế",
+          "points": 10,
+          "assetId": "achievement-helpful-feedback-level-1",
+          "iconPath": "/assets/designer/achievements/v2/helpful-feedback/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Lời góp ý tử tế",
+          "points": 20,
+          "assetId": "achievement-helpful-feedback-level-2",
+          "iconPath": "/assets/designer/achievements/v2/helpful-feedback/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Lời góp ý tử tế",
+          "points": 30,
+          "assetId": "achievement-helpful-feedback-level-3",
+          "iconPath": "/assets/designer/achievements/v2/helpful-feedback/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Lời góp ý tử tế",
+          "points": 40,
+          "assetId": "achievement-helpful-feedback-level-4",
+          "iconPath": "/assets/designer/achievements/v2/helpful-feedback/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Lời góp ý tử tế",
+          "points": 50,
+          "assetId": "achievement-helpful-feedback-level-5",
+          "iconPath": "/assets/designer/achievements/v2/helpful-feedback/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.feedback-applied",
+      "seriesKey": "feedback-applied",
+      "category": "social",
+      "title": "Biết lắng nghe và cải thiện",
+      "description": "Tiến hoá huy hiệu Biết lắng nghe và cải thiện qua các hoạt động có ý nghĩa.",
+      "metric": "social.feedback_applied",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Biết lắng nghe và cải thiện",
+          "points": 10,
+          "assetId": "achievement-feedback-applied-level-1",
+          "iconPath": "/assets/designer/achievements/v2/feedback-applied/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Biết lắng nghe và cải thiện",
+          "points": 20,
+          "assetId": "achievement-feedback-applied-level-2",
+          "iconPath": "/assets/designer/achievements/v2/feedback-applied/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Biết lắng nghe và cải thiện",
+          "points": 30,
+          "assetId": "achievement-feedback-applied-level-3",
+          "iconPath": "/assets/designer/achievements/v2/feedback-applied/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Biết lắng nghe và cải thiện",
+          "points": 40,
+          "assetId": "achievement-feedback-applied-level-4",
+          "iconPath": "/assets/designer/achievements/v2/feedback-applied/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Biết lắng nghe và cải thiện",
+          "points": 50,
+          "assetId": "achievement-feedback-applied-level-5",
+          "iconPath": "/assets/designer/achievements/v2/feedback-applied/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.reflection",
+      "seriesKey": "reflection",
+      "category": "social",
+      "title": "Gương soi học tập",
+      "description": "Tiến hoá huy hiệu Gương soi học tập qua các hoạt động có ý nghĩa.",
+      "metric": "learning.reflections_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Gương soi học tập",
+          "points": 10,
+          "assetId": "achievement-reflection-level-1",
+          "iconPath": "/assets/designer/achievements/v2/reflection/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Gương soi học tập",
+          "points": 20,
+          "assetId": "achievement-reflection-level-2",
+          "iconPath": "/assets/designer/achievements/v2/reflection/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Gương soi học tập",
+          "points": 30,
+          "assetId": "achievement-reflection-level-3",
+          "iconPath": "/assets/designer/achievements/v2/reflection/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Gương soi học tập",
+          "points": 40,
+          "assetId": "achievement-reflection-level-4",
+          "iconPath": "/assets/designer/achievements/v2/reflection/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 80,
+          "label": "Pha lê · Gương soi học tập",
+          "points": 50,
+          "assetId": "achievement-reflection-level-5",
+          "iconPath": "/assets/designer/achievements/v2/reflection/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.safety-skills",
+      "seriesKey": "safety-skills",
+      "category": "social",
+      "title": "Người bảo vệ thế giới số",
+      "description": "Tiến hoá huy hiệu Người bảo vệ thế giới số qua các hoạt động có ý nghĩa.",
+      "metric": "safety.scenarios_completed",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Người bảo vệ thế giới số",
+          "points": 10,
+          "assetId": "achievement-safety-skills-level-1",
+          "iconPath": "/assets/designer/achievements/v2/safety-skills/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Người bảo vệ thế giới số",
+          "points": 20,
+          "assetId": "achievement-safety-skills-level-2",
+          "iconPath": "/assets/designer/achievements/v2/safety-skills/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 8,
+          "label": "Bạc sáng · Người bảo vệ thế giới số",
+          "points": 30,
+          "assetId": "achievement-safety-skills-level-3",
+          "iconPath": "/assets/designer/achievements/v2/safety-skills/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 20,
+          "label": "Vàng rực · Người bảo vệ thế giới số",
+          "points": 40,
+          "assetId": "achievement-safety-skills-level-4",
+          "iconPath": "/assets/designer/achievements/v2/safety-skills/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 40,
+          "label": "Pha lê · Người bảo vệ thế giới số",
+          "points": 50,
+          "assetId": "achievement-safety-skills-level-5",
+          "iconPath": "/assets/designer/achievements/v2/safety-skills/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.kind-actions",
+      "seriesKey": "kind-actions",
+      "category": "social",
+      "title": "Hành động ấm áp",
+      "description": "Tiến hoá huy hiệu Hành động ấm áp qua các hoạt động có ý nghĩa.",
+      "metric": "social.kind_actions_approved",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Hành động ấm áp",
+          "points": 10,
+          "assetId": "achievement-kind-actions-level-1",
+          "iconPath": "/assets/designer/achievements/v2/kind-actions/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Hành động ấm áp",
+          "points": 20,
+          "assetId": "achievement-kind-actions-level-2",
+          "iconPath": "/assets/designer/achievements/v2/kind-actions/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 15,
+          "label": "Bạc sáng · Hành động ấm áp",
+          "points": 30,
+          "assetId": "achievement-kind-actions-level-3",
+          "iconPath": "/assets/designer/achievements/v2/kind-actions/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 40,
+          "label": "Vàng rực · Hành động ấm áp",
+          "points": 40,
+          "assetId": "achievement-kind-actions-level-4",
+          "iconPath": "/assets/designer/achievements/v2/kind-actions/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 80,
+          "label": "Pha lê · Hành động ấm áp",
+          "points": 50,
+          "assetId": "achievement-kind-actions-level-5",
+          "iconPath": "/assets/designer/achievements/v2/kind-actions/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.stars",
+      "seriesKey": "stars",
+      "category": "records",
+      "title": "Bầu trời sao",
+      "description": "Tiến hoá huy hiệu Bầu trời sao qua các hoạt động có ý nghĩa.",
+      "metric": "economy.stars_earned",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 10,
+          "label": "Mầm xanh · Bầu trời sao",
+          "points": 10,
+          "assetId": "achievement-stars-level-1",
+          "iconPath": "/assets/designer/achievements/v2/stars/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 30,
+          "label": "Đồng hành · Bầu trời sao",
+          "points": 20,
+          "assetId": "achievement-stars-level-2",
+          "iconPath": "/assets/designer/achievements/v2/stars/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 75,
+          "label": "Bạc sáng · Bầu trời sao",
+          "points": 30,
+          "assetId": "achievement-stars-level-3",
+          "iconPath": "/assets/designer/achievements/v2/stars/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 150,
+          "label": "Vàng rực · Bầu trời sao",
+          "points": 40,
+          "assetId": "achievement-stars-level-4",
+          "iconPath": "/assets/designer/achievements/v2/stars/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 300,
+          "label": "Pha lê · Bầu trời sao",
+          "points": 50,
+          "assetId": "achievement-stars-level-5",
+          "iconPath": "/assets/designer/achievements/v2/stars/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 600,
+          "label": "Vũ trụ · Bầu trời sao",
+          "points": 60,
+          "assetId": "achievement-stars-level-6",
+          "iconPath": "/assets/designer/achievements/v2/stars/level-6.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.xp",
+      "seriesKey": "xp",
+      "category": "records",
+      "title": "Tinh thể kinh nghiệm",
+      "description": "Tiến hoá huy hiệu Tinh thể kinh nghiệm qua các hoạt động có ý nghĩa.",
+      "metric": "economy.xp_earned",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 500,
+          "label": "Mầm xanh · Tinh thể kinh nghiệm",
+          "points": 10,
+          "assetId": "achievement-xp-level-1",
+          "iconPath": "/assets/designer/achievements/v2/xp/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 1500,
+          "label": "Đồng hành · Tinh thể kinh nghiệm",
+          "points": 20,
+          "assetId": "achievement-xp-level-2",
+          "iconPath": "/assets/designer/achievements/v2/xp/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 4000,
+          "label": "Bạc sáng · Tinh thể kinh nghiệm",
+          "points": 30,
+          "assetId": "achievement-xp-level-3",
+          "iconPath": "/assets/designer/achievements/v2/xp/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 10000,
+          "label": "Vàng rực · Tinh thể kinh nghiệm",
+          "points": 40,
+          "assetId": "achievement-xp-level-4",
+          "iconPath": "/assets/designer/achievements/v2/xp/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 25000,
+          "label": "Pha lê · Tinh thể kinh nghiệm",
+          "points": 50,
+          "assetId": "achievement-xp-level-5",
+          "iconPath": "/assets/designer/achievements/v2/xp/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 50000,
+          "label": "Vũ trụ · Tinh thể kinh nghiệm",
+          "points": 60,
+          "assetId": "achievement-xp-level-6",
+          "iconPath": "/assets/designer/achievements/v2/xp/level-6.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.level",
+      "seriesKey": "level",
+      "category": "records",
+      "title": "Đỉnh cao mới",
+      "description": "Tiến hoá huy hiệu Đỉnh cao mới qua các hoạt động có ý nghĩa.",
+      "metric": "profile.level",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 5,
+          "label": "Mầm xanh · Đỉnh cao mới",
+          "points": 10,
+          "assetId": "achievement-level-level-1",
+          "iconPath": "/assets/designer/achievements/v2/level/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 10,
+          "label": "Đồng hành · Đỉnh cao mới",
+          "points": 20,
+          "assetId": "achievement-level-level-2",
+          "iconPath": "/assets/designer/achievements/v2/level/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 20,
+          "label": "Bạc sáng · Đỉnh cao mới",
+          "points": 30,
+          "assetId": "achievement-level-level-3",
+          "iconPath": "/assets/designer/achievements/v2/level/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 35,
+          "label": "Vàng rực · Đỉnh cao mới",
+          "points": 40,
+          "assetId": "achievement-level-level-4",
+          "iconPath": "/assets/designer/achievements/v2/level/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Đỉnh cao mới",
+          "points": 50,
+          "assetId": "achievement-level-level-5",
+          "iconPath": "/assets/designer/achievements/v2/level/level-5.png"
+        },
+        {
+          "level": 6,
+          "tier": "cosmic",
+          "threshold": 75,
+          "label": "Vũ trụ · Đỉnh cao mới",
+          "points": 60,
+          "assetId": "achievement-level-level-6",
+          "iconPath": "/assets/designer/achievements/v2/level/level-6.png"
+        },
+        {
+          "level": 7,
+          "tier": "legendary",
+          "threshold": 100,
+          "label": "Huyền thoại · Đỉnh cao mới",
+          "points": 70,
+          "assetId": "achievement-level-level-7",
+          "iconPath": "/assets/designer/achievements/v2/level/level-7.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.best-score",
+      "seriesKey": "best-score",
+      "category": "records",
+      "title": "Vượt qua chính mình",
+      "description": "Tiến hoá huy hiệu Vượt qua chính mình qua các hoạt động có ý nghĩa.",
+      "metric": "records.personal_bests",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 1,
+          "label": "Mầm xanh · Vượt qua chính mình",
+          "points": 10,
+          "assetId": "achievement-best-score-level-1",
+          "iconPath": "/assets/designer/achievements/v2/best-score/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 3,
+          "label": "Đồng hành · Vượt qua chính mình",
+          "points": 20,
+          "assetId": "achievement-best-score-level-2",
+          "iconPath": "/assets/designer/achievements/v2/best-score/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Vượt qua chính mình",
+          "points": 30,
+          "assetId": "achievement-best-score-level-3",
+          "iconPath": "/assets/designer/achievements/v2/best-score/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 25,
+          "label": "Vàng rực · Vượt qua chính mình",
+          "points": 40,
+          "assetId": "achievement-best-score-level-4",
+          "iconPath": "/assets/designer/achievements/v2/best-score/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 50,
+          "label": "Pha lê · Vượt qua chính mình",
+          "points": 50,
+          "assetId": "achievement-best-score-level-5",
+          "iconPath": "/assets/designer/achievements/v2/best-score/level-5.png"
+        }
+      ]
+    },
+    {
+      "key": "achievement.perfect-streak",
+      "seriesKey": "perfect-streak",
+      "category": "records",
+      "title": "Chuỗi hoàn thành xuất sắc",
+      "description": "Tiến hoá huy hiệu Chuỗi hoàn thành xuất sắc qua các hoạt động có ý nghĩa.",
+      "metric": "records.perfect_activity_streak",
+      "aggregation": "lifetime",
+      "hidden": false,
+      "milestones": [
+        {
+          "level": 1,
+          "tier": "seed",
+          "threshold": 2,
+          "label": "Mầm xanh · Chuỗi hoàn thành xuất sắc",
+          "points": 10,
+          "assetId": "achievement-perfect-streak-level-1",
+          "iconPath": "/assets/designer/achievements/v2/perfect-streak/level-1.png"
+        },
+        {
+          "level": 2,
+          "tier": "bronze",
+          "threshold": 5,
+          "label": "Đồng hành · Chuỗi hoàn thành xuất sắc",
+          "points": 20,
+          "assetId": "achievement-perfect-streak-level-2",
+          "iconPath": "/assets/designer/achievements/v2/perfect-streak/level-2.png"
+        },
+        {
+          "level": 3,
+          "tier": "silver",
+          "threshold": 10,
+          "label": "Bạc sáng · Chuỗi hoàn thành xuất sắc",
+          "points": 30,
+          "assetId": "achievement-perfect-streak-level-3",
+          "iconPath": "/assets/designer/achievements/v2/perfect-streak/level-3.png"
+        },
+        {
+          "level": 4,
+          "tier": "gold",
+          "threshold": 20,
+          "label": "Vàng rực · Chuỗi hoàn thành xuất sắc",
+          "points": 40,
+          "assetId": "achievement-perfect-streak-level-4",
+          "iconPath": "/assets/designer/achievements/v2/perfect-streak/level-4.png"
+        },
+        {
+          "level": 5,
+          "tier": "crystal",
+          "threshold": 40,
+          "label": "Pha lê · Chuỗi hoàn thành xuất sắc",
+          "points": 50,
+          "assetId": "achievement-perfect-streak-level-5",
+          "iconPath": "/assets/designer/achievements/v2/perfect-streak/level-5.png"
+        }
+      ]
+    }
+  ]
+}
