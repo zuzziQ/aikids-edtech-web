@@ -138,7 +138,7 @@ describe('PlanEditorModal Component', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
-  it('falls back to local cache and triggers onSaved when API returns 404 or fails', async () => {
+  it('keeps the editor open and does not report success when the API fails', async () => {
     mockApi.mockRejectedValueOnce(new Error('404 Not Found'))
 
     const onSaved = vi.fn()
@@ -164,12 +164,8 @@ describe('PlanEditorModal Component', () => {
     })
 
     expect(mockApi).toHaveBeenCalled()
-    expect(onSaved).toHaveBeenCalledWith(
-      expect.objectContaining({
-        id: 'pro',
-        name: 'Gói Cao Cấp',
-      }),
-    )
-    expect(onClose).toHaveBeenCalled()
+    // An unsaved plan must not reach the local catalog or close the editor.
+    expect(onSaved).not.toHaveBeenCalled()
+    expect(onClose).not.toHaveBeenCalled()
   })
 })

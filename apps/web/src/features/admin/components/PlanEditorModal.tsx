@@ -245,21 +245,13 @@ export function PlanEditorModal({
 
       onSaved(savedPlanObj)
       onClose()
-    } catch {
-      // Backend trả 404 hoặc lỗi mạng: tự động cập nhật gói vào cache local aikids_admin_billing_plans và trigger onSaved()
-      try {
-        const raw = typeof window !== 'undefined' ? localStorage.getItem('aikids_admin_billing_plans') : null
-        const currentList: PlanDef[] = raw ? JSON.parse(raw) : [...DEFAULT_CATALOG_PLANS]
-        const targetList = Array.isArray(currentList) && currentList.length > 0 ? currentList : [...DEFAULT_CATALOG_PLANS]
-        const idx = targetList.findIndex((p) => p.id === cleanId)
-        const updated = idx >= 0 ? targetList.map((p, i) => (i === idx ? { ...p, ...savedPlanObj } : p)) : [...targetList, savedPlanObj]
-        localStorage.setItem('aikids_admin_billing_plans', JSON.stringify(updated))
-        window.dispatchEvent(new CustomEvent('aikids:billing-plans-updated', { detail: savedPlanObj }))
-      } catch { /* ignore */ }
-
-      showToast(`Đã lưu gói bán ${cleanName} vào bộ nhớ tạm hệ thống`, 'success')
-      onSaved(savedPlanObj)
-      onClose()
+    } catch (err) {
+      // Keep the editor open and the cache untouched: writing an unsaved plan
+      // into the local catalog made the POS and parents see phantom prices.
+      showToast(
+        `Chưa lưu được gói ${cleanName}: ${err instanceof Error ? err.message : 'lỗi máy chủ'}. Vui lòng thử lại.`,
+        'error',
+      )
     } finally {
       setSubmitting(false)
     }

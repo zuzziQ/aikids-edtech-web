@@ -35,10 +35,12 @@ import { useAuth } from '@/shared/store/auth'
 import type { AgeExperiencePolicy } from '@/shared/age-experience/AgeExperienceProvider'
 import { designerAssets, programArtworkHint } from '@/shared/config/assets'
 import { avatarImage, getAvatar } from '@/shared/config/avatars'
+import { AIKID_CANONICAL_TITLE_HINTS } from '@/features/world/lib/world-pathway-mapper'
 
 import { ParentTeacherFeedbackSection } from '../components/ParentTeacherFeedbackSection'
 import { ParentSubscriptionCheckoutModal } from '../components/ParentSubscriptionCheckoutModal'
 import { useParentFeedbackBadge } from '../hooks/useParentFeedbackBadge'
+import { generateDynamicCertificateSvg } from '@/features/lesson/components/CourseCertificateModal'
 import { parentFriendlyError } from '../lib/parent-error'
 import {
   getChildLearningCache,
@@ -397,7 +399,7 @@ export function ParentLearningPage() {
       competency: { status: 'configuration_required', frameworks: [] },
       credentials: [], pathway: { recommendedCourseId: null, courses: [] }, courses: [],
       progress: { courseId: null, courses: [], summary: { completed: 0, total: 0, totalStars: 0, currentPhase: null }, quests: [] },
-      ageExperience: { status: 'configuration_required', policy: null },
+      ageExperience: { status: 'ready', policy: null },
     }
     setLoading(!cached)
     setIsRevalidating(Boolean(cached))
@@ -451,10 +453,6 @@ export function ParentLearningPage() {
         if (!Array.isArray(credentials)) throw new Error('Chứng nhận chưa sẵn sàng')
         snapshot = { ...snapshot, credentials }; commit()
       }).catch((cause) => fail(cause, 'Chứng nhận')),
-      api<LearningData['ageExperience']>(`/api/v1/lms/me/age-policy?${query}`, opts).then((ageExperience) => {
-        if (!ageExperience?.status) throw new Error('Chính sách chưa sẵn sàng')
-        snapshot = { ...snapshot, ageExperience }; commit()
-      }).catch((cause) => fail(cause, 'Chính sách độ tuổi')),
       readParentResource<{ subscription: HouseholdLearningSubscription }>('/api/parent/subscription').then((result) => {
         if (!result?.subscription) throw new Error('Gói học chưa sẵn sàng')
         if (isCurrent() && !denied) setSubscription(result.subscription)
@@ -491,6 +489,20 @@ export function ParentLearningPage() {
   useEffect(() => {
     void load()
     return () => { requestVersion.current += 1; activeController.current?.abort() }
+  }, [load])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const handleUpdated = () => {
+      invalidateParentCache()
+      void load()
+    }
+    window.addEventListener('aikids:lesson-completed', handleUpdated)
+    window.addEventListener('aikids:progression-updated', handleUpdated)
+    return () => {
+      window.removeEventListener('aikids:lesson-completed', handleUpdated)
+      window.removeEventListener('aikids:progression-updated', handleUpdated)
+    }
   }, [load])
 
   async function handleEnterChild(childId: string) {
@@ -564,7 +576,7 @@ export function ParentLearningPage() {
                 const isActive = studentId === child.id
                 const img = avatarImage(child.avatarId)
                 const av = getAvatar(child.avatarId)
-                const cStars = child.totalStars ?? 0
+                const cStars = isActive ? totalStars : (child.totalStars ?? 0)
 
                 return (
                   <button
@@ -754,7 +766,14 @@ function LearningOverview({
   onEnterChild: () => void
 }) {
   const completed = pathway.courses.filter((course) => course.status === 'completed').length
-  const isIsland0Done = completedQuests >= 10
+  const island0Course = pathway.courses.find(
+    (c) =>
+      c.id === 'muoi-quy-tac-xuong-sang-tao' ||
+      c.slug === 'muoi-quy-tac-xuong-sang-tao' ||
+      c.title?.toLowerCase().includes('quy tắc') ||
+      c.title?.toLowerCase().includes('quy tac'),
+  )
+  const isIsland0Done = Boolean(island0Course && (island0Course.status === 'completed' || (island0Course.completedCount ?? 0) >= (island0Course.questCount ?? 10))) || completedQuests >= 10
 
   return (
     <div className="grid gap-5">
@@ -839,11 +858,13 @@ function LearningOverview({
             let islandStars = 0
             let islandStatus: 'completed' | 'active' | 'locked' = 'locked'
 
-            const course = pathway?.courses?.find((c) =>
-              c.id === island.id ||
-              c.slug === island.id ||
-              c.slug?.includes(island.id)
-            )
+            const hints = AIKID_CANONICAL_TITLE_HINTS[island.id as keyof typeof AIKID_CANONICAL_TITLE_HINTS] ?? []
+            const course = pathway?.courses?.find((c) => {
+              if (c.id === island.id || c.slug === island.id) return true
+              if (c.slug && (island.id.startsWith(c.slug) || island.id.includes(c.slug))) return true
+              const search = `${c.title} ${c.shortTitle ?? ''} ${c.slug ?? ''}`.toLowerCase()
+              return hints.some((hint) => search.includes(hint))
+            })
 
             if (course) {
               islandCompleted = course.completedCount ?? (course.status === 'completed' ? island.totalStations : 0)
@@ -875,19 +896,19 @@ function LearningOverview({
               <div
                 key={island.id}
                 className={cn(
-                  'relative flex flex-col justify-between rounded-3xl border-2 p-5 transition-all duration-300 shadow-clay',
+                  'relative flex flex-col justify-between rounded-2xl border p-4 transition-all duration-200 shadow-2xs',
                   islandStatus === 'completed'
-                    ? 'border-emerald-300 bg-gradient-to-b from-emerald-50/50 via-white to-white'
+                    ? 'border-emerald-200 bg-emerald-50/20'
                     : islandStatus === 'active'
-                      ? 'border-brand-300 bg-gradient-to-b from-brand-50/60 via-white to-white ring-2 ring-brand-200'
-                      : 'border-slate-200 bg-slate-50/70 opacity-80',
+                      ? 'border-brand-300 bg-brand-50/30 ring-1 ring-brand-200'
+                      : 'border-slate-200/80 bg-slate-50/50 opacity-75',
                 )}
               >
                 <div>
                   {/* Sticker + Status */}
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start justify-between gap-2.5">
                     <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-soft p-1 overflow-hidden">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white border border-slate-100 shadow-2xs p-1 overflow-hidden">
                         <img
                           src={island.sticker}
                           alt={island.title}
@@ -895,7 +916,7 @@ function LearningOverview({
                         />
                       </div>
                       {islandStatus === 'completed' && (
-                        <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-white shadow-2xs text-xs font-black">
+                        <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-white shadow-2xs text-[10px] font-black">
                           ✓
                         </span>
                       )}
@@ -903,7 +924,7 @@ function LearningOverview({
 
                     <span
                       className={cn(
-                        'rounded-full px-2.5 py-1 text-xs font-black shadow-2xs',
+                        'rounded-full px-2 py-0.5 text-[11px] font-bold shadow-2xs',
                         islandStatus === 'completed'
                           ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
                           : islandStatus === 'active'
@@ -920,27 +941,27 @@ function LearningOverview({
                   </div>
 
                   {/* Title & Subtitle */}
-                  <h3 className="font-display text-base sm:text-lg font-black text-slate-900 mt-3">
+                  <h3 className="font-display text-sm sm:text-base font-black text-slate-900 mt-2.5">
                     {island.title}
                   </h3>
-                  <p className="text-xs text-muted font-bold mt-0.5">
+                  <p className="text-xs text-muted font-medium mt-0.5 line-clamp-1">
                     {island.subtitle}
                   </p>
 
                   {/* Progress bar */}
-                  <div className="mt-3.5">
-                    <div className="flex items-center justify-between text-xs font-black mb-1">
+                  <div className="mt-2.5">
+                    <div className="flex items-center justify-between text-[11px] font-bold mb-1">
                       <span className="text-slate-600">
-                        🎯 {islandCompleted} / {island.totalStations} trạm
+                        {islandCompleted} / {island.totalStations} trạm
                       </span>
                       <span className="text-amber-800">
-                        ⭐ {islandStars} sao
+                        {islandStars} sao
                       </span>
                     </div>
-                    <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200">
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200/60">
                       <div
                         className={cn(
-                          'h-full rounded-full transition-all duration-700',
+                          'h-full rounded-full transition-all duration-500',
                           islandStatus === 'completed' ? 'bg-emerald-500' : 'bg-brand-500',
                         )}
                         style={{ width: `${pct}%` }}
@@ -950,21 +971,21 @@ function LearningOverview({
                 </div>
 
                 {/* Action Footer */}
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
                   {islandStatus === 'completed' ? (
-                    <span className="text-xs font-bold text-slate-600">
+                    <span className="text-[11px] font-bold text-slate-600">
                       Đã đạt chuẩn an toàn AI
                     </span>
                   ) : islandStatus === 'active' ? (
                     <button
                       type="button"
                       onClick={onEnterChild}
-                      className="inline-flex items-center gap-1.5 text-xs font-black text-brand-700 hover:text-brand-900 transition"
+                      className="inline-flex items-center gap-1 text-xs font-black text-brand-700 hover:text-brand-900 transition"
                     >
                       <span>Vào học</span>
                     </button>
                   ) : (
-                    <span className="text-xs font-bold text-slate-400">
+                    <span className="text-[11px] font-bold text-slate-400">
                       Mở khi hoàn thành đảo trước
                     </span>
                   )}
@@ -974,9 +995,6 @@ function LearningOverview({
           })}
         </div>
       </section>
-
-      {/* Pathway compact snapshot */}
-      <PathwaySection pathway={pathway} compact />
     </div>
   )
 }
@@ -1020,7 +1038,7 @@ function OverviewStat({
 }
 
 // ── Tab 2: Bằng Khen & Chứng Nhận (SVG Thật Khung Men Gốm Vàng) ──
-function CredentialsShowcase({
+export function CredentialsShowcase({
   child,
   credentials,
   totalStars,
@@ -1038,6 +1056,20 @@ function CredentialsShowcase({
   const childName = child?.nickname ?? 'Con'
   const isGraduated = completedQuests >= 32
   const progressPercent = Math.min(100, Math.round((completedQuests / 32) * 100))
+  const dynamicCertUrl = useMemo(() => {
+    return generateDynamicCertificateSvg({
+      studentName: childName,
+      courseTitle: 'Khóa học Sáng Tạo Cùng AIKids (32 Trạm)',
+      formattedDate: new Intl.DateTimeFormat('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }).format(new Date()),
+      stars: totalStars,
+      xp: totalStars * 50,
+      courseId: 'aikid-official',
+    })
+  }, [childName, totalStars])
 
   return (
     <div className="grid gap-6">
@@ -1097,7 +1129,7 @@ function CredentialsShowcase({
               </div>
             )}
             <img
-              src={designerAssets.certificates.graduation}
+              src={dynamicCertUrl}
               alt="Giấy Chứng Nhận Tốt Nghiệp Khóa Học AIKid"
               className={cn(
                 'w-full h-auto object-contain rounded-xl drop-shadow-md transition-all duration-300',
@@ -1139,7 +1171,7 @@ function CredentialsShowcase({
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             {isGraduated ? (
               <a
-                href={designerAssets.certificates.graduation}
+                href={dynamicCertUrl}
                 download={`Chung-Nhan-Tot-Nghiep-${childName}.svg`}
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-2xl bg-amber-400 hover:bg-amber-500 text-amber-950 font-black text-sm px-7 py-3 shadow-clay transition cursor-pointer active:scale-95"
                 title="Tải Giấy Chứng Nhận về máy để in ấn hoặc đóng khung kỷ niệm"
@@ -1645,11 +1677,25 @@ function CourseSelectionSection({
 }
 
 function PathwaySection({ pathway, compact = false }: { pathway: Pathway; compact?: boolean }) {
+  const [showAll, setShowAll] = useState(false)
+  const displayCourses = showAll ? pathway.courses : pathway.courses.slice(0, 4)
+
   return (
     <section className="ui-card p-5">
-      <div>
-        <p className="text-xs font-extrabold uppercase tracking-wide text-brand-500">Lộ trình cá nhân</p>
-        <h2 className="font-display text-xl font-bold">Khóa đang học và bước tiếp theo</h2>
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-wide text-brand-500">Lộ trình cá nhân</p>
+          <h2 className="font-display text-xl font-bold">Khóa đang học và bước tiếp theo</h2>
+        </div>
+        {pathway.courses.length > displayCourses.length && !showAll && (
+          <button
+            type="button"
+            onClick={() => setShowAll(true)}
+            className="text-xs font-bold text-brand-600 hover:text-brand-800 transition"
+          >
+            Xem tất cả {pathway.courses.length} khóa
+          </button>
+        )}
       </div>
       {pathway.courses.length === 0 ? (
         <div className="mt-4 rounded-2xl bg-brand-50 p-4">
@@ -1657,54 +1703,67 @@ function PathwaySection({ pathway, compact = false }: { pathway: Pathway; compac
           <p className="mt-1 text-sm text-muted">Ba / Mẹ có thể chọn chương trình phù hợp ngay trong mục Lộ trình.</p>
         </div>
       ) : (
-        <div className={cn('mt-4 grid gap-3 sm:grid-cols-2', compact ? 'xl:grid-cols-3' : 'xl:grid-cols-3')}>
-          {pathway.courses.map((course) => (
-            <article
-              key={course.id}
-              className={cn(
-                'rounded-2xl border p-4',
-                course.id === pathway.recommendedCourseId ? 'border-brand-300 bg-brand-50' : 'border-border bg-page',
-              )}
-            >
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="font-bold">{course.title}</h3>
-                {course.id === pathway.recommendedCourseId && (
-                  <span className="rounded-full bg-brand-500 px-2 py-0.5 text-xs font-bold text-white">
-                    Nên học tiếp
-                  </span>
+        <>
+          <div className={cn('mt-4 grid gap-3 sm:grid-cols-2', compact ? 'xl:grid-cols-3' : 'xl:grid-cols-3')}>
+            {displayCourses.map((course) => (
+              <article
+                key={course.id}
+                className={cn(
+                  'rounded-2xl border p-4 transition-all',
+                  course.id === pathway.recommendedCourseId ? 'border-brand-300 bg-brand-50' : 'border-border bg-page',
                 )}
-              </div>
-              <p className="mt-2 text-sm text-muted">
-                {course.status === 'completed'
-                  ? 'Đã hoàn thành'
-                  : course.status === 'active'
-                    ? 'Đang học'
-                    : course.status === 'available'
-                      ? 'Đã mở'
-                      : 'Đang khóa'}{' '}
-                · {course.completionPercent}%
-              </p>
-              <div
-                className="mt-3 h-2 overflow-hidden rounded-full bg-white"
-                aria-label={`Hoàn thành ${course.completionPercent}%`}
-                role="progressbar"
-                aria-valuenow={course.completionPercent}
-                aria-valuemin={0}
-                aria-valuemax={100}
               >
-                <div
-                  className="h-full rounded-full bg-brand-500"
-                  style={{ width: `${Math.min(100, Math.max(0, course.completionPercent))}%` }}
-                />
-              </div>
-              {course.status === 'locked' && course.missingPrerequisites.length > 0 && (
-                <p className="mt-2 text-xs text-warning">
-                  Cần hoàn thành: {course.missingPrerequisites.join(', ')}
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-bold">{course.title}</h3>
+                  {course.id === pathway.recommendedCourseId && (
+                    <span className="rounded-full bg-brand-500 px-2 py-0.5 text-xs font-bold text-white">
+                      Nên học tiếp
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-sm text-muted">
+                  {course.status === 'completed'
+                    ? 'Đã hoàn thành'
+                    : course.status === 'active'
+                      ? 'Đang học'
+                      : course.status === 'available'
+                        ? 'Đã mở'
+                        : 'Đang khóa'}{' '}
+                  · {course.completionPercent}%
                 </p>
-              )}
-            </article>
-          ))}
-        </div>
+                <div
+                  className="mt-3 h-2 overflow-hidden rounded-full bg-white"
+                  aria-label={`Hoàn thành ${course.completionPercent}%`}
+                  role="progressbar"
+                  aria-valuenow={course.completionPercent}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="h-full rounded-full bg-brand-500"
+                    style={{ width: `${Math.min(100, Math.max(0, course.completionPercent))}%` }}
+                  />
+                </div>
+                {course.status === 'locked' && course.missingPrerequisites.length > 0 && (
+                  <p className="mt-2 text-xs text-warning">
+                    Cần hoàn thành: {course.missingPrerequisites.join(', ')}
+                  </p>
+                )}
+              </article>
+            ))}
+          </div>
+          {pathway.courses.length > 4 && (
+            <div className="mt-3 text-center">
+              <button
+                type="button"
+                onClick={() => setShowAll((prev) => !prev)}
+                className="text-xs font-black text-brand-600 hover:text-brand-700 hover:underline cursor-pointer"
+              >
+                {showAll ? 'Thu gọn danh sách khóa' : `Xem thêm ${pathway.courses.length - displayCourses.length} khóa học khác`}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </section>
   )

@@ -1,0 +1,962 @@
+[
+  {
+    "id": "combo__sub-dong-ho",
+    "batchName": "clock_level1",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn (1 từ thử nghiệm, chưa có chìa khóa)",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, standing centered cheerfully looking friendly and curious, on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go",
+    "batchName": "clock_level2",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so",
+    "batchName": "clock_level2",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho",
+    "batchName": "clock_level2",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-diem-chuong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Đang điểm chuông ngân",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, chiming merrily with musical sparkling golden notes floating around, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-tich-tac",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Tích tắc đếm từng giây",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, ticking rhythmically with a steady peaceful heartbeat rhythm, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-phan-chieu",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Phản chiếu nắng chiều",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, catching the warm golden sunset glow through its polished glass face, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-diem-chuong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Đang điểm chuông ngân",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, chiming merrily with musical sparkling golden notes floating around, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-tich-tac",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Tích tắc đếm từng giây",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, ticking rhythmically with a steady peaceful heartbeat rhythm, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-phan-chieu",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Phản chiếu nắng chiều",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, catching the warm golden sunset glow through its polished glass face, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-diem-chuong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Đang điểm chuông ngân",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, chiming merrily with musical sparkling golden notes floating around, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-tich-tac",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Tích tắc đếm từng giây",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, ticking rhythmically with a steady peaceful heartbeat rhythm, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu",
+    "batchName": "clock_level3",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-phan-chieu",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Phản chiếu nắng chiều",
+      "context": ""
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, catching the warm golden sunset glow through its polished glass face, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Đang điểm chuông ngân",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, chiming merrily with musical sparkling golden notes floating around, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Đang điểm chuông ngân",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, chiming merrily with musical sparkling golden notes floating around, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Đang điểm chuông ngân",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, chiming merrily with musical sparkling golden notes floating around, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-diem-chuong__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-tich-tac__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, catching the warm golden sunset glow through its polished glass face, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, catching the warm golden sunset glow through its polished glass face, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-vo-go",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Vỏ gỗ mun cổ kính",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, vỏ bằng gỗ mun sẫm màu chạm trổ cổ kính, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with an intricately carved antique dark mahogany wooden casing, catching the warm golden sunset glow through its polished glass face, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-vo-go__act-clk-phan-chieu__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Đang điểm chuông ngân",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, chiming merrily with musical sparkling golden notes floating around, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Đang điểm chuông ngân",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, chiming merrily with musical sparkling golden notes floating around, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Đang điểm chuông ngân",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, chiming merrily with musical sparkling golden notes floating around, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-diem-chuong__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-tich-tac__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, catching the warm golden sunset glow through its polished glass face, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, catching the warm golden sunset glow through its polished glass face, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-mat-so",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Mặt số la mã vàng",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, mặt số la mã mạ vàng sáng lấp lánh tinh xảo, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with a polished golden clock face adorned with delicate Roman numerals, catching the warm golden sunset glow through its polished glass face, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-mat-so__act-clk-phan-chieu__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Đang điểm chuông ngân",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, chiming merrily with musical sparkling golden notes floating around, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Đang điểm chuông ngân",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, chiming merrily with musical sparkling golden notes floating around, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-diem-chuong",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Đang điểm chuông ngân",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, đang vang lên tiếng chuông điểm giờ trong trẻo ngân nga, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, chiming merrily with musical sparkling golden notes floating around, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-diem-chuong__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-tich-tac",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Tích tắc đếm từng giây",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, tiếng tích tắc êm tai đều đặn đếm từng nhịp thời gian, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, ticking rhythmically with a steady peaceful heartbeat rhythm, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-tich-tac__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-tuong-gach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-tuong-gach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Treo trên tường gạch"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, treo trang trọng trên bức tường gạch đỏ mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, catching the warm golden sunset glow through its polished glass face, in a charming setting, mounted charmingly against a cozy rustic exposed red-brick wall, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-tuong-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-tuong-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-lo-suoi",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-lo-suoi"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Trên lò sưởi ấm áp"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, ngay trên bệ lò sưởi đá bập bùng ngọn lửa ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, catching the warm golden sunset glow through its polished glass face, in a charming setting, perched proudly on the stone mantelpiece above a warm crackling fireplace, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-lo-suoi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-lo-suoi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-ke-sach",
+    "batchName": "clock_level4",
+    "subjectKey": "clock",
+    "subjectLabel": "Đồng Hồ Báo Thức",
+    "blockIds": {
+      "subject": "sub-dong-ho",
+      "colorShape": "cs-clk-kim-dong-ho",
+      "action": "act-clk-phan-chieu",
+      "context": "ctx-clk-ke-sach"
+    },
+    "blockLabels": {
+      "subject": "Đồng hồ để bàn",
+      "colorShape": "Kim đồng hồ tích tắc",
+      "action": "Phản chiếu nắng chiều",
+      "context": "Trên kệ sách phòng khách"
+    },
+    "promptVi": "Chiếc đồng hồ để bàn, đôi kim thanh mảnh uốn lượn phong cách quý tộc, phản chiếu ánh nắng hoàng hôn vàng óng qua lớp kính, trên kệ sách gỗ phòng khách sang trọng ấm cúng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute vintage alarm clock, with ornate filigree vintage clock hands gracefully pointing the time, catching the warm golden sunset glow through its polished glass face, in a charming setting, nestled neatly between classic storybooks on a cozy living room wooden bookshelf, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-ke-sach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/clock/combo__sub-dong-ho__cs-clk-kim-dong-ho__act-clk-phan-chieu__ctx-clk-ke-sach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  }
+]

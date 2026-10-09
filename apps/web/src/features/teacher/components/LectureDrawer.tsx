@@ -14,6 +14,7 @@ import {
   type LessonFormat, type LectureDraft, type LessonAccessConfig,
   getActiveModules, normalizeLectureDraft, ISLAND_6_STAGE_NAMES,
   COURSE_GOAL_BLOCK_PREFIX, COURSE_CONFIRM_BLOCK_PREFIX, defaultLearnCards,
+  STANDARD_ISLAND_6_STAGES, type JourneyStageDefinition,
 } from '../lib/authoring'
 import { QuestionBankPicker } from './QuestionBankPicker'
 import type { EditableQuestion } from './QuizQuestionBuilder'
@@ -21,6 +22,7 @@ import { isAikiRuleJourney } from '@/features/lesson/lib/rule-journey-identifier
 import {
   LectureDrawerHeader, LectureDrawerBasicsForm, SixStageJourneyEditor,
   LectureDrawerStandardContent, FullStationPreview, type Section,
+  CustomStagesManagerModal,
 } from './lecture-drawer'
 import { useLectureAuthoring } from './lecture-drawer/useLectureAuthoring'
 import { FullStationPreviewModal } from './lecture-drawer/FullStationPreviewModal'
@@ -61,6 +63,8 @@ export {
   PracticeKindPreview, FullStationPreview,
 }
 export { ISLAND_6_STAGE_SECTIONS } from './lecture-drawer'
+
+const DEFAULT_STAR_ALLOCATION: number[] = [2, 3, 4]
 
 type Props = {
   courseId: string; lecture: LectureDraft | null; onSaved: () => void; onClose: () => void
@@ -107,6 +111,55 @@ export function LectureDrawer({
   const [showFullPreview, setShowFullPreview] = useState(false)
   const [showInlinePreview, setShowInlinePreview] = useState(false)
   const [previewStageIndex, setPreviewStageIndex] = useState<number>(0)
+  const [showCustomStagesModal, setShowCustomStagesModal] = useState(false)
+
+  const handleApplyCustomStages = useCallback((newStages: JourneyStageDefinition[], newStarAllocation: number[]) => {
+    setDraft((prev) => {
+      let nextCards = [...prev.learnCards]
+      while (nextCards.length < newStages.length) {
+        const idx = nextCards.length
+        nextCards.push({
+          id: newStages[idx]?.id || `custom-stage-${idx + 1}`,
+          title: newStages[idx]?.title || `Chặng ${idx + 1}`,
+          body: '',
+          tip: '',
+          kind: idx === 0 ? 'concept' : idx === 1 ? 'example' : idx === 2 ? 'storyboard' : idx === 3 ? 'steps' : idx === 4 ? 'compare' : 'remember',
+          layout: 'text',
+          visualItems: [],
+          contentBlocks: [],
+        })
+      }
+      const clampedCards = nextCards.slice(0, newStages.length)
+
+      const prevJourney = prev.sixStageJourney || resolveIslandSixStageJourney(prev as any)
+      const nextJourney = {
+        ...prevJourney,
+        customStages: newStages,
+        stageStarAllocation: newStarAllocation,
+      }
+
+      return {
+        ...prev,
+        customJourneyStages: newStages,
+        learnCards: clampedCards,
+        sixStageJourney: nextJourney,
+        metadata: {
+          ...prev.metadata,
+          customJourneyStages: newStages,
+          sixStageJourney: nextJourney,
+        },
+      }
+    })
+
+    if (activeSection.startsWith('stage-')) {
+      const currentIdx = parseInt(activeSection.replace('stage-', ''), 10)
+      if (currentIdx >= newStages.length) {
+        setActiveSection('stage-0')
+      }
+    }
+
+    showToast(`✅ Đã cập nhật cấu trúc ${newStages.length} chặng học!`, 'success')
+  }, [activeSection, showToast])
 
   useEffect(() => {
     const handleOpen = (e: any) => {
@@ -255,7 +308,145 @@ export function LectureDrawer({
       const questionsForSave = quizQuestions.length > 0 ? quizQuestions.map((q) => ({ id: q.id, prompt: q.prompt, options: q.options, answer: q.answer, why: q.explanation })) : undefined
       const gameConfig = buildLectureGameConfig(draft, questionsForSave)
       const baseJourney = isIslandCourse ? (draft.sixStageJourney || resolveIslandSixStageJourney(draft as any)) : undefined
-      const finalJourney = baseJourney ? { ...baseJourney, stageBlockEditorVersion: 3 } : undefined
+      let finalJourney = baseJourney ? { ...baseJourney, stageBlockEditorVersion: 3 } : undefined
+      if (finalJourney) {
+        // Stage 0 Goal sync
+        const goalCard = draft.learnCards[0]
+        if (goalCard?.contentBlocks) {
+          const textBlock = goalCard.contentBlocks.find(
+            (b) => b.id.startsWith('course-goal-text') || b.type === 'text' || b.type === 'layout-text'
+          )
+          const fourKeysBlock = goalCard.contentBlocks.find(
+            (b) => b.id.startsWith('course-goal-four-keys') || b.type === 'layout-four-keys'
+          )
+          const imageBlock = goalCard.contentBlocks.find(
+            (b) => b.id.startsWith('course-goal-image') || b.type === 'images' || Boolean(b.imageUrl)
+          )
+          const voiceBlock = goalCard.contentBlocks.find(
+            (b) => b.type === 'voice' || Boolean(b.readText)
+          )
+          finalJourney.stage1_goal = {
+            ...finalJourney.stage1_goal,
+            title: textBlock?.title ?? finalJourney.stage1_goal?.title ?? '',
+            goalText: textBlock?.body ?? finalJourney.stage1_goal?.goalText ?? '',
+            imageUrl: imageBlock?.imageUrl || finalJourney.stage1_goal?.imageUrl || '',
+            speech: voiceBlock?.body || voiceBlock?.readText || finalJourney.stage1_goal?.speech || '',
+            layoutMode: goalCard.layoutMode || finalJourney.stage1_goal?.layoutMode || '2-column',
+            keyPoints: fourKeysBlock?.visualItems?.length
+              ? fourKeysBlock.visualItems.map((v) => v.text || v.label).filter(Boolean)
+              : (finalJourney.stage1_goal?.keyPoints || []),
+          }
+        }
+
+        // Stage 1 Confirm sync
+        const confirmBlock = draft.learnCards[1]?.contentBlocks?.find(
+          (b) =>
+            b.id === 'course-confirm-quiz' ||
+            b.type === 'layout-confirm-option' ||
+            b.type === 'quiz-question' ||
+            b.id.startsWith('course-confirm-') ||
+            Boolean(b.questionPrompt)
+        )
+        if (confirmBlock) {
+          finalJourney.stage2_confirmGoal = {
+            ...finalJourney.stage2_confirmGoal,
+            id: confirmBlock.id,
+            question: confirmBlock.questionPrompt || confirmBlock.title || finalJourney.stage2_confirmGoal?.question || '',
+            options: (confirmBlock.questionOptions && confirmBlock.questionOptions.length > 0)
+              ? confirmBlock.questionOptions.map((o, optIdx) => ({ id: o.id || `opt-${optIdx + 1}`, text: o.text, imageUrl: o.imageUrl }))
+              : (finalJourney.stage2_confirmGoal?.options || []),
+
+            correctIndex: typeof confirmBlock.correctIndex === 'number'
+              ? confirmBlock.correctIndex
+              : (finalJourney.stage2_confirmGoal?.correctIndex ?? 0),
+            explanation: confirmBlock.explanation || confirmBlock.tip || finalJourney.stage2_confirmGoal?.explanation || '',
+            visualUrl: confirmBlock.visualUrl || confirmBlock.imageUrl || finalJourney.stage2_confirmGoal?.visualUrl || '',
+            layoutMode: confirmBlock.layoutMode || finalJourney.stage2_confirmGoal?.layoutMode || 'cards',
+          }
+        }
+
+        // Stage 2 Video sync
+        const videoBlock = draft.learnCards[2]?.contentBlocks?.find(
+          (b) => b.type === 'video' || b.id.startsWith('course-video-')
+        )
+        if (videoBlock) {
+          finalJourney.stage3_video = {
+            ...finalJourney.stage3_video,
+            title: videoBlock.title || finalJourney.stage3_video?.title || 'Video bài giảng',
+            videoUrl: videoBlock.videoUrl || draft.learnCards[2]?.videoUrl || finalJourney.stage3_video?.videoUrl || '',
+            posterUrl: videoBlock.posterUrl || finalJourney.stage3_video?.posterUrl || '',
+            durationSec: typeof videoBlock.durationSec === 'number' ? videoBlock.durationSec : (finalJourney.stage3_video?.durationSec || 180),
+            timestamps: videoBlock.timestamps || finalJourney.stage3_video?.timestamps || [],
+          }
+        }
+
+        // Stage 3 Quiz sync
+        const quizBlocks = draft.learnCards[3]?.contentBlocks?.filter(
+          (b) =>
+            b.type === 'quiz-question' ||
+            b.id.startsWith('course-quiz-') ||
+            b.id.startsWith('blk-quiz-') ||
+            Boolean(b.questionPrompt)
+        )
+        if (quizBlocks && quizBlocks.length > 0) {
+          finalJourney.stage4_quiz = {
+            ...finalJourney.stage4_quiz,
+            questions: quizBlocks.map((b, qIdx) => ({
+              id: b.id.replace('course-quiz-', ''),
+              prompt: b.questionPrompt || b.title || `Câu hỏi ${qIdx + 1}`,
+              options: (b.questionOptions && b.questionOptions.length > 0)
+                ? b.questionOptions.map((o) => o.text)
+                : (b.optionLabels || ['Phương án A', 'Phương án B']),
+              correctIndex: typeof b.correctIndex === 'number' ? b.correctIndex : 0,
+              explanation: b.explanation || b.tip || '',
+              visualUrl: b.visualUrl || b.imageUrl || '',
+              layoutMode: b.layoutMode || 'cards',
+              optionImages: b.questionOptions?.map((o) => o.imageUrl || '') || b.optionImages,
+            })),
+          }
+        }
+
+        // Stage 4 Practice sync
+        const practiceBlock = draft.learnCards[4]?.contentBlocks?.find(
+          (b) => b.type === 'practice' || b.id.startsWith('course-practice-')
+        )
+        if (practiceBlock) {
+          finalJourney.stage5_practice = {
+            ...finalJourney.stage5_practice,
+            ...(practiceBlock.practiceConfig || {}),
+            title: practiceBlock.title || practiceBlock.practiceConfig?.title || finalJourney.stage5_practice?.title || 'Thực hành',
+          }
+        }
+
+        // Stage 5 Reward sync
+        const rewardBlock = draft.learnCards[5]?.contentBlocks?.find(
+          (b) => b.type === 'reward' || b.id.startsWith('course-reward-')
+        )
+        if (rewardBlock) {
+          finalJourney.stage6_completion = {
+            ...finalJourney.stage6_completion,
+            ...(rewardBlock.rewardConfig || {}),
+            title: rewardBlock.title || rewardBlock.rewardConfig?.title || finalJourney.stage6_completion?.title || 'Chúc mừng hoàn thành bài học!',
+            congratsMessage: rewardBlock.body || rewardBlock.rewardConfig?.congratsMessage || finalJourney.stage6_completion?.congratsMessage || '',
+          }
+        }
+
+        finalJourney.stageContentBlocks = {
+          ...(finalJourney.stageContentBlocks || {}),
+          'stage-0': draft.learnCards[0]?.contentBlocks || [],
+          'stage-1': draft.learnCards[1]?.contentBlocks || [],
+          'stage-2': draft.learnCards[2]?.contentBlocks || [],
+          'stage-3': draft.learnCards[3]?.contentBlocks || [],
+          'stage-4': draft.learnCards[4]?.contentBlocks || [],
+          'stage-5': draft.learnCards[5]?.contentBlocks || [],
+        }
+      }
+
+      const finalCustomStages = draft.customJourneyStages && draft.customJourneyStages.length >= 3 ? draft.customJourneyStages : undefined
+      if (finalJourney && finalCustomStages) {
+        finalJourney.customStages = finalCustomStages
+      }
+
       const rewardName = finalJourney?.stage6_completion?.rewardBadge?.name?.trim() || draft.reward?.trim() || ('Huy hiệu ' + draft.title).trim()
       const payload = {
         courseId, id: draft.id, slug: (draft as any).slug || draft.id, title: draft.title, skill: draft.skill || draft.title,
@@ -263,8 +454,9 @@ export function LectureDrawer({
         concept: draft.concept, example: draft.example, learnCards: serializeLearnCardsForHub(draft.learnCards),
         videoUrl: isIslandCourse ? (finalJourney?.stage3_video?.videoUrl || draft.videoUrl || null) : (draft.videoUrl || null),
         reward: rewardName, duration: draft.duration, practiceKind: draft.practiceKind, lessonFormat: isIslandCourse ? 'aiki-island-6steps' : lessonFormat,
-        sixStageJourney: finalJourney, metadata: { ...(draft as any).metadata, reward: rewardName, slug: (draft as any).slug || draft.id, sixStageJourney: finalJourney, access: draft.access },
-        gameType: draft.gameType, gameConfig: { ...gameConfig, lessonFormat: isIslandCourse ? 'aiki-island-6steps' : lessonFormat, sixStageJourney: finalJourney },
+        sixStageJourney: finalJourney, customJourneyStages: finalCustomStages,
+        metadata: { ...(draft as any).metadata, reward: rewardName, slug: (draft as any).slug || draft.id, sixStageJourney: finalJourney, access: draft.access, customJourneyStages: finalCustomStages },
+        gameType: draft.gameType, gameConfig: { ...gameConfig, lessonFormat: isIslandCourse ? 'aiki-island-6steps' : lessonFormat, sixStageJourney: finalJourney, customJourneyStages: finalCustomStages },
         checkQuestions: draft.checkQuestions,
       }
       if (isEdit) await api(`/api/teacher/lectures/${lecture.id}`, { method: 'PATCH', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } })
@@ -286,6 +478,7 @@ export function LectureDrawer({
         lessonFormat={lessonFormat} customJourneyStages={draft.customJourneyStages} activeSection={activeSection}
         readiness={readiness} showInlinePreview={showInlinePreview} recovery={recovery} draftStorageKey={draftStorageKey}
         onRestore={onRestore} onArchive={onArchive} onRequestClose={requestClose}
+        onOpenCustomStagesModal={() => setShowCustomStagesModal(true)}
         onShowFullPreview={() => {
           const currentIdx = activeSection.startsWith('stage-')
             ? parseInt(activeSection.replace('stage-', ''), 10)
@@ -364,6 +557,15 @@ export function LectureDrawer({
       {showBankPicker && <QuestionBankPicker selectedIds={quizQuestions.map((q) => q.id)} onSelect={(nq) => setQuizQuestions((p) => [...p, ...nq])} onClose={() => setShowBankPicker(false)} />}
       <ConfirmDialog open={confirmClose} title="Bỏ các thay đổi chưa lưu?" description="Nội dung vừa chỉnh trong trạm sẽ bị mất." confirmLabel="Bỏ thay đổi" cancelLabel="Tiếp tục soạn" danger onCancel={() => setConfirmClose(false)} onConfirm={() => { window.sessionStorage.removeItem(draftStorageKey); setConfirmClose(false); onDirtyChange?.(false); onClose() }} />
       <FullStationPreviewModal open={showFullPreview} onClose={() => setShowFullPreview(false)} draft={draft} lessonFormat={lessonFormat} gameConfig={buildLectureGameConfig(draft)} isIslandCourse={isIslandCourse} initialStageIndex={previewStageIndex} />
+      <CustomStagesManagerModal
+        isOpen={showCustomStagesModal}
+        onClose={() => setShowCustomStagesModal(false)}
+        currentStages={draft.customJourneyStages && draft.customJourneyStages.length >= 3 ? draft.customJourneyStages : (draft.sixStageJourney?.customStages && draft.sixStageJourney.customStages.length >= 3 ? draft.sixStageJourney.customStages : STANDARD_ISLAND_6_STAGES)}
+        starAllocation={draft.sixStageJourney?.stageStarAllocation ?? DEFAULT_STAR_ALLOCATION}
+        onApply={handleApplyCustomStages}
+        readOnly={readOnly}
+        showToast={showToast}
+      />
     </div>
   )
 

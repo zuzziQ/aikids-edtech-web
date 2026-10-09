@@ -48,15 +48,10 @@ export function normalizeLearningGatewayRequest(
   }
 
   if (path === '/api/media/refs' || path === '/api/backpack' || path === '/api/backpack/overview') {
-    const activeIpId = typeof window !== 'undefined' && typeof localStorage !== 'undefined' ? localStorage.getItem('storymee_active_ip_id') : null
-    const ipSuffix = activeIpId ? `?ipId=${encodeURIComponent(activeIpId)}` : ''
-    const joiner = ipSuffix ? '&' : '?'
-    return { path: `/api/v1/media/gallery${ipSuffix}${joiner}limit=50&includeTotal=0`, options }
+    return { path: '/api/v1/media/gallery?limit=50&includeTotal=0', options }
   }
   if (path === '/api/projects') {
-    const activeIpId = typeof window !== 'undefined' && typeof localStorage !== 'undefined' ? localStorage.getItem('storymee_active_ip_id') : null
-    const ipSuffix = activeIpId ? `?ipId=${encodeURIComponent(activeIpId)}` : ''
-    return { path: `/api/v1/media/gallery${ipSuffix}`, options }
+    return { path: '/api/v1/media/gallery', options }
   }
   const projectShare = path.match(/^\/api\/projects\/([^/?]+)\/request-share$/)
   if (projectShare) {
@@ -465,6 +460,7 @@ export function normalizeLearningGatewayResponse(
     path.startsWith('/api/projects') ||
     path.startsWith('/api/backpack') ||
     path.startsWith('/api/parent/approvals') ||
+    path.startsWith('/api/v1/lms/') ||
     path.startsWith('/api/parent/children/') && (path.includes('/progress') || path.includes('/courses')) ||
     path.startsWith('/api/notifications')
 
@@ -678,7 +674,8 @@ export function normalizeLearningGatewayResponse(
     }
   }
 
-  if (/^\/api\/learning\/pathway(?:\?.*)?$/.test(path) &&
+  if ((/^\/api\/learning\/pathway(?:\?.*)?$/.test(path) ||
+       /^\/api\/v1\/lms\/(?:compat\/pathway|me\/pathway|family\/children\/[^/?]+\/pathway)(?:\?.*)?$/.test(path)) &&
       Array.isArray(payload.courses)) {
     const isCanonicalPathway = Boolean(payload.student || payload.policy) ||
       payload.courses.some((course) => {
@@ -751,17 +748,21 @@ export function normalizeLearningGatewayResponse(
     const recommended = courses.find((course) => course.status === 'active') ??
       courses.find((course) => course.status === 'available') ??
       null
+    const rawStudent = payload.student && typeof payload.student === 'object' ? (payload.student as Record<string, unknown>) : null
     const firstRaw = payload.courses[0] as Record<string, unknown> | undefined
     return {
       student: {
-        nickname: null,
-        ageBand: String(firstRaw?.ageBand ?? '8-11'),
+        nickname: rawStudent?.nickname ? String(rawStudent.nickname) : null,
+        ageBand: String(rawStudent?.ageBand ?? firstRaw?.ageBand ?? '8-11'),
       },
-      policy: { label: 'Lộ trình học AI theo tiến độ của con' },
+      policy: payload.policy ?? { label: 'Lộ trình học AI theo tiến độ của con' },
       regionUnlockMode:
         payload.regionUnlockMode === 'sequential' ? 'sequential' : 'parallel',
       regionUnlockModeSource: payload.regionUnlockModeSource ?? 'course',
-      recommendedCourseId: recommended?.id ?? null,
+      recommendedCourseId:
+        (typeof payload.recommendedCourseId === 'string' ? payload.recommendedCourseId : null) ??
+        recommended?.id ??
+        null,
       courses,
     }
   }
@@ -791,10 +792,14 @@ export function normalizeLearningGatewayResponse(
       ? payload.enrollments as Array<Record<string, unknown>>
       : []
     const selectedId = new URLSearchParams(path.split('?')[1] ?? '').get('courseId')
-    const selected = rows.find((row) => String(row.courseId) === selectedId) ?? rows[0]
+    const selected = rows.find((row) => String(row.courseId) === selectedId) ??
+      rows.find((row) => Array.isArray(row.progress) && (row.progress as any[]).some((p) => p.status === 'in_progress' || p.status === 'completed')) ??
+      rows[0]
     const progress = selected && Array.isArray(selected.progress)
       ? selected.progress as Array<Record<string, unknown>>
       : []
+    const allProgress = rows.flatMap((row) => Array.isArray(row.progress) ? row.progress as Array<Record<string, unknown>> : [])
+    const summaryQuests = selectedId ? progress : (allProgress.length > 0 ? allProgress : progress)
     return {
       child: { id: path.split('/')[4], nickname: null, level: 1, xp: 0 },
       courseId: selected ? String(selected.courseId ?? '') : null,
@@ -809,9 +814,9 @@ export function normalizeLearningGatewayResponse(
         }
       }),
       summary: {
-        completed: progress.filter((row) => row.status === 'completed').length,
-        total: progress.length,
-        totalStars: progress.reduce((sum, row) => sum + clampStationStars(row.stars), 0),
+        completed: summaryQuests.filter((row) => row.status === 'completed').length,
+        total: summaryQuests.length,
+        totalStars: summaryQuests.reduce((sum, row) => sum + clampStationStars(row.stars), 0),
         currentPhase: progress.find((row) => row.status === 'in_progress')?.phase ?? null,
       },
       insights: { strengths: [], nextFocus: null, outcomes: [] },
@@ -888,7 +893,8 @@ export function normalizeLearningGatewayResponse(
     }
   }
 
-  if (/^\/api\/learning\/pathway(?:\?.*)?$/.test(path)) {
+  if (/^\/api\/learning\/pathway(?:\?.*)?$/.test(path) ||
+      /^\/api\/v1\/lms\/(?:compat\/pathway|me\/pathway|family\/children\/[^/?]+\/pathway)(?:\?.*)?$/.test(path)) {
     const source = recordValue(payload.pathway ?? payload)
     const courses = Array.isArray(source.courses)
       ? source.courses as Array<Record<string, unknown>>
@@ -926,6 +932,8 @@ export function normalizeLearningGatewayResponse(
           questCount: stations.length > 0
             ? stations.length
             : Number(course.questCount ?? mapped.questCount ?? 0),
+          completedCount: Number(course.completedCount ?? 0),
+          totalStars: Number(course.totalStars ?? 0),
           stations,
         }
       }),

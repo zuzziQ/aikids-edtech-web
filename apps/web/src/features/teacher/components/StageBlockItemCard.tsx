@@ -1,37 +1,30 @@
 import React from 'react'
 import {
-  GripVertical, ArrowUp, ArrowDown, Trash2, Plus, Eye, Volume2,
-  Clapperboard, BrainCircuit, ScanSearch, MessageSquareText,
-  Image as ImageIcon, Sparkles, Upload, ChevronDown, ChevronRight,
+  GripVertical, ArrowUp, ArrowDown, Trash2, ChevronDown, ChevronRight, Plus,
 } from 'lucide-react'
 import { cn } from '@/shared/lib/cn'
-import { uploadCmsCourseMedia } from '@/shared/lib/media-api'
-import { MeeCatInteractiveCanvas } from '@/features/mee-rig/components/MeeCatInteractiveCanvas'
-import { LectureVideo } from '@/features/lesson/components/LectureVideo'
 import type {
   LearnCardDraft,
   ContentBlockType,
   StageBlockItem,
-  LearnVisualItemDraft,
-  DialogueLine,
-  StageImageItem,
 } from '../lib/authoring'
+import {
+  LECTURE_GESTURES,
+  KEY_COLOR_PRESETS,
+  LayoutBlocksEditor,
+  VoiceBlockEditor,
+  VersusAbBlockEditor,
+  DialogueBlockEditor,
+  CompareBlockEditor,
+  PosterBlockEditor,
+  ImagesBlockEditor,
+  InteractiveQuestionBlockEditor,
+} from './stage-block-editors'
+import { VideoBlockEditor } from './lecture-drawer/stage-editors/VideoBlockEditor'
+import { PracticeBlockEditor } from './lecture-drawer/stage-editors/PracticeBlockEditor'
+import { RewardBlockEditor } from './lecture-drawer/stage-editors/RewardBlockEditor'
 
-export const LECTURE_GESTURES = [
-  { id: 'presentation', label: '🤲 Thuyết trình cơ bản' },
-  { id: 'point-left', label: '👈 Chỉ bảng bài học' },
-  { id: 'think', label: '💡 Cùng suy nghĩ (đố vui)' },
-  { id: 'idea', label: '💡 Aha! Nêu mẹo (quy tắc)' },
-  { id: 'celebrate-1', label: '🎉 Hoan hô ăn mừng' },
-  { id: 'explain', label: '👐 Diễn giải mở rộng' },
-] as const
-
-export const KEY_COLOR_PRESETS = [
-  { tone: 'sky' as const, name: 'Xanh Sky', icon: '🔵', image: '/assets/aiki-keys/key_what_blue.jpg', bg: 'bg-blue-50/80 border-blue-200 text-blue-950', badge: 'bg-blue-600 text-white' },
-  { tone: 'sun' as const, name: 'Vàng Sun', icon: '🟡', image: '/assets/aiki-keys/key_how_yellow.jpg', bg: 'bg-amber-50/80 border-amber-200 text-amber-950', badge: 'bg-amber-600 text-white' },
-  { tone: 'coral' as const, name: 'Cam Mango', icon: '🟠', image: '/assets/aiki-keys/key_action_orange.jpg', bg: 'bg-orange-50/80 border-orange-200 text-orange-950', badge: 'bg-orange-600 text-white' },
-  { tone: 'rose' as const, name: 'Hồng Gum', icon: '🔴', image: '/assets/aiki-keys/key_where_pink.jpg', bg: 'bg-rose-50/80 border-rose-200 text-rose-950', badge: 'bg-rose-600 text-white' },
-] as const
+export { LECTURE_GESTURES, KEY_COLOR_PRESETS }
 
 export function getBlockIcon(type: ContentBlockType): string {
   switch (type) {
@@ -49,13 +42,18 @@ export function getBlockIcon(type: ContentBlockType): string {
     case 'layout-four-keys':
       return '🔑'
     case 'layout-confirm-option':
-      return '🔘'
+    case 'quiz-question':
+      return '❓'
     case 'layout-storyboard':
       return '🎬'
     case 'voice':
       return '🐱'
     case 'video':
       return '🎬'
+    case 'practice':
+      return '🎨'
+    case 'reward':
+      return '🏆'
     case 'versus-ab':
       return '🖼️'
     case 'dialogue':
@@ -71,7 +69,14 @@ export function getBlockIcon(type: ContentBlockType): string {
   }
 }
 
-export function getBlockTitle(type: ContentBlockType, customTitle?: string): string {
+
+export function getBlockTitle(type: ContentBlockType, customTitle?: string, stageIndex?: number, blockId?: string): string {
+  if (stageIndex === 0) {
+    if (type === 'images' || blockId?.startsWith('course-goal-image')) return customTitle || 'ẢNH MỤC TIÊU'
+    if (type === 'text' || blockId?.startsWith('course-goal-text')) return customTitle || 'MỤC TIÊU CỐT LÕI'
+    if (type === 'layout-four-keys' || blockId?.startsWith('course-goal-four-keys')) return customTitle || 'BỐN CHIẾC CHÌA KHÓA VÀNG'
+  }
+
   switch (type) {
     case 'text':
     case 'layout-text':
@@ -87,17 +92,23 @@ export function getBlockTitle(type: ContentBlockType, customTitle?: string): str
     case 'layout-four-keys':
       return customTitle || 'BỐ CỤC 4 CHÌA KHÓA'
     case 'layout-confirm-option':
-      return customTitle || 'PHƯƠNG ÁN XÁC NHẬN MỤC TIÊU'
+      return customTitle || 'CÂU HỎI TRẮC NGHIỆM / XÁC NHẬN'
+    case 'quiz-question':
+      return customTitle || 'CÂU HỎI TRẮC NGHIỆM'
     case 'layout-storyboard':
       return customTitle || 'CHUỖI STORYBOARD'
     case 'voice':
       return 'GIỌNG ĐỌC & LỜI THOẠI HƯỚNG DẪN'
     case 'video':
       return 'VIDEO BÀI GIẢNG'
+    case 'practice':
+      return customTitle || 'KỊCH BẢN THỰC HÀNH AI STUDIO'
+    case 'reward':
+      return customTitle || 'MÀN KẾT THÚC & TRAO THƯỞNG'
     case 'versus-ab':
       return '2 TRANH ĐỐI ĐẦU A/B'
     case 'dialogue':
-      return 'KỊCH BẢN PHÂN VAI COMIC'
+      return 'HỘI THOẠI TÌNH HUỐNG'
     case 'compare':
       return 'BẢNG SO SÁNH 2 CỘT'
     case 'poster':
@@ -140,6 +151,8 @@ export interface StageBlockItemCardProps {
   inputStyle: React.CSSProperties
   textareaStyle: React.CSSProperties
   showToast: (msg: string, type?: any) => void
+  stageStarAllocation?: number[]
+  onToggleStageStar?: (stageIndex: number) => void
 }
 
 export const StageBlockItemCard = React.memo(function StageBlockItemCard({
@@ -173,15 +186,25 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
   inputStyle,
   textareaStyle,
   showToast,
+  stageStarAllocation,
+  onToggleStageStar,
 }: StageBlockItemCardProps) {
   const isDraggingThis = draggingBlockIdx === bIdx
   const isDragOverThis = dragOverBlockIdx === bIdx
-  const [expanded, setExpanded] = React.useState(bIdx === 0)
+  const [expanded, setExpanded] = React.useState(true)
 
-  const isConfirmOption = block.type === 'layout-confirm-option' || block.id.startsWith('course-confirm-option-')
+  const isInteractiveQuestionBlock =
+    block.type === 'quiz-question' ||
+    Boolean(block.questionPrompt) ||
+    Boolean(block.layoutMode) ||
+    Boolean(block.questionOptions?.length) ||
+    block.id.startsWith('blk-quiz-') ||
+    (block.type === 'layout-confirm-option' && !block.id.startsWith('course-confirm-option-'))
+
+  const isConfirmOption = !isInteractiveQuestionBlock && (block.type === 'layout-confirm-option' || block.id.startsWith('course-confirm-option-'))
   const confirmOptionIndex = isConfirmOption
     ? stageBlocks
-        .filter((b) => b.type === 'layout-confirm-option' || b.id.startsWith('course-confirm-option-'))
+        .filter((b) => !isInteractiveQuestionBlock && (b.type === 'layout-confirm-option' || b.id.startsWith('course-confirm-option-')))
         .findIndex((b) => b.id === block.id)
     : -1
   const optionLetter = confirmOptionIndex >= 0 ? String.fromCharCode(65 + confirmOptionIndex) : ''
@@ -230,8 +253,15 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
         setDragOverBlockIdx(null)
       }}
       className={cn(
-        "rounded-2xl border-2 bg-white p-4 shadow-sm transition-all duration-150",
-        isDragOverThis ? "border-brand-500 ring-4 ring-brand-200/60 scale-[1.01]" : "border-slate-200 hover:border-slate-300",
+        "rounded-3xl border-2 p-4 sm:p-5 shadow-clay-xs transition-all duration-150",
+        isInteractiveQuestionBlock
+          ? "border-sky-300 bg-sky-50/15 hover:border-sky-400"
+          : isConfirmOption
+            ? block.isCorrect
+              ? "border-emerald-500 bg-emerald-50/25 ring-2 ring-emerald-300"
+              : "border-slate-200 bg-white hover:border-emerald-300"
+            : "border-slate-200 bg-white hover:border-brand-300",
+        isDragOverThis ? "border-brand-500 ring-4 ring-brand-200/60 scale-[1.01]" : "",
         isDraggingThis ? "opacity-40 scale-[0.99]" : "opacity-100"
       )}
     >
@@ -246,18 +276,35 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
               <GripVertical size={18} />
             </span>
           )}
-          {isConfirmOption ? (
+          {isInteractiveQuestionBlock ? (
             <>
-              <span className="rounded-lg bg-brand-100 text-brand-800 px-2.5 py-1 text-xs font-black shrink-0 whitespace-nowrap">
+              <span className="rounded-xl bg-sky-600 text-white px-2.5 py-1 text-xs font-black shrink-0 whitespace-nowrap shadow-xs">
+                Khối {bIdx + 1}
+              </span>
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <span className="grid size-7 place-items-center rounded-lg bg-sky-50 text-sky-700 border border-sky-200 text-sm shrink-0 shadow-2xs">
+                  ❓
+                </span>
+                <h4
+                  className="text-xs font-black uppercase tracking-wider text-slate-900 truncate min-w-0 flex-1"
+                  title={block.questionPrompt || block.title || 'CÂU HỎI TRẮC NGHIỆM'}
+                >
+                  {block.questionPrompt || block.title || 'CÂU HỎI TRẮC NGHIỆM / XÁC NHẬN'}
+                </h4>
+              </div>
+            </>
+          ) : isConfirmOption ? (
+            <>
+              <span className="rounded-xl bg-emerald-600 text-white px-3 py-1 text-xs font-black shrink-0 whitespace-nowrap shadow-xs">
                 Phương án {optionLetter || bIdx + 1}
               </span>
               <label
                 onClick={(e) => e.stopPropagation()}
                 className={cn(
-                  "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black transition cursor-pointer select-none border shrink-0 whitespace-nowrap",
+                  "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition cursor-pointer select-none border shrink-0 whitespace-nowrap shadow-2xs",
                   block.isCorrect
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-800 ring-2 ring-emerald-300"
-                    : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100"
+                    ? "border-emerald-600 bg-emerald-600 text-white ring-2 ring-emerald-200"
+                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-300 hover:bg-emerald-50/50"
                 )}
                 title="Chọn phương án này làm đáp án đúng"
               >
@@ -274,9 +321,9 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
                         : item.isCorrect,
                     })))
                   }}
-                  className="accent-emerald-600 size-3.5 cursor-pointer"
+                  className="accent-white size-3.5 cursor-pointer"
                 />
-                <span>{block.isCorrect ? '✅ Đáp án đúng' : '🔘 Đáp án đúng'}</span>
+                <span>{block.isCorrect ? '✓ Đáp án đúng' : '🔘 Đáp án đúng'}</span>
               </label>
               <span
                 className="text-xs font-bold text-slate-700 truncate min-w-0 flex-1"
@@ -287,16 +334,18 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
             </>
           ) : (
             <>
-              <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-700 shrink-0 whitespace-nowrap">
+              <span className="rounded-xl bg-slate-100 border border-slate-200 px-2.5 py-1 text-xs font-black text-slate-700 shrink-0 whitespace-nowrap">
                 Khối {bIdx + 1}
               </span>
-              <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                <span className="text-base shrink-0">{getBlockIcon(block.type)}</span>
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <span className="grid size-7 place-items-center rounded-lg bg-brand-50 text-brand-700 border border-brand-200 text-sm shrink-0 shadow-2xs">
+                  {getBlockIcon(block.type)}
+                </span>
                 <h4
                   className="text-xs font-black uppercase tracking-wider text-slate-900 truncate min-w-0 flex-1"
-                  title={getBlockTitle(block.type, block.title)}
+                  title={getBlockTitle(block.type, block.title, stageIndex, block.id)}
                 >
-                  {getBlockTitle(block.type, block.title)}
+                  {getBlockTitle(block.type, block.title, stageIndex, block.id)}
                 </h4>
               </div>
             </>
@@ -308,7 +357,7 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
           <button
             type="button"
             onClick={() => setExpanded((value) => !value)}
-            className="inline-flex min-h-8 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-extrabold text-slate-700 hover:bg-slate-100 shrink-0 whitespace-nowrap cursor-pointer transition active:scale-95"
+            className="inline-flex min-h-8 items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-extrabold text-slate-700 hover:bg-slate-100 shrink-0 whitespace-nowrap cursor-pointer transition active:scale-95 shadow-2xs"
             aria-expanded={expanded}
           >
             {expanded ? <ChevronDown size={14} className="shrink-0" /> : <ChevronRight size={14} className="shrink-0" />}
@@ -320,24 +369,24 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
                 type="button"
                 disabled={bIdx === 0}
                 onClick={() => moveBlock(stageIndex, bIdx, -1)}
-                className="grid size-7 shrink-0 place-items-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+                className="grid size-8 shrink-0 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shadow-2xs"
                 title="Di chuyển lên trên"
               >
-                <ArrowUp size={13} />
+                <ArrowUp size={14} />
               </button>
               <button
                 type="button"
                 disabled={bIdx === totalBlocks - 1}
                 onClick={() => moveBlock(stageIndex, bIdx, 1)}
-                className="grid size-7 shrink-0 place-items-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+                className="grid size-8 shrink-0 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shadow-2xs"
                 title="Di chuyển xuống dưới"
               >
-                <ArrowDown size={13} />
+                <ArrowDown size={14} />
               </button>
               <button
                 type="button"
                 onClick={() => removeBlock(stageIndex, block.id)}
-                className="inline-flex min-h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-coral-600 hover:bg-coral-50 transition cursor-pointer ml-0.5 shrink-0 whitespace-nowrap"
+                className="inline-flex min-h-8 items-center gap-1 rounded-xl border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-black text-rose-700 hover:bg-rose-100 transition cursor-pointer ml-0.5 shrink-0 whitespace-nowrap shadow-2xs"
                 title="Xóa khối"
               >
                 <Trash2 size={13} className="shrink-0" /> Xóa khối
@@ -348,1594 +397,506 @@ export const StageBlockItemCard = React.memo(function StageBlockItemCard({
       </div>
 
       {!expanded && (
-        <p className="mt-2 truncate text-xs font-semibold text-slate-500">
-          {isConfirmOption
-            ? `${block.title || `Bộ chìa khóa ${optionLetter}`} — ${block.body || 'Chưa có mô tả'}${block.imageUrl ? ' (Đã có ảnh)' : ''}`
-            : block.body || block.tip || block.readText || `${block.visualItems?.length || 0} mục nội dung`}
-        </p>
-      )}
-
-      {expanded && <>
-
-      {/* ── 1. BLOCK: Đoạn văn bản (text / layout-text) ── */}
-      {(block.type === 'text' || block.type === 'layout-text') && (
-        <div className="mt-3.5 space-y-3">
-          <label className="block text-xs font-extrabold text-text">Tiêu đề đoạn văn bản
-            <input
-              readOnly={readOnly}
-              value={block.title ?? ''}
-              onChange={(event) => updateBlockItem(stageIndex, block.id, { title: event.target.value })}
-              style={{ ...inputStyle, marginTop: '0.35rem' }}
-              placeholder={`VD: ${stageInfo.title}`}
+        <div className="mt-3 flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-2.5">
+          {block.visualUrl || block.imageUrl ? (
+            <img
+              src={block.visualUrl || block.imageUrl}
+              alt={block.title || 'Preview'}
+              className="size-12 rounded-xl object-cover border border-slate-200 shrink-0"
+              onError={(e) => { e.currentTarget.style.display = 'none' }}
             />
-          </label>
-
-          <label className="block text-xs font-extrabold text-text">Nội dung đoạn văn bản *
-            <textarea
-              readOnly={readOnly}
-              value={block.body ?? ''}
-              onChange={(event) => updateBlockItem(stageIndex, block.id, { body: event.target.value })}
-              rows={4}
-              style={{ ...textareaStyle, marginTop: '0.35rem' }}
-              placeholder="Nội dung chính hướng dẫn học sinh đọc hoặc xem..."
-            />
-          </label>
-
-          <label className="block text-xs font-extrabold text-text">Câu ghi nhớ (tùy chọn)
-            <input
-              readOnly={readOnly}
-              value={block.tip ?? ''}
-              onChange={(event) => updateBlockItem(stageIndex, block.id, { tip: event.target.value })}
-              style={{ ...inputStyle, marginTop: '0.35rem' }}
-              placeholder="Một câu ngắn để học sinh nhớ ý chính của đoạn này"
-            />
-          </label>
-        </div>
-      )}
-
-      {/* ── 2. BLOCK: Hộp Ghi Nhớ Nổi Bật (layout-callout) ── */}
-      {block.type === 'layout-callout' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-amber-300 bg-amber-50/80 p-4 space-y-3">
-          <label className="block text-xs font-black uppercase tracking-wider text-amber-900">
-            Tiêu đề hộp ghi nhớ
-            <input
-              readOnly={readOnly}
-              value={block.title ?? 'Hộp Ghi Nhớ Nổi Bật'}
-              onChange={(e) => updateBlockItem(stageIndex, block.id, { title: e.target.value })}
-              style={{ ...inputStyle, marginTop: '0.25rem' }}
-              placeholder="💡 Bí kíp bỏ túi..."
-            />
-          </label>
-          <label className="block text-xs font-black uppercase tracking-wider text-amber-900">
-            Nội dung ghi nhớ nổi bật *
-            <textarea
-              readOnly={readOnly}
-              value={block.tip || block.body || ''}
-              onChange={(e) => updateBlockItem(stageIndex, block.id, { tip: e.target.value, body: e.target.value })}
-              rows={3}
-              style={{ ...textareaStyle, marginTop: '0.25rem' }}
-              placeholder="Hãy luôn tự tay thêm ý tưởng của riêng con!"
-            />
-          </label>
-        </div>
-      )}
-
-      {/* ── 3. BLOCK: Công Thức KaTeX (layout-formula) ── */}
-      {block.type === 'layout-formula' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-brand-200 bg-brand-50/50 p-4 space-y-3">
-          <label className="block text-xs font-black uppercase tracking-wider text-brand-900">
-            Tiêu đề công thức
-            <input
-              readOnly={readOnly}
-              value={block.title ?? 'Công Thức KaTeX'}
-              onChange={(e) => updateBlockItem(stageIndex, block.id, { title: e.target.value })}
-              style={{ ...inputStyle, marginTop: '0.25rem' }}
-              placeholder="Công thức sáng tạo..."
-            />
-          </label>
-          <label className="block text-xs font-black uppercase tracking-wider text-brand-900">
-            Công thức KaTeX (Cú pháp LaTeX)
-            <textarea
-              readOnly={readOnly}
-              value={block.formula ?? '$$\\text{Ý tưởng con} + \\text{Sức mạnh AI} = \\text{Tác phẩm độc nhất}$$'}
-              onChange={(e) => updateBlockItem(stageIndex, block.id, { formula: e.target.value })}
-              rows={2}
-              style={{ ...textareaStyle, marginTop: '0.25rem', fontFamily: 'monospace' }}
-              placeholder="$$\text{Ý tưởng con} + \text{Sức mạnh AI} = \text{Tác phẩm}$$"
-            />
-          </label>
-          <div className="rounded-xl border border-brand-200 bg-white p-3 text-center">
-            <p className="text-[10px] font-black uppercase text-brand-700 mb-1">Xem trước công thức</p>
-            <div className="font-mono text-sm font-bold text-brand-950">
-              {block.formula || '$$\\text{Ý tưởng con} + \\text{Sức mạnh AI} = \\text{Tác phẩm độc nhất}$$'}
-            </div>
+          ) : (
+            <span className="grid size-10 place-items-center rounded-xl bg-white border border-slate-200 text-slate-400 shrink-0 text-base">
+              {getBlockIcon(block.type)}
+            </span>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-black text-slate-900">
+              {isInteractiveQuestionBlock
+                ? (Array.isArray(block.quizQuestions) && block.quizQuestions.length > 0
+                    ? `${block.title || 'Thử tài trắc nghiệm'} (${block.quizQuestions.length} câu hỏi)`
+                    : `${block.questionPrompt || block.title || 'Câu hỏi trắc nghiệm'} (${(block.questionOptions || block.choiceItems || block.optionLabels || []).length || 2} phương án)`)
+                : isConfirmOption
+                  ? `${block.title || `Bộ chìa khóa ${optionLetter}`} — ${block.body || 'Chưa có mô tả'}`
+                  : block.title || getBlockTitle(block.type)}
+            </p>
+            <p className="truncate text-[11px] font-medium text-slate-500">
+              {isInteractiveQuestionBlock
+                ? `Bố cục: ${block.layoutMode === 'split' ? 'Ảnh trái - Câu hỏi phải' : block.layoutMode === 'list' ? 'Dọc' : 'Thẻ Card'} • ${block.explanation || 'Chưa có giải thích'}`
+                : block.body || block.tip || block.readText || `${block.visualItems?.length || 0} mục nội dung`}
+            </p>
           </div>
         </div>
       )}
 
-      {/* ── 4. BLOCK: 2 Cột Chữ + Media hoặc 2 Cột Văn Bản Song Song (layout-split) ── */}
-      {block.type === 'layout-split' && (
-        <div className="mt-3.5 grid gap-3 sm:grid-cols-2">
-          <div>
-            <label className="block text-xs font-extrabold text-text">Tiêu đề đoạn
-              <input
-                readOnly={readOnly}
-                value={block.title ?? ''}
-                onChange={(e) => updateBlockItem(stageIndex, block.id, { title: e.target.value })}
-                style={{ ...inputStyle, marginTop: '0.25rem' }}
-                placeholder="Tiêu đề nội dung..."
-              />
-            </label>
-            <label className="mt-2.5 block text-xs font-extrabold text-text">
-              {block.columns === 2 ? 'Nội dung cột trái' : 'Nội dung giải thích'}
-              <textarea
-                readOnly={readOnly}
-                value={block.body ?? ''}
-                onChange={(e) => updateBlockItem(stageIndex, block.id, { body: e.target.value })}
-                rows={4}
-                style={{ ...textareaStyle, marginTop: '0.25rem' }}
-                placeholder={block.columns === 2 ? 'Nhập nội dung cột trái...' : 'Nhập nội dung giải thích...'}
-              />
-            </label>
-          </div>
-          <div>
-            {block.columns === 2 && !block.imageUrl ? (
-              <div>
-                <label className="block text-xs font-extrabold text-text">Nội dung cột phải
-                  <textarea
-                    readOnly={readOnly}
-                    value={block.tip ?? ''}
-                    onChange={(e) => updateBlockItem(stageIndex, block.id, { tip: e.target.value })}
-                    rows={6}
-                    style={{ ...textareaStyle, marginTop: '0.25rem' }}
-                    placeholder="Nhập nội dung cột phải..."
-                  />
-                </label>
-                {!readOnly && (
-                  <div className="mt-2 text-right">
-                    <button
-                      type="button"
-                      onClick={() => updateBlockItem(stageIndex, block.id, { imageUrl: 'https://' })}
-                      className="text-[11px] font-bold text-sky-600 hover:text-sky-700 underline cursor-pointer"
-                    >
-                      + Chuyển sang ảnh minh họa
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <label className="block text-xs font-extrabold text-text">URL Hình ảnh / Media
-                  <input
-                    type="url"
-                    readOnly={readOnly}
-                    value={block.imageUrl ?? ''}
-                    onChange={(e) => updateBlockItem(stageIndex, block.id, { imageUrl: e.target.value })}
-                    style={{ ...inputStyle, marginTop: '0.25rem' }}
-                    placeholder="https://cdn.example.com/image.webp"
-                  />
-                </label>
-                {!readOnly && (
-                  <span className="mt-2 flex min-h-10 cursor-pointer items-center justify-center rounded-xl border border-sky-300 bg-sky-50 px-3 text-xs font-extrabold text-sky-800 hover:bg-sky-100">
-                    <Eye size={15} className="mr-1.5" />
-                    {uploadingStageMedia === `${stageIndex}:block:${block.id}` ? 'Đang tải…' : 'Tải file ảnh lên'}
-                    <input
-                      className="sr-only"
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp"
-                      disabled={uploadingStageMedia !== null}
-                      onChange={async (event) => {
-                        const file = event.target.files?.[0]
-                        if (file) {
-                          setUploadingStageMedia(`${stageIndex}:block:${block.id}`)
-                          try {
-                            const res = await uploadCmsCourseMedia({ file, purpose: 'block_image', questId: courseId })
-                            if (res.url) {
-                              updateBlockItem(stageIndex, block.id, { imageUrl: res.url })
-                              showToast('Tải ảnh thành công!', 'success')
-                            }
-                          } catch {
-                            showToast('Tải ảnh thất bại', 'danger')
-                          } finally {
-                            setUploadingStageMedia(null)
-                          }
-                        }
-                        event.currentTarget.value = ''
-                      }}
-                    />
-                  </span>
-                )}
-                {block.imageUrl && (
-                  <div className="mt-2 overflow-hidden rounded-xl border border-slate-200 aspect-video">
-                    <img src={block.imageUrl} alt={block.imageAlt || 'Media'} className="size-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      {expanded && (
+        <>
+          {isInteractiveQuestionBlock ? (
+            (() => {
+              const hasMulti = Array.isArray(block.quizQuestions) && block.quizQuestions.length > 0
 
-      {/* ── 4B. BLOCK: Phương Án Xác Nhận Mục Tiêu (layout-confirm-option) ── */}
-      {isConfirmOption && (
-        <div className="mt-3.5 space-y-3.5 rounded-2xl border-2 border-brand-200/80 bg-gradient-to-b from-brand-50/40 to-white p-4">
-          <label className="block text-xs font-extrabold text-slate-800">
-            Tiêu đề phương án
-            <input
-              readOnly={readOnly}
-              value={block.title ?? ''}
-              onChange={(e) => updateBlockItem(stageIndex, block.id, { title: e.target.value })}
-              style={{ ...inputStyle, marginTop: '0.35rem' }}
-              placeholder={`VD: Bộ chìa khoá ${optionLetter || 'A'}`}
-            />
-          </label>
+              const resolvedOptionImages = (() => {
+                const fromOpts = block.questionOptions?.map((o) => o.imageUrl || '')
+                if (fromOpts && fromOpts.some(Boolean)) return fromOpts
+                if (block.optionImages && block.optionImages.some(Boolean)) return block.optionImages
+                if (card?.optionImages && card.optionImages.some(Boolean)) return card.optionImages
+                return ['', '']
+              })()
 
-          {/* Vùng upload ảnh thật trực quan */}
-          <div className="rounded-2xl border-2 border-dashed border-sky-200 bg-sky-50/50 p-4">
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-xs font-black uppercase tracking-wider text-sky-900 flex items-center gap-1.5">
-                <ImageIcon size={15} className="text-sky-600" />
-                Ảnh minh họa phương án
-              </span>
-              {block.imageUrl && !readOnly && (
-                <button
-                  type="button"
-                  onClick={() => updateBlockItem(stageIndex, block.id, { imageUrl: '' })}
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-coral-600 hover:text-coral-700 cursor-pointer shrink-0 whitespace-nowrap"
-                >
-                  <Trash2 size={13} className="shrink-0" /> Xóa ảnh
-                </button>
-              )}
-            </div>
+              const hasAnyOptImgs = resolvedOptionImages.some(Boolean)
+              const singleLayoutMode: 'cards' | 'split' | 'list' = block.layoutMode === 'cards' || hasAnyOptImgs
+                ? 'cards'
+                : ((block.layoutMode as 'cards' | 'split' | 'list') || 'split')
 
-            {block.imageUrl ? (
-              <div className="relative group overflow-hidden rounded-2xl border-2 border-sky-300 bg-white shadow-sm">
-                <div className="aspect-[16/10] sm:aspect-[2/1] w-full max-h-[300px] bg-slate-100 flex items-center justify-center overflow-hidden">
-                  <img
-                    src={block.imageUrl}
-                    alt={block.title || `Phương án ${optionLetter}`}
-                    className="size-full object-contain p-2"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                </div>
-                {!readOnly && (
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-xs">
-                    <label className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-xs font-black text-slate-800 shadow-md hover:bg-slate-50 cursor-pointer shrink-0 whitespace-nowrap">
-                      <Upload size={14} className="shrink-0" />
-                      <span>Đổi ảnh</span>
-                      <input
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp,image/gif"
-                        className="sr-only"
-                        disabled={uploadingStageMedia !== null}
-                        onChange={async (event) => {
-                          const file = event.target.files?.[0]
-                          if (file) {
-                            setUploadingStageMedia(`${stageIndex}:block:${block.id}`)
-                            try {
-                              const res = await uploadCmsCourseMedia({ file, purpose: 'block_image', questId: courseId })
-                              if (res?.url) {
-                                updateBlockItem(stageIndex, block.id, { imageUrl: res.url })
-                                showToast('Đổi ảnh thành công!', 'success')
-                              } else {
-                                throw new Error('No URL returned')
-                              }
-                            } catch {
-                              const reader = new FileReader()
-                              reader.onload = () => {
-                                updateBlockItem(stageIndex, block.id, { imageUrl: reader.result as string })
-                                showToast('Đã tải ảnh preview thành công!', 'success')
-                              }
-                              reader.readAsDataURL(file)
-                            } finally {
-                              setUploadingStageMedia(null)
-                            }
-                          }
-                          event.currentTarget.value = ''
-                        }}
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => updateBlockItem(stageIndex, block.id, { imageUrl: '' })}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 px-3.5 py-2 text-xs font-black text-white shadow-md hover:bg-rose-700 cursor-pointer shrink-0 whitespace-nowrap"
-                    >
-                      <Trash2 size={14} className="shrink-0" />
-                      <span>Xóa ảnh</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-6 px-4 text-center rounded-xl bg-white border border-sky-200">
-                <div className="grid size-12 place-items-center rounded-2xl bg-sky-100 text-sky-700 mb-2">
-                  <Upload size={22} />
-                </div>
-                <p className="text-xs font-bold text-slate-700 mb-1">Tải ảnh từ máy tính lên</p>
-                <p className="text-[11px] font-semibold text-slate-400 mb-3">Hỗ trợ PNG, JPG, WEBP</p>
-                {!readOnly && (
-                  <label className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-xs font-black shadow-xs cursor-pointer active:scale-95 transition shrink-0 whitespace-nowrap">
-                    <Upload size={14} className="shrink-0" />
-                    <span>{uploadingStageMedia === `${stageIndex}:block:${block.id}` ? 'Đang tải lên…' : 'Tải ảnh từ máy tính lên'}</span>
-                    <input
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp,image/gif"
-                      className="sr-only"
-                      disabled={uploadingStageMedia !== null}
-                      onChange={async (event) => {
-                        const file = event.target.files?.[0]
-                        if (file) {
-                          setUploadingStageMedia(`${stageIndex}:block:${block.id}`)
-                          try {
-                            const res = await uploadCmsCourseMedia({ file, purpose: 'block_image', questId: courseId })
-                            if (res?.url) {
-                              updateBlockItem(stageIndex, block.id, { imageUrl: res.url })
-                              showToast('Tải ảnh thành công!', 'success')
-                            } else {
-                              throw new Error('No URL returned')
-                            }
-                          } catch {
-                            const reader = new FileReader()
-                            reader.onload = () => {
-                              updateBlockItem(stageIndex, block.id, { imageUrl: reader.result as string })
-                              showToast('Đã tải ảnh preview thành công!', 'success')
-                            }
-                            reader.readAsDataURL(file)
-                          } finally {
-                            setUploadingStageMedia(null)
-                          }
-                        }
-                        event.currentTarget.value = ''
-                      }}
-                    />
-                  </label>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Nội dung văn bản (Text / Mô tả) */}
-          <label className="block text-xs font-extrabold text-slate-800">
-            Nội dung chữ của phương án (kết hợp Chữ + Ảnh hoặc chỉ dùng Chữ)
-            <textarea
-              readOnly={readOnly}
-              value={block.body ?? ''}
-              onChange={(e) => updateBlockItem(stageIndex, block.id, { body: e.target.value })}
-              rows={3}
-              style={{ ...textareaStyle, marginTop: '0.35rem' }}
-              placeholder="Nhập nội dung phương án cho học sinh lựa chọn..."
-            />
-          </label>
-        </div>
-      )}
-
-      {/* ── 5A. BLOCK: Bốn chiếc chìa khóa câu lệnh (layout-four-keys) ── */}
-      {block.type === 'layout-four-keys' && !isConfirmOption && (
-        <div className="mt-3.5 rounded-2xl border-2 border-amber-200 bg-gradient-to-br from-amber-50/70 via-sky-50/40 to-white p-3.5 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <label className="text-xs font-extrabold text-text flex-1">
-              Tiêu đề:
-              <input
-                readOnly={readOnly}
-                value={block.title ?? ''}
-                onChange={(e) => updateBlockItem(stageIndex, block.id, { title: e.target.value })}
-                style={{ ...inputStyle, marginTop: '0.2rem' }}
-                placeholder="VD: Bốn chiếc chìa khóa mở câu lệnh..."
-              />
-            </label>
-            {!readOnly && (
-              <button
-                type="button"
-                onClick={() => {
-                  const currentItems = block.visualItems || []
-                  const nextIdx = currentItems.length
-                  const preset = KEY_COLOR_PRESETS[nextIdx % KEY_COLOR_PRESETS.length]
-                  const nextItems: LearnVisualItemDraft[] = [
-                    ...currentItems,
-                    {
-                      label: `CHÌA KHÓA ${nextIdx + 1}`,
-                      text: '',
-                      tone: preset.tone,
-                      sub: '',
-                      keyImage: preset.image,
-                    },
-                  ]
-                  updateBlockItem(stageIndex, block.id, { visualItems: nextItems })
-                }}
-                className="flex min-h-9 items-center gap-1 rounded-xl border border-sky-300 bg-white px-3 text-xs font-extrabold text-sky-700 cursor-pointer shadow-xs hover:bg-sky-50 shrink-0 whitespace-nowrap"
-              >
-                <Plus size={14} className="shrink-0" /> Thêm chìa khóa
-              </button>
-            )}
-          </div>
-
-          <div className="grid gap-2.5">
-            {(block.visualItems || []).map((item, vIdx) => {
-              // Tự động làm sạch label nếu có chứa tên màu cũ trong ngoặc: (Xanh Sky), (Vàng Sun), v.v.
-              let activeTone = item.tone
-              let displayLabel = item.label
-              const colorMatch = displayLabel.match(/\((Xanh Sky|Vàng Sun|Cam Mango|Hồng Gum|sky|sun|coral|rose)\)/i)
-              if (colorMatch) {
-                const colorStr = colorMatch[1].toLowerCase()
-                if (colorStr.includes('xanh') || colorStr === 'sky') activeTone = 'sky'
-                else if (colorStr.includes('vàng') || colorStr === 'sun') activeTone = 'sun'
-                else if (colorStr.includes('cam') || colorStr === 'coral') activeTone = 'coral'
-                else if (colorStr.includes('hồng') || colorStr === 'rose') activeTone = 'rose'
-                displayLabel = displayLabel.replace(/\s*\((Xanh Sky|Vàng Sun|Cam Mango|Hồng Gum|sky|sun|coral|rose)\)/i, '').trim()
+              type QuizQuestionItem = {
+                id: string
+                prompt: string
+                layoutMode?: 'cards' | 'split' | 'list'
+                visualUrl?: string
+                options: string[]
+                correctIndex: number
+                explanation?: string
+                optionImages?: string[]
               }
 
-              const activePreset = KEY_COLOR_PRESETS.find((p) => p.tone === activeTone) || KEY_COLOR_PRESETS[vIdx % KEY_COLOR_PRESETS.length]
-              const activeImage = item.keyImage || activePreset.image
+              const questions: QuizQuestionItem[] = hasMulti
+                ? (block.quizQuestions as QuizQuestionItem[])
+                : [
+                    {
+                      id: block.id,
+                      prompt: block.questionPrompt || block.title || '',
+                      layoutMode: singleLayoutMode,
+                      visualUrl: singleLayoutMode === 'cards' ? '' : (block.visualUrl || block.imageUrl || (card?.imageUrl || '')),
+                      options: (Array.isArray(block.questionOptions) && block.questionOptions.length > 0)
+                        ? block.questionOptions.map((o) => o.text)
+                        : (Array.isArray(block.optionLabels) && block.optionLabels.length > 0)
+                          ? block.optionLabels
+                          : ['Phương án A (Đáp án đúng)', 'Phương án B'],
+                      correctIndex: typeof block.correctIndex === 'number' ? block.correctIndex : 0,
+                      explanation: block.explanation || block.tip || '',
+                      optionImages: resolvedOptionImages,
+                    },
+                  ]
+
+              const activeIdx = Math.min(block.activeQuizQuestionIdx ?? 0, questions.length - 1)
+              const currentQ = questions[activeIdx] || questions[0]
+
+              const handleSwitchQuestion = (targetIdx: number) => {
+                const targetQ = questions[targetIdx]
+                if (!targetQ) return
+                updateBlockItem(stageIndex, block.id, {
+                  activeQuizQuestionIdx: targetIdx,
+                  questionPrompt: targetQ.prompt,
+                  layoutMode: targetQ.layoutMode,
+                  visualUrl: targetQ.visualUrl,
+                  imageUrl: targetQ.visualUrl,
+                  correctIndex: targetQ.correctIndex,
+                  explanation: targetQ.explanation,
+                  questionOptions: (Array.isArray(targetQ.options) ? targetQ.options : []).map((text: any, oIdx: number) => ({
+                    id: `opt-${oIdx + 1}`,
+                    text: typeof text === 'string' ? text : text?.text || '',
+                    imageUrl: targetQ.optionImages?.[oIdx] || '',
+                  })),
+                })
+              }
+
+              const handleAddQuestion = () => {
+                const nextQs: QuizQuestionItem[] = [...questions]
+                const newNum = nextQs.length + 1
+                const newQ: QuizQuestionItem = {
+                  id: `q-${Date.now()}-${newNum}`,
+                  prompt: `Câu hỏi ${newNum}?`,
+                  layoutMode: 'split',
+                  visualUrl: card?.imageUrl || '/assets/aiki-islands/island1_lesson1_cat.jpg?v=2',
+                  options: ['Phương án A (Đáp án đúng)', 'Phương án B'],
+                  correctIndex: 0,
+                  explanation: 'Giải thích vì sao đáp án này chính xác...',
+                  optionImages: ['', ''],
+                }
+                nextQs.push(newQ)
+                updateBlockItem(stageIndex, block.id, {
+                  quizQuestions: nextQs,
+                  activeQuizQuestionIdx: nextQs.length - 1,
+                  questionPrompt: newQ.prompt,
+                  layoutMode: newQ.layoutMode,
+                  visualUrl: newQ.visualUrl,
+                  imageUrl: newQ.visualUrl,
+                  correctIndex: newQ.correctIndex,
+                  explanation: newQ.explanation,
+                  questionOptions: newQ.options.map((text, oIdx) => ({
+                    id: `opt-${oIdx + 1}`,
+                    text,
+                    imageUrl: '',
+                  })),
+                })
+                showToast?.(`Đã thêm Câu hỏi ${newNum}!`, 'success')
+              }
+
+              const handleRemoveQuestion = (delIdx: number) => {
+                if (questions.length <= 1) return
+                const nextQs: QuizQuestionItem[] = questions.filter((_, i) => i !== delIdx)
+                const nextActiveIdx = Math.max(0, delIdx > 0 ? delIdx - 1 : 0)
+                const nextActiveQ = nextQs[nextActiveIdx]
+                updateBlockItem(stageIndex, block.id, {
+                  quizQuestions: nextQs,
+                  activeQuizQuestionIdx: nextActiveIdx,
+                  questionPrompt: nextActiveQ?.prompt,
+                  layoutMode: nextActiveQ?.layoutMode,
+                  visualUrl: nextActiveQ?.visualUrl,
+                  imageUrl: nextActiveQ?.visualUrl,
+                  correctIndex: nextActiveQ?.correctIndex,
+                  explanation: nextActiveQ?.explanation,
+                  questionOptions: (nextActiveQ?.options || []).map((text: any, oIdx: number) => ({
+                    id: `opt-${oIdx + 1}`,
+                    text: typeof text === 'string' ? text : text?.text || '',
+                    imageUrl: nextActiveQ?.optionImages?.[oIdx] || '',
+                  })),
+                })
+                showToast?.('Đã xóa câu hỏi!', 'info')
+              }
 
               return (
-                <div
-                  key={vIdx}
-                  className={cn(
-                    "p-3 rounded-2xl border-2 bg-white/95 shadow-clay-sm flex flex-col sm:flex-row items-start sm:items-center gap-3 transition-all",
-                    activePreset.bg
-                  )}
-                >
-                  {/* Bên trái: Ảnh chìa khóa thực tế + Bộ nút chip màu mini */}
-                  <div className="flex flex-col items-center gap-1.5 shrink-0 self-center sm:self-start">
-                    <img
-                      src={activeImage}
-                      alt={activePreset.name}
-                      className="w-12 h-12 rounded-xl object-contain bg-white border-2 border-amber-200 p-1 shadow-xs"
-                    />
-                    {!readOnly && (
-                      <div className="flex items-center gap-1 bg-white/90 p-0.5 rounded-full border border-slate-200 shadow-xs">
-                        {KEY_COLOR_PRESETS.map((preset) => {
-                          const isSelected = (item.tone || activePreset.tone) === preset.tone
+                <div className="space-y-3">
+                  {/* Dãy nút số câu hỏi (Stepper 1 2 3 4 ... [+]) nếu có >= 1 câu hỏi */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 rounded-2xl bg-sky-50/80 border border-sky-200">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-xs font-black text-sky-950 uppercase tracking-wider">
+                        Dãy câu hỏi ({questions.length}):
+                      </span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {questions.map((q, qIdx) => {
+                          const isCurrent = qIdx === activeIdx
                           return (
                             <button
-                              key={preset.tone}
+                              key={q.id || qIdx}
                               type="button"
-                              onClick={() => {
-                                const next = [...(block.visualItems || [])]
-                                next[vIdx] = {
-                                  ...item,
-                                  label: displayLabel,
-                                  tone: preset.tone,
-                                  keyImage: preset.image,
-                                }
-                                updateBlockItem(stageIndex, block.id, { visualItems: next })
-                              }}
+                              onClick={() => handleSwitchQuestion(qIdx)}
                               className={cn(
-                                "text-xs leading-none p-0.5 rounded-full cursor-pointer hover:scale-110 transition-transform",
-                                isSelected && "ring-2 ring-brand-500 ring-offset-1 scale-110"
+                                'size-8 sm:size-9 rounded-xl font-black text-xs transition-all flex items-center justify-center cursor-pointer shadow-2xs',
+                                isCurrent
+                                  ? 'bg-sky-600 text-white scale-105 shadow-xs ring-2 ring-sky-300'
+                                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-sky-100 hover:text-sky-800'
                               )}
-                              title={preset.name}
+                              title={`Chuyển đến Câu ${qIdx + 1}: ${q.prompt || 'Chưa đặt câu hỏi'}`}
                             >
-                              {preset.icon}
+                              {qIdx + 1}
                             </button>
                           )
                         })}
+                        {!readOnly && (
+                          <button
+                            type="button"
+                            onClick={handleAddQuestion}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-sky-300 bg-white text-sky-700 hover:bg-sky-100 text-xs font-black transition cursor-pointer shadow-2xs active:scale-95"
+                            title="Thêm câu hỏi mới vào khối này"
+                          >
+                            <Plus size={14} />
+                            <span>Thêm câu</span>
+                          </button>
+                        )}
                       </div>
-                    )}
-                  </div>
+                    </div>
 
-                  {/* Ở giữa: 2 dòng input */}
-                  <div className="flex-1 min-w-0 w-full flex flex-col gap-2">
-                    {/* Dòng 1: Badge + Tên chìa khóa + Phụ đề gợi ý */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                      <span className={cn("px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider shrink-0 text-center", activePreset.badge)}>
-                        [{vIdx + 1}]
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                      <span className="px-2.5 py-0.5 rounded-lg bg-sky-100 text-sky-900 text-[11px] font-black">
+                        Đang sửa: Câu {activeIdx + 1} / {questions.length}
                       </span>
-                      <div className="flex-1 min-w-0">
-                        <label className="text-[10px] font-black text-muted block sm:hidden">Tên chìa khóa</label>
-                        <input
-                          readOnly={readOnly}
-                          value={displayLabel}
-                          onChange={(e) => {
-                            const next = [...(block.visualItems || [])]
-                            next[vIdx] = {
-                              ...item,
-                              label: e.target.value,
-                              tone: item.tone || activePreset.tone,
-                              keyImage: item.keyImage || activePreset.image,
-                            }
-                            updateBlockItem(stageIndex, block.id, { visualItems: next })
-                          }}
-                          style={{ ...inputStyle, minHeight: '2.25rem', marginTop: 0 }}
-                          placeholder="Tên chìa khóa (VD: CÁI GÌ)"
-                          className="w-full font-black text-sm"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <label className="text-[10px] font-black text-muted block sm:hidden">Phụ đề gợi ý</label>
-                        <input
-                          readOnly={readOnly}
-                          value={item.sub ?? ''}
-                          onChange={(e) => {
-                            const next = [...(block.visualItems || [])]
-                            next[vIdx] = {
-                              ...item,
-                              label: displayLabel,
-                              sub: e.target.value,
-                              tone: item.tone || activePreset.tone,
-                              keyImage: item.keyImage || activePreset.image,
-                            }
-                            updateBlockItem(stageIndex, block.id, { visualItems: next })
-                          }}
-                          style={{ ...inputStyle, minHeight: '2.25rem', marginTop: 0 }}
-                          placeholder="Phụ đề gợi ý (VD: Ai, đồ vật gì)"
-                          className="w-full text-xs font-medium text-slate-600"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Dòng 2: Nội dung ví dụ mẫu */}
-                    <div>
-                      <label className="text-[10px] font-black text-muted block sm:hidden">Ví dụ mẫu</label>
-                      <input
-                        readOnly={readOnly}
-                        value={item.text}
-                        onChange={(e) => {
-                          const next = [...(block.visualItems || [])]
-                          next[vIdx] = {
-                            ...item,
-                            label: displayLabel,
-                            text: e.target.value,
-                            tone: item.tone || activePreset.tone,
-                            keyImage: item.keyImage || activePreset.image,
-                          }
-                          updateBlockItem(stageIndex, block.id, { visualItems: next })
-                        }}
-                        style={{ ...inputStyle, minHeight: '2.25rem', marginTop: 0 }}
-                        placeholder="Ví dụ mẫu (VD: 'một cái cốc')"
-                        className="w-full text-xs text-slate-800"
-                      />
+                      {questions.length > 1 && !readOnly && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveQuestion(activeIdx)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition cursor-pointer text-xs font-bold"
+                          title="Xóa câu hỏi đang chọn"
+                        >
+                          <Trash2 size={13} />
+                          <span>Xóa câu này</span>
+                        </button>
+                      )}
                     </div>
                   </div>
 
-                  {/* Bên phải: Nút xóa */}
-                  {!readOnly && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const next = (block.visualItems || []).filter((_, i) => i !== vIdx)
-                        updateBlockItem(stageIndex, block.id, { visualItems: next })
-                      }}
-                      className="grid size-9 shrink-0 place-items-center rounded-xl border border-slate-200 text-danger cursor-pointer hover:bg-rose-50 self-center sm:self-start mt-1"
-                      title="Xóa ô này"
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  )}
+                  {/* Form soạn thảo câu hỏi đang chọn */}
+                  <InteractiveQuestionBlockEditor
+                    key={currentQ.id || `q-${activeIdx}`}
+                    question={{
+                      id: currentQ.id,
+                      prompt: currentQ.prompt,
+                      layoutMode: (currentQ.layoutMode || (
+                        (Array.isArray(currentQ.options) && currentQ.options.some((o: any) => typeof o !== 'string' && Boolean(o.imageUrl))) ||
+                        (Array.isArray(currentQ.optionImages) && currentQ.optionImages.some(Boolean))
+                          ? 'cards'
+                          : 'split'
+                      )) as 'cards' | 'split' | 'list',
+                      visualUrl: currentQ.visualUrl || (currentQ.layoutMode === 'split' ? (card?.imageUrl || '') : ''),
+                      options: (Array.isArray(currentQ.options) && currentQ.options.length > 0)
+                        ? currentQ.options.map((opt: any, oIdx: number) => ({
+                            id: typeof opt === 'string' ? `opt-${oIdx + 1}` : (opt.id || `opt-${oIdx + 1}`),
+                            text: typeof opt === 'string' ? opt : (opt.text || ''),
+                            imageUrl: typeof opt === 'string' ? (currentQ.optionImages?.[oIdx] || '') : (opt.imageUrl || currentQ.optionImages?.[oIdx] || ''),
+                          }))
+                        : [
+                            { id: 'opt-1', text: 'Phương án A (Đáp án đúng)', imageUrl: '' },
+                            { id: 'opt-2', text: 'Phương án B', imageUrl: '' },
+                          ],
+                      correctIndex: typeof currentQ.correctIndex === 'number' ? currentQ.correctIndex : 0,
+                      explanation: currentQ.explanation || '',
+                    }}
+                    onChange={(patch) => {
+                      const nextQs: QuizQuestionItem[] = [...questions]
+                      const cur = nextQs[activeIdx] || { ...currentQ }
+                      const updated: QuizQuestionItem = { ...cur }
+                      if (patch.prompt !== undefined) updated.prompt = patch.prompt
+                      if (patch.layoutMode !== undefined) updated.layoutMode = patch.layoutMode
+                      if (patch.visualUrl !== undefined) updated.visualUrl = patch.visualUrl
+                      if (patch.explanation !== undefined) updated.explanation = patch.explanation
+                      if (patch.correctIndex !== undefined) updated.correctIndex = patch.correctIndex
+                      if (patch.options !== undefined) {
+                        updated.options = patch.options.map((o) => o.text)
+                        updated.optionImages = patch.options.map((o) => o.imageUrl || '')
+                      }
+                      nextQs[activeIdx] = updated
+
+                      const activeOptions = updated.options.map((text: string, oIdx: number) => ({
+                        id: `opt-${oIdx + 1}`,
+                        text,
+                        imageUrl: updated.optionImages?.[oIdx] || '',
+                      }))
+
+                      const blockPatch: any = {
+                        quizQuestions: nextQs,
+                        activeQuizQuestionIdx: activeIdx,
+                        questionPrompt: updated.prompt,
+                        layoutMode: updated.layoutMode,
+                        visualUrl: updated.visualUrl,
+                        imageUrl: updated.visualUrl,
+                        correctIndex: updated.correctIndex,
+                        explanation: updated.explanation,
+                        questionOptions: activeOptions,
+                        optionLabels: updated.options,
+                        optionImages: updated.optionImages,
+                      }
+                      updateBlockItem(stageIndex, block.id, blockPatch)
+                    }}
+                    readOnly={readOnly}
+                    questId={courseId}
+                    showToast={showToast}
+                    questionNumber={activeIdx + 1}
+                    customBadge={block.type === 'layout-confirm-option' ? `XÁC NHẬN MỤC TIÊU (CÂU ${activeIdx + 1}/${questions.length})` : `CÂU HỎI ${activeIdx + 1}/${questions.length}`}
+                    customTitle={`Nội dung câu hỏi ${activeIdx + 1} *`}
+                  />
                 </div>
               )
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* ── 5B. BLOCK: Lưới Ô Thẻ / Chuỗi Storyboard (layout-grid / layout-storyboard) ── */}
-      {(block.type === 'layout-grid' || block.type === 'layout-storyboard') && (
-        <div className="mt-3.5 rounded-xl border border-sky-200 bg-sky-50/60 p-3">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-            <label className="text-xs font-extrabold text-text flex-1">
-              Tiêu đề:
-              <input
-                readOnly={readOnly}
-                value={block.title ?? ''}
-                onChange={(e) => updateBlockItem(stageIndex, block.id, { title: e.target.value })}
-                style={{ ...inputStyle, marginTop: '0.2rem' }}
-                placeholder={block.type === 'layout-storyboard' ? "VD: Chuỗi Storyboard 3 Cảnh..." : "VD: Lưới 3 Ô Thẻ..."}
-              />
-            </label>
-            {!readOnly && (
-              <button
-                type="button"
-                onClick={() => {
-                  const currentItems = block.visualItems || []
-                  const nextItems: LearnVisualItemDraft[] = [
-                    ...currentItems,
-                    { label: block.type === 'layout-storyboard' ? `Cảnh ${currentItems.length + 1}` : `Ý tưởng ${currentItems.length + 1}`, text: '', tone: 'brand' },
-                  ]
-                  updateBlockItem(stageIndex, block.id, { visualItems: nextItems })
-                }}
-                className="flex min-h-9 items-center gap-1 rounded-xl border border-sky-300 bg-white px-3 text-xs font-extrabold text-sky-700 cursor-pointer shrink-0 whitespace-nowrap"
-              >
-                <Plus size={14} className="shrink-0" /> Thêm ô con
-              </button>
-            )}
-          </div>
-          <div className="mb-3 grid gap-2 sm:grid-cols-2">
-            <label className="text-[11px] font-extrabold text-muted">Lời dẫn
-              <textarea readOnly={readOnly} value={block.body ?? ''} onChange={(e) => updateBlockItem(stageIndex, block.id, { body: e.target.value })} rows={2} style={{ ...textareaStyle, minHeight: '2.5rem', marginTop: '0.25rem' }} />
-            </label>
-            <label className="text-[11px] font-extrabold text-muted">Câu ghi nhớ
-              <textarea readOnly={readOnly} value={block.tip ?? ''} onChange={(e) => updateBlockItem(stageIndex, block.id, { tip: e.target.value })} rows={2} style={{ ...textareaStyle, minHeight: '2.5rem', marginTop: '0.25rem' }} />
-            </label>
-          </div>
-          <div className="grid gap-2">
-            {(block.visualItems || []).map((item, vIdx) => (
-              <div key={vIdx} className="grid gap-2 rounded-xl border border-slate-200 bg-white p-3 sm:grid-cols-[minmax(8rem,.42fr)_minmax(0,1fr)_2.5rem]">
-                <label className="text-[11px] font-extrabold text-muted">
-                  Tên ô
-                  <input
-                    readOnly={readOnly}
-                    value={item.label}
-                    onChange={(e) => {
-                      const next = [...(block.visualItems || [])]
-                      next[vIdx] = { ...item, label: e.target.value }
-                      updateBlockItem(stageIndex, block.id, { visualItems: next })
-                    }}
-                    style={{ ...inputStyle, minHeight: '2.5rem', marginTop: '0.25rem' }}
-                    placeholder="Tên ô..."
-                  />
-                </label>
-                <label className="text-[11px] font-extrabold text-muted">
-                  Nội dung ngắn
-                  <textarea
-                    readOnly={readOnly}
-                    value={item.text}
-                    onChange={(e) => {
-                      const next = [...(block.visualItems || [])]
-                      next[vIdx] = { ...item, text: e.target.value }
-                      updateBlockItem(stageIndex, block.id, { visualItems: next })
-                    }}
-                    rows={2}
-                    style={{ ...textareaStyle, minHeight: '2.5rem', marginTop: '0.25rem' }}
-                    placeholder="Mô tả cho học sinh..."
-                  />
-                </label>
-                {!readOnly && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const next = (block.visualItems || []).filter((_, i) => i !== vIdx)
-                      updateBlockItem(stageIndex, block.id, { visualItems: next })
-                    }}
-                    className="mt-5 grid size-9 shrink-0 place-items-center rounded-xl border border-slate-200 text-danger cursor-pointer hover:bg-rose-50"
-                    title="Xóa ô này"
-                  >
-                    <Trash2 size={15} />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── 6. BLOCK: Mèo AIKI & Lipsync (voice) ── */}
-      {block.type === 'voice' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50/80 via-sky-50/50 to-white p-4 shadow-sm">
-          <div className="mb-3 flex items-start gap-2 rounded-xl bg-amber-50/90 border border-amber-200/80 p-2.5 text-xs text-amber-900">
-            <span className="text-base select-none shrink-0">💡</span>
-            <div>
-              <p className="font-bold">Trợ lý âm thanh đồng hành (Voice Companion):</p>
-              <p className="text-[11px] text-amber-800 leading-relaxed">
-                Lời thoại và giọng đọc của Mèo AIKI được phát ngầm hoặc thu gọn dưới dạng trợ lý âm thanh, tối ưu 100% diện tích màn hình để các bé tập trung vào bài học chính.
-              </p>
-            </div>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] items-stretch">
-            <div className="flex flex-col justify-between gap-3">
-              <div>
-                <label className="block text-[11px] font-black uppercase tracking-wider text-slate-700">
-                  Lời đọc cho bé <span className="font-semibold normal-case text-muted">(để trống AIKI sẽ đọc nội dung bài)</span>
-                  <textarea
-                    readOnly={readOnly}
-                    value={card.mee?.readText ?? ''}
-                    onChange={(event) => updateLearnCard(stageIndex, {
-                      mee: {
-                        ...(card.mee ?? { readText: '', gesture: 'presentation', autoRead: false }),
-                        readText: event.target.value,
-                        voiceProvider: 'vertex',
-                        gesture: (card.mee?.gesture as any) ?? 'presentation',
-                        autoRead: card.mee?.autoRead ?? false,
-                      }
-                    })}
-                    rows={2}
-                    style={{ ...textareaStyle, marginTop: '0.25rem', minHeight: '3.25rem' }}
-                    placeholder="Rút gọn thành 1–2 câu dễ hiểu, vui tươi và tràn đầy năng lượng..."
-                  />
-                </label>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-black uppercase tracking-wider text-slate-700">
-                  Audio Vertex AI (StoryMee Hub)
-                  <div className="mt-1 flex items-center gap-2">
-                    <input
-                      type="url"
-                      readOnly={readOnly}
-                      value={card.mee?.audioUrl ?? ''}
-                      onChange={(event) => updateLearnCard(stageIndex, {
-                        mee: {
-                          ...(card.mee ?? { readText: '', gesture: 'presentation', autoRead: false }),
-                          audioUrl: event.target.value,
-                          voiceProvider: 'vertex',
-                        }
-                      })}
-                      style={{ ...inputStyle, marginTop: 0 }}
-                      placeholder="https://cdn.example.com/aiki-voice.mp3"
-                      className="flex-1 min-h-9"
-                    />
-                    {!readOnly && (
-                      <label className="shrink-0 flex min-h-9 items-center justify-center gap-1 rounded-xl border-2 border-brand-200 bg-white px-2.5 text-[11px] font-black text-brand-700 hover:bg-brand-50 cursor-pointer shadow-2xs transition">
-                        <Volume2 size={13} />
-                        <span>{uploadingStageMedia === `${stageIndex}:audioUrl` ? 'Đang tải…' : 'Tải MP3'}</span>
-                        <input
-                          className="sr-only"
-                          type="file"
-                          accept="audio/mpeg,audio/mp4,audio/wav,audio/webm"
-                          disabled={uploadingStageMedia !== null}
-                          onChange={(event) => {
-                            const file = event.target.files?.[0]
-                            if (file) void uploadLearnCardMedia(stageIndex, 'audioUrl', file)
-                            event.currentTarget.value = ''
-                          }}
-                        />
-                      </label>
-                    )}
-                  </div>
-                </label>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 pt-1 border-t border-brand-100/60">
-                <label className="min-w-44 flex-1 text-[11px] font-black uppercase tracking-wider text-slate-700">
-                  Cử chỉ giảng dạy
-                  <select
-                    disabled={readOnly}
-                    value={card.mee?.gesture ?? 'presentation'}
-                    onChange={(event) => updateLearnCard(stageIndex, {
-                      mee: {
-                        ...(card.mee ?? { readText: '', gesture: 'presentation', autoRead: false }),
-                        gesture: event.target.value as any,
-                      }
-                    })}
-                    style={{ ...inputStyle, marginTop: '0.25rem', height: '2.4rem' }}
-                  >
-                    {LECTURE_GESTURES.map((g) => (
-                      <option key={g.id} value={g.id}>{g.label}</option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer mt-4">
-                  <input
-                    type="checkbox"
-                    disabled={readOnly}
-                    checked={card.mee?.autoRead ?? false}
-                    onChange={(event) => updateLearnCard(stageIndex, {
-                      mee: {
-                        ...(card.mee ?? { readText: '', gesture: 'presentation', autoRead: false }),
-                        autoRead: event.target.checked,
-                      }
-                    })}
-                    className="size-4 rounded text-brand-600 focus:ring-brand-400"
-                  />
-                  <span>Tự đọc khi mở chặng</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center justify-between rounded-2xl border-2 border-brand-200 bg-gradient-to-b from-brand-50 via-amber-50/60 to-white p-3 shadow-inner relative overflow-hidden">
-              <div className="w-full flex items-center justify-between text-[10px] font-black text-brand-800">
-                <span className="flex items-center gap-1">
-                  <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                  Interactive Rig
-                </span>
-                <span className="uppercase opacity-75">
-                  {card.mee?.gesture ?? 'presentation'}
-                </span>
-              </div>
-
-              <div className="h-44 w-full flex items-center justify-center my-1">
-                <MeeCatInteractiveCanvas
-                  variant="half-body"
-                  animated={true}
-                  transparentBackground={true}
-                  state={card.mee?.gesture === 'think' ? 'look' : card.mee?.gesture === 'celebrate' || card.mee?.gesture === 'celebrate-1' ? 'celebrate' : previewSpeakingIndex === stageIndex ? 'talk' : 'idle'}
-                  gesture={(card.mee?.gesture as any) ?? 'presentation'}
-                  isSpeaking={previewSpeakingIndex === stageIndex}
-                  speechText={card.mee?.readText || card.body}
-                  className="size-full max-h-44"
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => previewAikiVoice(stageIndex, card.mee?.readText?.trim() || card.body)}
-                className={cn(
-                  "w-full flex items-center justify-center gap-2 rounded-xl py-2 px-3 text-xs font-black transition active:scale-95 shadow-xs cursor-pointer shrink-0 whitespace-nowrap",
-                  previewSpeakingIndex === stageIndex
-                    ? "bg-rose-500 hover:bg-rose-600 text-white animate-pulse"
-                    : "bg-brand-600 hover:bg-brand-700 text-white"
-                )}
-              >
-                <Volume2 size={15} className="shrink-0" />
-                <span>{previewSpeakingIndex === stageIndex ? 'Dừng đọc & lipsync' : '🔊 Nghe thử giọng & Lipsync'}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── 7. BLOCK: Video Bài Giảng (video) ── */}
-      {block.type === 'video' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/60 p-4 shadow-xs">
-          <div className="mb-3 flex items-start gap-2 rounded-xl bg-indigo-100/70 border border-indigo-200/80 p-2.5 text-xs text-indigo-950">
-            <span className="text-base select-none shrink-0">💡</span>
-            <div>
-              <p className="font-bold">Quy chuẩn hiển thị Video 16:9 sạch bóng:</p>
-              <p className="text-[11px] text-indigo-800 leading-relaxed">
-                Phụ đề và thuyết minh sẽ được đưa vào dải chuyên dụng dưới chân video, không đè lên hình ảnh giúp các bé quan sát toàn vẹn nội dung bài giảng.
-              </p>
-            </div>
-          </div>
-          <div className="grid gap-3">
-            <label className="text-[11px] font-extrabold text-muted">
-              Đường dẫn Video URL (MP4 hoặc YouTube)
-              <input
-                type="url"
-                readOnly={readOnly}
-                value={card.videoUrl ?? ''}
-                onChange={(event) => updateLearnCard(stageIndex, { videoUrl: event.target.value })}
-                style={{ ...inputStyle, marginTop: '0.25rem' }}
-                placeholder="https://cdn.example.com/video.mp4 hoặc https://youtube.com/watch?v=..."
-              />
-            </label>
-            {!readOnly && (
-              <span className="flex min-h-11 cursor-pointer items-center justify-center rounded-xl border-2 border-indigo-200 bg-white px-3 text-xs font-extrabold text-indigo-700 hover:bg-indigo-100/50">
-                <Clapperboard size={16} className="mr-2" aria-hidden="true" />
-                {uploadingStageMedia === `${stageIndex}:videoUrl` ? 'Đang tải video…' : 'Tải file video lên'}
-                <input
-                  className="sr-only"
-                  type="file"
-                  accept="video/mp4,video/webm"
-                  disabled={uploadingStageMedia !== null}
-                  onChange={(event) => {
-                    const file = event.target.files?.[0]
-                    if (file) void uploadLearnCardMedia(stageIndex, 'videoUrl', file)
-                    event.currentTarget.value = ''
-                  }}
-                />
-              </span>
-            )}
-            {card.videoUrl && (
-              <div className="overflow-hidden rounded-xl border border-border">
-                <LectureVideo title={card.title} url={card.videoUrl} />
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ── 8. BLOCK: 2 Tranh Đối Đầu A/B (versus-ab) ── */}
-      {block.type === 'versus-ab' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-amber-300 bg-amber-50/80 p-4 shadow-xs">
-          <div className="grid gap-3 sm:grid-cols-2">
-            {/* Tranh A */}
-            <div className="rounded-xl border border-amber-200 bg-white p-3 shadow-xs">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-amber-950">Phương án A</span>
-                <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-800">Tranh A</span>
-              </div>
-              <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                Tiêu đề tranh A
-                <input
-                  type="text"
-                  readOnly={readOnly}
-                  value={card.optionLabels?.[0] ?? 'Ảnh A: Bức tranh của Zico'}
-                  onChange={(event) => {
-                    const next = [...(card.optionLabels || ['Ảnh A: Bức tranh của Zico', 'Ảnh B: Bức tranh của Sonet'])]
-                    next[0] = event.target.value
-                    updateLearnCard(stageIndex, { optionLabels: next })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="Ảnh A: Bức tranh của Zico"
-                />
-              </label>
-              <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                Mô tả tranh A
-                <input
-                  type="text"
-                  readOnly={readOnly}
-                  value={card.optionDescs?.[0] ?? ''}
-                  onChange={(event) => {
-                    const next = [...(card.optionDescs || ['', ''])]
-                    next[0] = event.target.value
-                    updateLearnCard(stageIndex, { optionDescs: next })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="Siêu anh hùng quen thuộc (ai cũng vẽ được)"
-                />
-              </label>
-              <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                URL Ảnh A
-                <input
-                  type="url"
-                  readOnly={readOnly}
-                  value={card.optionImages?.[0] ?? ''}
-                  onChange={(event) => {
-                    const next = [...(card.optionImages || ['', ''])]
-                    next[0] = event.target.value
-                    updateLearnCard(stageIndex, { optionImages: next })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="https://cdn.example.com/zico-hero.webp"
-                />
-              </label>
-              {!readOnly && (
-                <span className="mt-2 flex min-h-10 cursor-pointer items-center justify-center rounded-xl border border-amber-300 bg-amber-50 px-3 text-xs font-extrabold text-amber-900 hover:bg-amber-100">
-                  <Eye size={15} className="mr-1.5" />
-                  {uploadingStageMedia === `${stageIndex}:optionImageA` ? 'Đang tải ảnh A…' : 'Tải ảnh tranh A lên'}
-                  <input
-                    className="sr-only"
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    disabled={uploadingStageMedia !== null}
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file) void uploadLearnCardMedia(stageIndex, 'optionImageA', file)
-                      event.currentTarget.value = ''
-                    }}
-                  />
-                </span>
-              )}
-              {card.optionImages?.[0] && (
-                <div className="mt-2 overflow-hidden rounded-lg border border-amber-200 aspect-video">
-                  <img src={card.optionImages[0]} alt="Bức tranh A" className="size-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-                </div>
-              )}
-            </div>
-
-            {/* Tranh B */}
-            <div className="rounded-xl border border-sky-200 bg-white p-3 shadow-xs">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-sky-950">Phương án B</span>
-                <span className="rounded-md bg-sky-100 px-1.5 py-0.5 text-[10px] font-black text-sky-800">Tranh B</span>
-              </div>
-              <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                Tiêu đề tranh B
-                <input
-                  type="text"
-                  readOnly={readOnly}
-                  value={card.optionLabels?.[1] ?? 'Ảnh B: Bức tranh của Sonet'}
-                  onChange={(event) => {
-                    const next = [...(card.optionLabels || ['Ảnh A: Bức tranh của Zico', 'Ảnh B: Bức tranh của Sonet'])]
-                    next[1] = event.target.value
-                    updateLearnCard(stageIndex, { optionLabels: next })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="Ảnh B: Bức tranh của Sonet"
-                />
-              </label>
-              <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                Mô tả tranh B
-                <input
-                  type="text"
-                  readOnly={readOnly}
-                  value={card.optionDescs?.[1] ?? ''}
-                  onChange={(event) => {
-                    const next = [...(card.optionDescs || ['', ''])]
-                    next[1] = event.target.value
-                    updateLearnCard(stageIndex, { optionDescs: next })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="Siêu anh hùng bố cầm vợt muỗi (độc nhất của riêng con)"
-                />
-              </label>
-              <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                URL Ảnh B
-                <input
-                  type="url"
-                  readOnly={readOnly}
-                  value={card.optionImages?.[1] ?? ''}
-                  onChange={(event) => {
-                    const next = [...(card.optionImages || ['', ''])]
-                    next[1] = event.target.value
-                    updateLearnCard(stageIndex, { optionImages: next })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="https://cdn.example.com/sonet-hero.webp"
-                />
-              </label>
-              {!readOnly && (
-                <span className="mt-2 flex min-h-10 cursor-pointer items-center justify-center rounded-xl border border-sky-300 bg-sky-50 px-3 text-xs font-extrabold text-sky-900 hover:bg-sky-100">
-                  <Eye size={15} className="mr-1.5" />
-                  {uploadingStageMedia === `${stageIndex}:optionImageB` ? 'Đang tải ảnh B…' : 'Tải ảnh tranh B lên'}
-                  <input
-                    className="sr-only"
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    disabled={uploadingStageMedia !== null}
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file) void uploadLearnCardMedia(stageIndex, 'optionImageB', file)
-                      event.currentTarget.value = ''
-                    }}
-                  />
-                </span>
-              )}
-              {card.optionImages?.[1] && (
-                <div className="mt-2 overflow-hidden rounded-lg border border-sky-200 aspect-video">
-                  <img src={card.optionImages[1]} alt="Bức tranh B" className="size-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── 9. BLOCK: Kịch Bản Phân Vai Comic (dialogue) ── */}
-      {block.type === 'dialogue' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-orange-300 bg-orange-50/70 p-4 shadow-xs">
-          <div className="flex items-center justify-end mb-3">
-            {!readOnly && (
-              <button
-                type="button"
-                onClick={() => {
-                  const currentList = card.dialogueLines || []
-                  const nextLine: DialogueLine = {
-                    id: `d-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-                    speaker: 'zico',
-                    role: currentList.length % 2 === 0 ? 'left' : 'right',
-                    text: '',
-                  }
-                  updateLearnCard(stageIndex, { dialogueLines: [...currentList, nextLine] })
-                }}
-                className="inline-flex items-center gap-1 rounded-lg border border-orange-300 bg-white px-2.5 py-1 text-[11px] font-extrabold text-orange-800 hover:bg-orange-100 transition cursor-pointer shrink-0 whitespace-nowrap"
-              >
-                <Plus size={13} className="shrink-0" /> Thêm câu thoại
-              </button>
-            )}
-          </div>
-
-          {(!card.dialogueLines || card.dialogueLines.length === 0) ? (
-            <div className="rounded-xl border border-dashed border-orange-300 bg-white/70 p-4 text-center text-xs font-bold text-orange-800">
-              Chưa có câu thoại nào. Bấm "+ Thêm câu thoại" để tạo kịch bản comic đối thoại.
-            </div>
+            })()
+          ) : block.type === 'video' ? (
+            <VideoBlockEditor
+              video={{
+                id: block.id,
+                title: block.title || card.title,
+                videoUrl: block.videoUrl || card.videoUrl || '',
+                posterUrl: block.posterUrl || '',
+                durationSec: block.durationSec || 180,
+                timestamps: block.timestamps || [],
+              }}
+              onChange={(patch) => {
+                updateBlockItem(stageIndex, block.id, patch)
+                if (patch.videoUrl !== undefined) {
+                  updateLearnCard(stageIndex, { videoUrl: patch.videoUrl })
+                }
+              }}
+              readOnly={readOnly}
+              questId={courseId}
+              showToast={showToast}
+            />
+          ) : block.type === 'practice' ? (
+            <PracticeBlockEditor
+              practice={
+                block.practiceConfig || {
+                  id: block.id,
+                  title: block.title || 'Thực hành',
+                  subjectName: '',
+                  badge: '',
+                  illustrationType: '',
+                  lockedFeatures: [],
+                  akiMotto: '',
+                  maxAttempts: 3,
+                  workflowSteps: [],
+                }
+              }
+              onChange={(patch) => {
+                updateBlockItem(stageIndex, block.id, {
+                  practiceConfig: { ...(block.practiceConfig || {}), ...patch },
+                  title: patch.title ?? block.title,
+                })
+              }}
+              readOnly={readOnly}
+              previewAikiVoice={previewAikiVoice}
+              showToast={showToast}
+              stageStarAllocation={stageStarAllocation}
+              onToggleStageStar={() => onToggleStageStar?.(4)}
+            />
+          ) : block.type === 'reward' ? (
+            <RewardBlockEditor
+              completion={{
+                id: block.rewardConfig?.id || block.id,
+                title: block.rewardConfig?.title || block.title || 'Chúc mừng hoàn thành bài học!',
+                congratsMessage: block.rewardConfig?.congratsMessage || block.body || '',
+                rewardBadge: block.rewardConfig?.rewardBadge || {
+                  name: 'Huy hiệu hoàn thành',
+                  iconUrl: '',
+                  stars: 3,
+                  xp: 50,
+                },
+                nextLessonSlug: block.rewardConfig?.nextLessonSlug || '',
+              }}
+              stage1ImageUrl={card.imageUrl}
+              onChange={(patch) => {
+                updateBlockItem(stageIndex, block.id, {
+                  rewardConfig: { ...(block.rewardConfig || {}), ...patch },
+                  title: patch.title ?? block.title,
+                  body: patch.congratsMessage ?? block.body,
+                })
+              }}
+              readOnly={readOnly}
+              questId={courseId}
+              showToast={showToast}
+              stageStarAllocation={stageStarAllocation}
+              onToggleStage6Star={() => onToggleStageStar?.(5)}
+            />
           ) : (
-            <div className="space-y-2.5">
-              {card.dialogueLines.map((line, lineIdx) => (
-                <div key={line.id || lineIdx} className="rounded-xl border border-orange-200 bg-white p-3 shadow-2xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-orange-100 pb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-muted shrink-0">#{lineIdx + 1}</span>
-                      <label className="text-[11px] font-bold text-text flex items-center gap-1 shrink-0">
-                        Nhân vật:
-                        <select
-                          disabled={readOnly}
-                          value={line.speaker}
-                          onChange={(e) => {
-                            const nextList = [...(card.dialogueLines || [])]
-                            const sp = e.target.value
-                            const autoRole = sp === 'zico' ? 'left' : sp === 'sonet' ? 'right' : 'center'
-                            nextList[lineIdx] = { ...line, speaker: sp, role: autoRole }
-                            updateLearnCard(stageIndex, { dialogueLines: nextList })
-                          }}
-                          className="rounded-lg border border-border px-2 py-1 text-xs font-bold text-text bg-white"
-                        >
-                          <option value="zico">👦 Zico (áo cam)</option>
-                          <option value="sonet">🧒 Sonet (áo xanh)</option>
-                          <option value="aki">🐱 Mèo AIKI</option>
-                          <option value="teacher">👩‍🏫 Cô giáo</option>
-                          <option value="other">Tùy chọn khác</option>
-                        </select>
-                      </label>
-                      <label className="text-[11px] font-bold text-text flex items-center gap-1 shrink-0">
-                        Vị trí:
-                        <select
-                          disabled={readOnly}
-                          value={line.role}
-                          onChange={(e) => {
-                            const nextList = [...(card.dialogueLines || [])]
-                            nextList[lineIdx] = { ...line, role: e.target.value as 'left' | 'right' | 'center' }
-                            updateLearnCard(stageIndex, { dialogueLines: nextList })
-                          }}
-                          className="rounded-lg border border-border px-2 py-1 text-xs font-bold text-text bg-white"
-                        >
-                          <option value="left">Trái (Left)</option>
-                          <option value="right">Phải (Right)</option>
-                          <option value="center">Ở giữa (Center)</option>
-                        </select>
-                      </label>
-                    </div>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => speakTextPreview(line.text)}
-                        className="inline-flex items-center gap-1 rounded-md border border-orange-200 bg-orange-50 px-2 py-1 text-[11px] font-bold text-orange-900 hover:bg-orange-100 cursor-pointer shrink-0 whitespace-nowrap"
-                        title="Nghe máy đọc thử câu này"
-                      >
-                        <Volume2 size={13} className="shrink-0" /> Nghe thử
-                      </button>
-                      {!readOnly && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const nextList = card.dialogueLines?.filter((_, i) => i !== lineIdx) || []
-                            updateLearnCard(stageIndex, { dialogueLines: nextList })
-                          }}
-                          className="rounded-md p-1 text-coral-600 hover:bg-coral-50 cursor-pointer shrink-0"
-                          title="Xóa câu thoại này"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-2 block text-[11px] font-extrabold text-muted">
-                    Lời thoại của nhân vật
-                    <textarea
-                      readOnly={readOnly}
-                      value={line.text}
-                      onChange={(e) => {
-                        const nextList = [...(card.dialogueLines || [])]
-                        nextList[lineIdx] = { ...line, text: e.target.value }
-                        updateLearnCard(stageIndex, { dialogueLines: nextList })
-                      }}
-                      rows={2}
-                      style={{ ...textareaStyle, marginTop: '0.2rem', minHeight: '3rem' }}
-                      placeholder="Nhập câu thoại của nhân vật..."
-                    />
-                  </label>
-                </div>
-              ))}
-            </div>
+            <LayoutBlocksEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              courseId={courseId}
+              stageInfo={stageInfo}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+              isConfirmOption={isConfirmOption}
+              optionLetter={optionLetter}
+            />
           )}
-        </div>
+
+
+          {block.type === 'voice' && (
+            <VoiceBlockEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              courseId={courseId}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+              previewAikiVoice={previewAikiVoice}
+              previewSpeakingIndex={previewSpeakingIndex}
+            />
+          )}
+
+          {block.type === 'versus-ab' && (
+            <VersusAbBlockEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              courseId={courseId}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+            />
+          )}
+
+          {block.type === 'dialogue' && (
+            <DialogueBlockEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              courseId={courseId}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+              speakTextPreview={speakTextPreview}
+            />
+          )}
+
+          {block.type === 'compare' && (
+            <CompareBlockEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              courseId={courseId}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+            />
+          )}
+
+          {block.type === 'poster' && (
+            <PosterBlockEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              courseId={courseId}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+            />
+          )}
+
+          {block.type === 'images' && (
+            <ImagesBlockEditor
+              block={block}
+              stageIndex={stageIndex}
+              card={card}
+              readOnly={readOnly}
+              updateBlockItem={updateBlockItem}
+              updateLearnCard={updateLearnCard}
+              uploadingStageMedia={uploadingStageMedia}
+              setUploadingStageMedia={setUploadingStageMedia}
+              uploadLearnCardMedia={uploadLearnCardMedia}
+              uploadAdditionalImageItem={uploadAdditionalImageItem}
+              courseId={courseId}
+              inputStyle={inputStyle}
+              textareaStyle={textareaStyle}
+              showToast={showToast}
+            />
+          )}
+        </>
       )}
-
-      {/* ── 10. BLOCK: Bảng So Sánh 2 Cột (compare) ── */}
-      {block.type === 'compare' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-sky-300 bg-sky-50/80 p-4 shadow-xs">
-          <div className="grid gap-3 sm:grid-cols-2">
-            {/* Cột Trái: Kho AI */}
-            <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
-              <span className="text-xs font-black text-slate-800">Cột Trái</span>
-              <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                Tiêu đề cột trái
-                <input
-                  type="text"
-                  readOnly={readOnly}
-                  value={card.compareData?.leftTitle ?? 'Kho Dữ Liệu AI'}
-                  onChange={(e) => {
-                    const currentData = card.compareData || {}
-                    updateLearnCard(stageIndex, {
-                      compareData: { ...currentData, leftTitle: e.target.value },
-                    })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="Kho Dữ Liệu AI"
-                />
-              </label>
-              <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                Nội dung giải thích cột trái
-                <textarea
-                  readOnly={readOnly}
-                  value={card.compareData?.leftText ?? ''}
-                  onChange={(e) => {
-                    const currentData = card.compareData || {}
-                    updateLearnCard(stageIndex, {
-                      compareData: { ...currentData, leftText: e.target.value },
-                    })
-                  }}
-                  rows={2}
-                  style={{ ...textareaStyle, marginTop: '0.2rem', minHeight: '3rem' }}
-                  placeholder="AI chỉ lấy những hình ảnh quen thuộc trong kho mẫu có sẵn..."
-                />
-              </label>
-              <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                URL Ảnh cột trái
-                <input
-                  type="url"
-                  readOnly={readOnly}
-                  value={card.compareData?.leftImage || card.compareImages?.left || ''}
-                  onChange={(event) => {
-                    const currentData = card.compareData || {}
-                    updateLearnCard(stageIndex, {
-                      compareData: { ...currentData, leftImage: event.target.value },
-                      compareImages: { left: event.target.value, right: card.compareImages?.right || '' },
-                    })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="https://cdn.example.com/ai-warehouse.webp"
-                />
-              </label>
-              {!readOnly && (
-                <span className="mt-2 flex min-h-10 cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-slate-50 px-3 text-xs font-extrabold text-slate-800 hover:bg-slate-100">
-                  <Eye size={15} className="mr-1.5" />
-                  {uploadingStageMedia === `${stageIndex}:compareLeft` ? 'Đang tải ảnh…' : 'Tải ảnh Cột Trái lên'}
-                  <input
-                    className="sr-only"
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    disabled={uploadingStageMedia !== null}
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file) void uploadLearnCardMedia(stageIndex, 'compareLeft', file)
-                      event.currentTarget.value = ''
-                    }}
-                  />
-                </span>
-              )}
-              {(card.compareData?.leftImage || card.compareImages?.left) && (
-                <div className="mt-2 overflow-hidden rounded-lg border border-slate-200 aspect-video">
-                  <img src={card.compareData?.leftImage || card.compareImages?.left} alt="Minh họa Cột Trái" className="size-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-                </div>
-              )}
-            </div>
-
-            {/* Cột Phải: Não con */}
-            <div className="rounded-xl border border-brand-200 bg-white p-3 shadow-xs">
-              <span className="text-xs font-black text-brand-900">Cột Phải</span>
-              <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                Tiêu đề cột phải
-                <input
-                  type="text"
-                  readOnly={readOnly}
-                  value={card.compareData?.rightTitle ?? 'Não Sáng Tạo Của Con'}
-                  onChange={(e) => {
-                    const currentData = card.compareData || {}
-                    updateLearnCard(stageIndex, {
-                      compareData: { ...currentData, rightTitle: e.target.value },
-                    })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="Não Sáng Tạo Của Con"
-                />
-              </label>
-              <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                Nội dung giải thích cột phải
-                <textarea
-                  readOnly={readOnly}
-                  value={card.compareData?.rightText ?? ''}
-                  onChange={(e) => {
-                    const currentData = card.compareData || {}
-                    updateLearnCard(stageIndex, {
-                      compareData: { ...currentData, rightText: e.target.value },
-                    })
-                  }}
-                  rows={2}
-                  style={{ ...textareaStyle, marginTop: '0.2rem', minHeight: '3rem' }}
-                  placeholder="Chỉ có con mới có kỷ niệm riêng, cảm xúc thật, gia đình..."
-                />
-              </label>
-              <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                URL Ảnh cột phải
-                <input
-                  type="url"
-                  readOnly={readOnly}
-                  value={card.compareData?.rightImage || card.compareImages?.right || ''}
-                  onChange={(event) => {
-                    const currentData = card.compareData || {}
-                    updateLearnCard(stageIndex, {
-                      compareData: { ...currentData, rightImage: event.target.value },
-                      compareImages: { left: card.compareImages?.left || '', right: event.target.value },
-                    })
-                  }}
-                  style={{ ...inputStyle, marginTop: '0.2rem' }}
-                  placeholder="https://cdn.example.com/kid-brain.webp"
-                />
-              </label>
-              {!readOnly && (
-                <span className="mt-2 flex min-h-10 cursor-pointer items-center justify-center rounded-xl border border-brand-300 bg-amber-50 px-3 text-xs font-extrabold text-brand-900 hover:bg-amber-100">
-                  <Eye size={15} className="mr-1.5" />
-                  {uploadingStageMedia === `${stageIndex}:compareRight` ? 'Đang tải ảnh…' : 'Tải ảnh Cột Phải lên'}
-                  <input
-                    className="sr-only"
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    disabled={uploadingStageMedia !== null}
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file) void uploadLearnCardMedia(stageIndex, 'compareRight', file)
-                      event.currentTarget.value = ''
-                    }}
-                  />
-                </span>
-              )}
-              {(card.compareData?.rightImage || card.compareImages?.right) && (
-                <div className="mt-2 overflow-hidden rounded-lg border border-brand-200 aspect-video">
-                  <img src={card.compareData?.rightImage || card.compareImages?.right} alt="Minh họa Cột Phải" className="size-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── 11. BLOCK: Poster Quy Tắc Vàng (poster) ── */}
-      {block.type === 'poster' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-yellow-300 bg-yellow-50/70 p-4 shadow-xs">
-          <div className="grid gap-3 sm:grid-cols-2">
-            <label className="text-[11px] font-extrabold text-muted sm:col-span-2">
-              Thông điệp Quy tắc Vàng to bản (Poster Headline)
-              <textarea
-                readOnly={readOnly}
-                value={card.body}
-                onChange={(e) => updateLearnCard(stageIndex, { body: e.target.value })}
-                rows={2}
-                style={{ ...textareaStyle, marginTop: '0.2rem', minHeight: '3rem' }}
-                placeholder="Nghĩ ra ý tưởng của riêng mình trước, sau đó mới dùng AI..."
-              />
-            </label>
-
-            <label className="text-[11px] font-extrabold text-muted">
-              💡 Bí kíp bỏ túi của con
-              <input
-                type="text"
-                readOnly={readOnly}
-                value={card.tip}
-                onChange={(e) => updateLearnCard(stageIndex, { tip: e.target.value })}
-                style={{ ...inputStyle, marginTop: '0.2rem' }}
-                placeholder="AI là người bạn gợi ý, con là thuyền trưởng chỉ huy!"
-              />
-            </label>
-
-            <label className="text-[11px] font-extrabold text-muted">
-              URL Ảnh Poster tùy chọn
-              <input
-                type="url"
-                readOnly={readOnly}
-                value={card.imageUrl ?? ''}
-                onChange={(e) => updateLearnCard(stageIndex, { imageUrl: e.target.value })}
-                style={{ ...inputStyle, marginTop: '0.2rem' }}
-                placeholder="https://cdn.example.com/poster-gold.webp"
-              />
-            </label>
-
-            {!readOnly && (
-              <span className="sm:col-span-2 flex min-h-11 cursor-pointer items-center justify-center rounded-xl border-2 border-yellow-300 bg-white px-3 text-xs font-extrabold text-yellow-900 hover:bg-yellow-100">
-                <Eye size={16} className="mr-2" aria-hidden="true" />
-                {uploadingStageMedia === `${stageIndex}:imageUrl` ? 'Đang tải ảnh poster…' : 'Tải file ảnh poster lên'}
-                <input
-                  className="sr-only"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  disabled={uploadingStageMedia !== null}
-                  onChange={(event) => {
-                    const file = event.target.files?.[0]
-                    if (file) void uploadLearnCardMedia(stageIndex, 'imageUrl', file)
-                    event.currentTarget.value = ''
-                  }}
-                />
-              </span>
-            )}
-
-            {card.imageUrl && (
-              <div className="sm:col-span-2 overflow-hidden rounded-xl border border-yellow-200">
-                <img src={card.imageUrl} alt={card.imageAlt || 'Poster'} className="aspect-video w-full rounded-xl object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ── 12. BLOCK: Bộ Sưu Tập Ảnh Minh Họa (images) ── */}
-      {block.type === 'images' && (
-        <div className="mt-3.5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/60 p-4 shadow-xs space-y-5">
-          {/* 12.1. Ảnh chính của Chặng (Hero Image) */}
-          <div className="rounded-xl border-2 border-emerald-200 bg-white p-3.5 shadow-2xs">
-            <div className="flex items-center justify-between gap-2 border-b border-emerald-100 pb-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="text-base">🖼️</span>
-                <div>
-                  <h5 className="text-xs font-black uppercase tracking-wide text-emerald-950">
-                    Ảnh chính của Chặng (Hero Image)
-                  </h5>
-                  <p className="text-[10px] text-muted font-medium">
-                    Ảnh chủ đạo hiển thị to bản ở đầu chặng cho học sinh
-                  </p>
-                </div>
-              </div>
-
-              {card.imageUrl && !readOnly && (
-                <button
-                  type="button"
-                  onClick={() => updateLearnCard(stageIndex, { imageUrl: '' })}
-                  className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/60 px-2.5 py-1 text-[11px] font-extrabold text-rose-700 hover:bg-rose-100 transition cursor-pointer shrink-0 whitespace-nowrap"
-                  title="Xóa ảnh chính"
-                >
-                  <Trash2 size={13} className="shrink-0" />
-                  <span>Xóa ảnh</span>
-                </button>
-              )}
-            </div>
-
-            {card.imageUrl ? (
-              <div className="mt-3 space-y-3">
-                <div className="relative overflow-hidden rounded-xl border border-emerald-200 bg-emerald-50/40 p-2 text-center group/hero flex items-center justify-center min-h-[160px] max-h-[360px]">
-                  <img
-                    src={card.imageUrl}
-                    alt={card.imageAlt || card.title || 'Ảnh chính chặng'}
-                    className="w-auto max-w-full max-h-[340px] rounded-lg object-contain mx-auto shadow-2xs"
-                    onError={(e) => { e.currentTarget.style.display = 'none' }}
-                  />
-                </div>
-
-                <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-                  <label className="block text-[11px] font-extrabold text-muted">
-                    URL Ảnh chính
-                    <input
-                      type="url"
-                      readOnly={readOnly}
-                      value={card.imageUrl ?? ''}
-                      onChange={(e) => updateLearnCard(stageIndex, { imageUrl: e.target.value })}
-                      style={{ ...inputStyle, marginTop: '0.2rem' }}
-                      placeholder="https://cdn.example.com/hero-image.webp"
-                    />
-                  </label>
-
-                  {!readOnly && (
-                    <div className="flex items-end shrink-0">
-                      <label className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border-2 border-emerald-300 bg-emerald-50 px-3.5 text-xs font-black text-emerald-900 hover:bg-emerald-100 transition cursor-pointer shrink-0 whitespace-nowrap">
-                        <Upload size={14} className="shrink-0" />
-                        <span>{uploadingStageMedia === `${stageIndex}:imageUrl` ? 'Đang tải...' : 'Thay ảnh'}</span>
-                        <input
-                          className="sr-only"
-                          type="file"
-                          accept="image/png,image/jpeg,image/webp"
-                          disabled={uploadingStageMedia !== null}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) void uploadLearnCardMedia(stageIndex, 'imageUrl', file)
-                            e.currentTarget.value = ''
-                          }}
-                        />
-                      </label>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="mt-3 rounded-xl border border-dashed border-emerald-300 bg-emerald-50/40 p-4 text-center">
-                <p className="text-xs font-bold text-emerald-900">Chưa có ảnh chính của Chặng</p>
-                <p className="mt-0.5 text-[10px] text-muted">Tải ảnh lên hoặc dán đường dẫn URL để làm ảnh chủ đạo</p>
-                <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-                  {!readOnly && (
-                    <label className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-xl border-2 border-emerald-400 bg-emerald-600 px-3.5 text-xs font-black text-white hover:bg-emerald-700 shadow-xs transition cursor-pointer shrink-0 whitespace-nowrap">
-                      <Upload size={14} className="shrink-0" />
-                      <span>{uploadingStageMedia === `${stageIndex}:imageUrl` ? 'Đang tải ảnh...' : 'Tải ảnh chính lên'}</span>
-                      <input
-                        className="sr-only"
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                        disabled={uploadingStageMedia !== null}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0]
-                          if (file) void uploadLearnCardMedia(stageIndex, 'imageUrl', file)
-                          e.currentTarget.value = ''
-                        }}
-                      />
-                    </label>
-                  )}
-                </div>
-                <div className="mt-2.5 max-w-md mx-auto">
-                  <input
-                    type="url"
-                    readOnly={readOnly}
-                    value={card.imageUrl ?? ''}
-                    onChange={(e) => updateLearnCard(stageIndex, { imageUrl: e.target.value })}
-                    style={{ ...inputStyle, textAlign: 'center' }}
-                    placeholder="Hoặc dán URL: https://cdn.example.com/hero.webp"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* 12.2. Danh sách Ảnh minh họa bổ sung */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between border-t border-emerald-200/80 pt-3">
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm">📷</span>
-                <span className="text-xs font-black uppercase tracking-wide text-emerald-950">
-                  Ảnh minh họa bổ sung ({(card.additionalImages || []).length})
-                </span>
-              </div>
-              {!readOnly && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    const currentList = card.additionalImages || []
-                    const nextItem: StageImageItem = {
-                      id: `img-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-                      url: '',
-                      alt: 'Ảnh minh họa',
-                      caption: '',
-                    }
-                    updateLearnCard(stageIndex, { additionalImages: [...currentList, nextItem] })
-                  }}
-                  className="inline-flex items-center gap-1 rounded-lg border border-emerald-300 bg-white px-2.5 py-1 text-[11px] font-extrabold text-emerald-800 hover:bg-emerald-100 transition cursor-pointer shrink-0 whitespace-nowrap"
-                >
-                  <Plus size={13} className="shrink-0" /> Tải thêm ảnh
-                </button>
-              )}
-            </div>
-
-            {(!card.additionalImages || card.additionalImages.length === 0) ? (
-              <div className="rounded-xl border border-dashed border-emerald-300 bg-white/70 p-3.5 text-center text-xs font-bold text-emerald-800">
-                Chưa có ảnh bổ sung nào. Bấm "+ Tải thêm ảnh" ở trên để thêm album ảnh kèm chú thích.
-              </div>
-            ) : (
-              <div className="grid gap-3 sm:grid-cols-2">
-                {card.additionalImages.map((imgItem, imgIdx) => (
-                  <div key={imgItem.id || imgIdx} className="rounded-xl border border-emerald-200 bg-white p-3 shadow-2xs">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="text-[11px] font-black text-emerald-950">Ảnh minh họa #{imgIdx + 1}</span>
-                      {!readOnly && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const nextList = card.additionalImages?.filter((_, i) => i !== imgIdx) || []
-                            updateLearnCard(stageIndex, { additionalImages: nextList })
-                          }}
-                          className="rounded-md p-1 text-coral-600 hover:bg-coral-50 cursor-pointer shrink-0"
-                          title="Xóa ảnh này"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      )}
-                    </div>
-                    <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                      URL Ảnh
-                      <input
-                        type="url"
-                        readOnly={readOnly}
-                        value={imgItem.url}
-                        onChange={(e) => {
-                          const nextList = [...(card.additionalImages || [])]
-                          nextList[imgIdx] = { ...imgItem, url: e.target.value }
-                          updateLearnCard(stageIndex, { additionalImages: nextList })
-                        }}
-                        style={{ ...inputStyle, marginTop: '0.2rem' }}
-                        placeholder="https://cdn.example.com/illustration.webp"
-                      />
-                    </label>
-                    {!readOnly && (
-                      <span className="mt-1.5 flex min-h-9 cursor-pointer items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 text-[11px] font-bold text-emerald-900 hover:bg-emerald-100">
-                        <Eye size={13} className="mr-1" />
-                        {uploadingStageMedia === `${stageIndex}:additionalImage:${imgIdx}` ? 'Đang tải ảnh…' : 'Tải file ảnh lên'}
-                        <input
-                          className="sr-only"
-                          type="file"
-                          accept="image/png,image/jpeg,image/webp"
-                          disabled={uploadingStageMedia !== null}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) void uploadAdditionalImageItem(stageIndex, imgIdx, file)
-                            e.currentTarget.value = ''
-                          }}
-                        />
-                      </span>
-                    )}
-                    <label className="mt-1.5 block text-[11px] font-extrabold text-muted">
-                      Chú thích dưới ảnh (Caption)
-                      <input
-                        type="text"
-                        readOnly={readOnly}
-                        value={imgItem.caption ?? ''}
-                        onChange={(e) => {
-                          const nextList = [...(card.additionalImages || [])]
-                          nextList[imgIdx] = { ...imgItem, caption: e.target.value }
-                          updateLearnCard(stageIndex, { additionalImages: nextList })
-                        }}
-                        style={{ ...inputStyle, marginTop: '0.2rem' }}
-                        placeholder="Chú thích ngắn gọn cho học sinh..."
-                      />
-                    </label>
-                    {imgItem.url && (
-                      <div className="mt-2 overflow-hidden rounded-lg border border-emerald-100 aspect-video">
-                        <img src={imgItem.url} alt={imgItem.alt || 'Ảnh'} className="size-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      </>}
     </div>
   )
 })

@@ -1,0 +1,962 @@
+[
+  {
+    "id": "combo__sub-meo-muop",
+    "batchName": "cat_level1",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn (1 từ thử nghiệm, chưa có chìa khóa)",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, standing centered cheerfully looking friendly and curious, on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang",
+    "batchName": "cat_level2",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron",
+    "batchName": "cat_level2",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang",
+    "batchName": "cat_level2",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-liem-chan",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang ngồi thong thả liếm láp bàn chân sạch sẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, sitting peacefully and calmly lifting one front paw to gently lick it clean, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-vuon-vai",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Vươn vai ngáp dài",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang vươn vai duỗi dài hai chân trước ngáp ngủ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-dao-buoc",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Thong dong dạo bước",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang thong thả bước đi từng bước nhẹ tênh",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, cheerfully walking forward with gentle bouncy steps, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-liem-chan",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang ngồi thong thả liếm láp bàn chân sạch sẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, sitting peacefully and calmly lifting one front paw to gently lick it clean, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-vuon-vai",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Vươn vai ngáp dài",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang vươn vai duỗi dài hai chân trước ngáp ngủ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-dao-buoc",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Thong dong dạo bước",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang thong thả bước đi từng bước nhẹ tênh",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, cheerfully walking forward with gentle bouncy steps, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-liem-chan",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang ngồi thong thả liếm láp bàn chân sạch sẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, sitting peacefully and calmly lifting one front paw to gently lick it clean, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-vuon-vai",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Vươn vai ngáp dài",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang vươn vai duỗi dài hai chân trước ngáp ngủ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc",
+    "batchName": "cat_level3",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-dao-buoc",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Thong dong dạo bước",
+      "context": ""
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang thong thả bước đi từng bước nhẹ tênh",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, cheerfully walking forward with gentle bouncy steps, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang ngồi thong thả liếm láp bàn chân sạch sẽ, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang ngồi thong thả liếm láp bàn chân sạch sẽ, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang ngồi thong thả liếm láp bàn chân sạch sẽ, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-liem-chan__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Vươn vai ngáp dài",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang vươn vai duỗi dài hai chân trước ngáp ngủ, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Vươn vai ngáp dài",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang vươn vai duỗi dài hai chân trước ngáp ngủ, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Vươn vai ngáp dài",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang vươn vai duỗi dài hai chân trước ngáp ngủ, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-vuon-vai__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Thong dong dạo bước",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang thong thả bước đi từng bước nhẹ tênh, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, cheerfully walking forward with gentle bouncy steps, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Thong dong dạo bước",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang thong thả bước đi từng bước nhẹ tênh, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, cheerfully walking forward with gentle bouncy steps, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-long-van-vang",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Lông vằn vàng cam",
+      "action": "Thong dong dạo bước",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, bộ lông vằn màu cam vàng óng ả mịn màng, đang thong thả bước đi từng bước nhẹ tênh, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with warm golden-orange striped tabby markings on its soft coat, cheerfully walking forward with gentle bouncy steps, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-long-van-vang__act-cat-dao-buoc__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang ngồi thong thả liếm láp bàn chân sạch sẽ, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang ngồi thong thả liếm láp bàn chân sạch sẽ, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang ngồi thong thả liếm láp bàn chân sạch sẽ, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-liem-chan__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Vươn vai ngáp dài",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang vươn vai duỗi dài hai chân trước ngáp ngủ, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Vươn vai ngáp dài",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang vươn vai duỗi dài hai chân trước ngáp ngủ, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Vươn vai ngáp dài",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang vươn vai duỗi dài hai chân trước ngáp ngủ, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-vuon-vai__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Thong dong dạo bước",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang thong thả bước đi từng bước nhẹ tênh, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, cheerfully walking forward with gentle bouncy steps, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Thong dong dạo bước",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang thong thả bước đi từng bước nhẹ tênh, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, cheerfully walking forward with gentle bouncy steps, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-beo-tron",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Béo tròn bụ bẫm",
+      "action": "Thong dong dạo bước",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, thân hình béo tròn ú nu núng nính đáng yêu, đang thong thả bước đi từng bước nhẹ tênh, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, with an extra chubby squishy round belly and happy round cheeks, cheerfully walking forward with gentle bouncy steps, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-beo-tron__act-cat-dao-buoc__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang ngồi thong thả liếm láp bàn chân sạch sẽ, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang ngồi thong thả liếm láp bàn chân sạch sẽ, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-liem-chan",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Ngồi liếm láp bàn chân",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang ngồi thong thả liếm láp bàn chân sạch sẽ, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, sitting peacefully and calmly lifting one front paw to gently lick it clean, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-liem-chan__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Vươn vai ngáp dài",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang vươn vai duỗi dài hai chân trước ngáp ngủ, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Vươn vai ngáp dài",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang vươn vai duỗi dài hai chân trước ngáp ngủ, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-vuon-vai",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Vươn vai ngáp dài",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang vươn vai duỗi dài hai chân trước ngáp ngủ, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, stretching its two front paws forward in a cozy long stretch with a cute little yawn and eyes gently closed, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-vuon-vai__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-them-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-them-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Thong dong dạo bước",
+      "context": "Bên thềm nhà đón nắng"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang thong thả bước đi từng bước nhẹ tênh, bên bậc thềm đá đón ánh nắng ban mai ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, cheerfully walking forward with gentle bouncy steps, in a charming setting, sitting on the warm sunlit wooden front porch steps with gentle morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-them-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-them-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-tham-co",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-tham-co"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Thong dong dạo bước",
+      "context": "Trên thảm cỏ xanh mướt"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang thong thả bước đi từng bước nhẹ tênh, giữa bãi cỏ xanh non lấm tấm hoa cúc dại",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, cheerfully walking forward with gentle bouncy steps, in a charming setting, in a lovely garden on a soft green lawn scattered with tiny yellow and white daisies, near a wooden fence, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-tham-co.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-tham-co.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-hien-nha",
+    "batchName": "cat_level4",
+    "subjectKey": "cat",
+    "subjectLabel": "Mèo Mướp",
+    "blockIds": {
+      "subject": "sub-meo-muop",
+      "colorShape": "cs-cat-chuong-vang",
+      "action": "act-cat-dao-buoc",
+      "context": "ctx-cat-hien-nha"
+    },
+    "blockLabels": {
+      "subject": "Mèo Mướp",
+      "colorShape": "Đeo chuông vàng",
+      "action": "Thong dong dạo bước",
+      "context": "Dưới bóng râm hiên nhà"
+    },
+    "promptVi": "Chú mèo mướp béo tròn, cổ đeo chiếc lục lạc tròn màu vàng lấp lánh leng keng, đang thong thả bước đi từng bước nhẹ tênh, dưới mái hiên gỗ mộc mạc thoáng mát",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ginger tabby kitten with warm soft orange stripes, white chest and white paws, sweet friendly face with big sparkling dark anime eyes and tiny pink nose, wearing a shiny round golden bell collar with a cute red ribbon around its neck, cheerfully walking forward with gentle bouncy steps, in a charming setting, under the cozy sheltered wooden veranda near the front door, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-hien-nha.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/cat/combo__sub-meo-muop__cs-cat-chuong-vang__act-cat-dao-buoc__ctx-cat-hien-nha.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  }
+]

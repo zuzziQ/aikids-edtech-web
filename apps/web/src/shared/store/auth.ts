@@ -21,6 +21,31 @@ import { clearStudentProgressionCache } from '@/shared/lib/query-client'
 import { advanceSessionScope, setSessionOwner } from '@/shared/lib/session-scope'
 
 const PARENT_HANDOFF_SESSION_KEY = 'aikids.parent-handoff'
+const SESSION_HINT_KEY = 'aikids.has_session'
+
+function hasSessionHint(): boolean {
+  try {
+    return (
+      (typeof localStorage !== 'undefined' && localStorage.getItem(SESSION_HINT_KEY) === '1') ||
+      (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(SESSION_HINT_KEY) === '1')
+    )
+  } catch {
+    return false
+  }
+}
+
+function writeSessionHint(active: boolean): void {
+  try {
+    if (active) {
+      if (typeof localStorage !== 'undefined') localStorage.setItem(SESSION_HINT_KEY, '1')
+    } else {
+      if (typeof localStorage !== 'undefined') localStorage.removeItem(SESSION_HINT_KEY)
+      if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem(SESSION_HINT_KEY)
+    }
+  } catch {
+    // Storage may be unavailable in hardened/private browser modes.
+  }
+}
 
 function readParentHandoff(): boolean {
   try {
@@ -64,7 +89,6 @@ type AuthState = {
   enteredFromParent: boolean
   bootstrap: () => Promise<void>
   refreshMe: () => Promise<User | null>
-  loginStudent: (nickname: string, second?: string | undefined) => Promise<User>
   /** Parent hands device to an owned child profile (ends parent session). */
   enterAsChild: (childId: string) => Promise<User>
   loginAdult: (login: string, password: string, role?: 'parent' | 'teacher') => Promise<User>
@@ -245,6 +269,7 @@ export const useAuth = create<AuthState>((set, get) => ({
 
   expireSession: () => {
     writeParentHandoff(false)
+    writeSessionHint(false)
     clearStudentProgressionCache(get().user?.id)
     clearAccessToken()
     clearApiCache()
@@ -265,7 +290,29 @@ export const useAuth = create<AuthState>((set, get) => ({
   bootstrap: async () => {
     set({ loading: true, error: null })
     try {
+      const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
+      const isAuthEntryPage =
+        pathname === '/login' ||
+        pathname === '/register' ||
+        pathname === '/forgot-password' ||
+        pathname === '/reset-password'
+
+      // On public entry routes (e.g. /login) without an existing session hint on this device,
+      // resolve immediately as guest. This prevents unnecessary 401 console logs for unauthenticated visitors.
+      if (isAuthEntryPage && !hasSessionHint()) {
+        set({
+          user: null,
+          access: null,
+          activeContext: null,
+          loading: false,
+          error: null,
+          enteredFromParent: false,
+        })
+        return
+      }
+
       const { user, access } = await api<{ user: User; access?: AccountAccess }>('/api/auth/me')
+      writeSessionHint(true)
       if (user.role === 'student') {
         set({ user, access: null, activeContext: null, loading: false, enteredFromParent: readParentHandoff() })
         return
@@ -306,6 +353,7 @@ export const useAuth = create<AuthState>((set, get) => ({
       }
 
       if (error instanceof ApiError && error.status === 401) {
+        writeSessionHint(false)
         clearAccessToken()
         set({
           user: null,
@@ -340,23 +388,6 @@ export const useAuth = create<AuthState>((set, get) => ({
     return user
   },
 
-  loginStudent: async (nickname) => {
-    set({ error: null })
-    writeParentHandoff(false)
-    const { user } = await api<{ user: User }>('/api/auth/login/student', {
-      method: 'POST',
-      body: JSON.stringify({ nickname }),
-    })
-    if (get().user?.id !== user.id) {
-      clearStudentProgressionCache(get().user?.id)
-      await clearPreviousLearnerData()
-      clearApiCache()
-    }
-    // WHY: loginStudent là con tự đăng nhập — KHÔNG phải từ phụ huynh chuyển sang
-    set({ user, access: null, activeContext: null, error: null, enteredFromParent: false })
-    return user
-  },
-
   enterAsChild: async (childId) => {
     set({ error: null })
     const { user } = await api<{ user: User }>(
@@ -374,6 +405,7 @@ export const useAuth = create<AuthState>((set, get) => ({
     // WHY: enteredFromParent = true là flag duy nhất phân biệt phiên này với loginStudent.
     // Không dùng parentId vì học sinh tự đăng nhập cũng có parentId.
     writeParentHandoff(true)
+    writeSessionHint(true)
     set({ user, access: null, activeContext: null, error: null, enteredFromParent: true })
     return user
   },
@@ -401,6 +433,7 @@ export const useAuth = create<AuthState>((set, get) => ({
         const idToken = await signInWithFirebasePassword(resolvedEmail, password)
         hydrated = await exchangeFirebaseSession(idToken, { role: 'parent' })
       }
+      writeSessionHint(true)
       set({ ...hydrated, error: null })
       return hydrated.user
     } catch (error) {
@@ -413,6 +446,7 @@ export const useAuth = create<AuthState>((set, get) => ({
     set({ error: null })
     await clearPreviousLearnerData()
     const hydrated = await exchangeFirebaseSession(idToken, options)
+    writeSessionHint(true)
     set({ ...hydrated, error: null })
     return hydrated.user
   },
@@ -421,6 +455,7 @@ export const useAuth = create<AuthState>((set, get) => ({
     if (get().user?.id !== user.id) clearStudentProgressionCache(get().user?.id)
     void clearPreviousLearnerData()
     if (user.role !== 'student') writeParentHandoff(false)
+    writeSessionHint(true)
     set({ user, access: null, activeContext: null, error: null, enteredFromParent: false })
   },
 
@@ -443,6 +478,7 @@ export const useAuth = create<AuthState>((set, get) => ({
     }
     await firebase.sendVerification().catch(() => undefined)
     await clearPreviousLearnerData()
+    writeSessionHint(true)
     set({ ...hydrated, error: null })
     return hydrated.user
   },
@@ -470,6 +506,7 @@ export const useAuth = create<AuthState>((set, get) => ({
       await disconnectFirebase()
       await api('/api/auth/logout', { method: 'POST' })
     } finally {
+      writeSessionHint(false)
       writeParentHandoff(false)
       clearStudentProgressionCache(get().user?.id)
       await clearPreviousLearnerData()

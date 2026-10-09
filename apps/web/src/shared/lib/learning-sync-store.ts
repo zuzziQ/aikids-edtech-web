@@ -45,14 +45,26 @@ export function getStoredItemWithFallback(baseKey: string, childId?: string | nu
       const namespacedVal = localStorage.getItem(namespacedKey)
       if (namespacedVal !== null) return namespacedVal
 
+      // Check current tab session storage
+      try {
+        const sessionVal = sessionStorage.getItem(namespacedKey)
+        if (sessionVal !== null) return sessionVal
+      } catch {
+        // ignore
+      }
+
       return null
     }
 
     // Trường hợp anonymous / không có childId cụ thể
     const namespacedVal = localStorage.getItem(namespacedKey)
     if (namespacedVal !== null) return namespacedVal
-    // Anonymous preview data may use the old key, but authenticated learners
-    // never consume it.
+    try {
+      const sessionVal = sessionStorage.getItem(namespacedKey) ?? sessionStorage.getItem(baseKey)
+      if (sessionVal !== null) return sessionVal
+    } catch {
+      // ignore
+    }
     return localStorage.getItem(baseKey)
   } catch {
     return null
@@ -211,9 +223,6 @@ export function saveLocalLessonProgress(
   if (!lessonId) return
 
   const clampedStars = Math.max(0, Math.min(3, stars))
-  const isDone = isCompleted || clampedStars >= 3
-  const completedStr = isDone ? 'true' : 'false'
-  const starsStr = String(clampedStars)
 
   const keysToSave = new Set<string>([lessonId])
 
@@ -235,6 +244,22 @@ export function saveLocalLessonProgress(
     }
   }
 
+  // Đảm bảo không tụt sao hay mất trạng thái hoàn thành nếu trước đó đã đạt mức cao hơn
+  let maxExistingStars = 0
+  let anyExistingDone = false
+  for (const id of keysToSave) {
+    const compKey = `aikids_lesson_completed_${id}`
+    const starKey = `aikids_lesson_stars_${id}`
+    const s = Number(getStoredItemWithFallback(starKey, childId) || 0)
+    if (s > maxExistingStars) maxExistingStars = s
+    if (getStoredItemWithFallback(compKey, childId) === 'true') anyExistingDone = true
+  }
+
+  const effectiveStars = Math.max(maxExistingStars, clampedStars)
+  const isDone = isCompleted || anyExistingDone || effectiveStars >= 3
+  const completedStr = isDone ? 'true' : 'false'
+  const starsStr = String(effectiveStars)
+
   for (const id of keysToSave) {
     const compKey = `aikids_lesson_completed_${id}`
     const starKey = `aikids_lesson_stars_${id}`
@@ -244,6 +269,14 @@ export function saveLocalLessonProgress(
       const namespacedStarKey = getNamespacedKey(starKey, childId)
       localStorage.setItem(namespacedCompKey, completedStr)
       localStorage.setItem(namespacedStarKey, starsStr)
+      try {
+        sessionStorage.setItem(namespacedCompKey, completedStr)
+        sessionStorage.setItem(namespacedStarKey, starsStr)
+        sessionStorage.setItem(compKey, completedStr)
+        sessionStorage.setItem(starKey, starsStr)
+      } catch {
+        // ignore
+      }
       if (childId && childId.trim() && childId.trim() !== 'anonymous') {
         const currentMigrated = localStorage.getItem(LEGACY_MIGRATED_CHILD_ID_KEY)
         if (!currentMigrated) {

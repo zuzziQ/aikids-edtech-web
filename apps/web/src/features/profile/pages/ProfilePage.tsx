@@ -1,13 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router'
-import {
-  Award,
-  Download,
-  GraduationCap,
-  Image as ImageIcon,
-  Star,
-  X,
-} from 'lucide-react'
+import { Download, X } from 'lucide-react'
 import { PageMotion } from '@/shared/components/ui/PageMotion'
 import { PageSkeleton } from '@/shared/components/ui/Skeleton'
 import { designerAssets } from '@/shared/config/assets'
@@ -28,6 +21,11 @@ import {
 } from '@/features/backpack/lib/backpack-certificates'
 import { learningApi, type LearningPathwayCourse } from '@/shared/lib/learning-api'
 import { flushPendingSyncQueue } from '@/shared/lib/learning-sync-store'
+import { KidBackpackImageIcon } from '@/shared/components/icons/KidImageIcons'
+import {
+  readLocalBackpackWorks,
+  mergeBackpackWorks,
+} from '@/features/backpack/lib/backpack-works'
 
 export interface CertificateItem {
   id: string
@@ -93,6 +91,12 @@ function getWorkTypePill(kind?: string) {
     return {
       label: 'Truyện tranh',
       className: 'border-amber-200/80 bg-amber-50 text-amber-800',
+    }
+  }
+  if (k.includes('story') || k.includes('text')) {
+    return {
+      label: 'Truyện chữ',
+      className: 'border-purple-200/80 bg-purple-50 text-purple-800',
     }
   }
   return {
@@ -165,7 +169,9 @@ export function ProfilePage() {
 
   const [avatarPickerOpen, setAvatarPickerOpen] = useState(false)
   const [streak, setStreak] = useState(0)
-  const [projects, setProjects] = useState<ShowcaseProject[]>([])
+  const [projects, setProjects] = useState<ShowcaseProject[]>(() =>
+    readLocalBackpackWorks().filter(isCleanDisplayableWork),
+  )
   const [completedStations, setCompletedStations] = useState(0)
   const [starsCollected, setStarsCollected] = useState(0)
   const [_pathwayCourses, setPathwayCourses] = useState<LearningPathwayCourse[]>([])
@@ -194,67 +200,85 @@ export function ProfilePage() {
 
     const loadAuthoritativeOverview = () => {
       void flushPendingSyncQueue(user?.id).catch(() => undefined)
-      // Call loadProfileOverview with includeAppearance = false, includeStorybook = false
-      return loadProfileOverview(api, 3500, false, true, false, true, false)
+      // Call loadProfileOverview with includeMedia = true to load authoritative gallery projects
+      return loadProfileOverview(api, 3500, true, true, false, true, false)
     }
 
-    loadAuthoritativeOverview()
-      .then((overview) => {
+    Promise.allSettled([
+      loadAuthoritativeOverview(),
+      api<{ projects?: ShowcaseProject[] }>('/api/backpack/overview').catch(() => null),
+    ])
+      .then(([overviewRes, backpackRes]) => {
         if (!active) return
-        setStreak(overview.streak)
-        const cleanProjects = (overview.projects ?? []).filter(isCleanDisplayableWork)
-        setProjects(cleanProjects)
-        setAvatarChoices(
-          overview.avatarChoices
-            .filter((asset) => asset.thumbnail)
-            .map((asset) => ({
-              id: asset.id,
-              url: asset.thumbnail,
-              label: asset.name,
-              source: asset.type.includes('generated') ? 'generated' : 'library',
-            })),
-        )
+        const overview = overviewRes.status === 'fulfilled' ? overviewRes.value : null
+        if (overview) {
+          setStreak(overview.streak)
+          if (overview.avatarChoices) {
+            setAvatarChoices(
+              overview.avatarChoices
+                .filter((asset) => asset.thumbnail)
+                .map((asset) => ({
+                  id: asset.id,
+                  url: asset.thumbnail,
+                  label: asset.name,
+                  source: asset.type.includes('generated') ? 'generated' : 'library',
+                })),
+            )
+          }
+          if (typeof overview.totalXp === 'number') {
+            setOverviewXp(overview.totalXp)
+          }
+          if (typeof overview.level === 'number' && overview.level > 0) {
+            setOverviewLevel(overview.level)
+          }
+          if (overview.profileSettings?.slug) {
+            setProfileSlug(overview.profileSettings.slug)
+          }
+          const pw = overview.pathway
+          if (pw && Array.isArray(pw.courses) && pw.courses.length > 0) {
+            applyPathwayData(pw.courses)
+          } else {
+            learningApi
+              .getPathway()
+              .then((res) => {
+                if (active && res?.courses && res.courses.length > 0) {
+                  applyPathwayData(res.courses)
+                }
+              })
+              .catch(() => undefined)
+          }
+        }
 
-        if (typeof overview.totalXp === 'number') {
-          setOverviewXp(overview.totalXp)
-        }
-        if (typeof overview.level === 'number' && overview.level > 0) {
-          setOverviewLevel(overview.level)
-        }
-        if (overview.profileSettings?.slug) {
-          setProfileSlug(overview.profileSettings.slug)
-        }
-
-        const pw = overview.pathway
-        if (pw && Array.isArray(pw.courses) && pw.courses.length > 0) {
-          applyPathwayData(pw.courses)
-        } else {
-          learningApi
-            .getPathway()
-            .then((res) => {
-              if (active && res?.courses && res.courses.length > 0) {
-                applyPathwayData(res.courses)
-              }
-            })
-            .catch(() => undefined)
-        }
+        const bpProjects = (backpackRes.status === 'fulfilled' && Array.isArray(backpackRes.value?.projects))
+          ? backpackRes.value.projects
+          : []
+        const ovProjects = overview?.projects ?? []
+        const combinedServerProjects = [...ovProjects, ...bpProjects].filter(isCleanDisplayableWork)
+        const localProjects = readLocalBackpackWorks().filter(isCleanDisplayableWork)
+        const mergedProjects = mergeBackpackWorks(localProjects, combinedServerProjects)
+        setProjects(mergedProjects)
       })
       .catch(async () => {
         if (!active) return
         try {
-          // Fallback catch: ONLY call streak, projects, and pathway
-          const [streakRes, projRes, pathwayRes] = await Promise.allSettled([
+          // Fallback catch: Call streak, projects, backpack overview, and pathway
+          const [streakRes, projRes, backpackRes, pathwayRes] = await Promise.allSettled([
             api<{ current?: number }>('/api/gamification/streak'),
             api<{ projects?: ShowcaseProject[] }>('/api/projects'),
+            api<{ projects?: ShowcaseProject[] }>('/api/backpack/overview'),
             learningApi.getPathway().catch(() => null),
           ])
           if (!active) return
           if (streakRes.status === 'fulfilled' && streakRes.value?.current !== undefined) {
             setStreak(Number(streakRes.value.current))
           }
-          if (projRes.status === 'fulfilled' && Array.isArray(projRes.value?.projects)) {
-            setProjects(projRes.value.projects.filter(isCleanDisplayableWork))
-          }
+          const serverProjects = [
+            ...(projRes.status === 'fulfilled' && Array.isArray(projRes.value?.projects) ? projRes.value.projects : []),
+            ...(backpackRes.status === 'fulfilled' && Array.isArray(backpackRes.value?.projects) ? backpackRes.value.projects : []),
+          ].filter(isCleanDisplayableWork)
+          const localProjects = readLocalBackpackWorks().filter(isCleanDisplayableWork)
+          const mergedProjects = mergeBackpackWorks(localProjects, serverProjects)
+          setProjects(mergedProjects)
           if (pathwayRes.status === 'fulfilled' && pathwayRes.value?.courses) {
             applyPathwayData(pathwayRes.value.courses)
           }
@@ -310,11 +334,11 @@ export function ProfilePage() {
     return projects.filter(isCleanDisplayableWork)
   }, [projects])
 
-  // Số lượng truyện tranh và tranh vẽ
+  // Số lượng truyện (truyện tranh & truyện chữ) và tranh vẽ
   const comicCount = useMemo(() => {
     return displayableProjects.filter((p) => {
       const k = (p.kind || '').toLowerCase()
-      return k.includes('comic') || k.includes('panel')
+      return k.includes('comic') || k.includes('panel') || k.includes('story') || k.includes('text')
     }).length
   }, [displayableProjects])
 
@@ -327,13 +351,13 @@ export function ProfilePage() {
     if (workFilter === 'comic') {
       return displayableProjects.filter((p) => {
         const k = (p.kind || '').toLowerCase()
-        return k.includes('comic') || k.includes('panel')
+        return k.includes('comic') || k.includes('panel') || k.includes('story') || k.includes('text')
       })
     }
     if (workFilter === 'drawing') {
       return displayableProjects.filter((p) => {
         const k = (p.kind || '').toLowerCase()
-        return !(k.includes('comic') || k.includes('panel'))
+        return !(k.includes('comic') || k.includes('panel') || k.includes('story') || k.includes('text'))
       })
     }
     return displayableProjects
@@ -430,28 +454,30 @@ export function ProfilePage() {
         worksCount={displayableProjects.length}
       />
 
-      {/* Khối liên kết xem Hành trình cấp độ (Contextual level journey link) */}
+      {/* Khối lối vào Ba Lô Của Con (Backpack Entry Card) */}
       <Link
-        to="/level"
-        className="aikid-flat-panel group flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-5 rounded-3xl shadow-clay border-2 border-amber-200/80 bg-white/95 hover:bg-amber-50/40 transition-colors"
-        aria-label={`Xem hành trình Cấp ${explorerLevel}`}
+        to="/backpack"
+        className="aikid-flat-panel group flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-5 rounded-3xl shadow-clay border-2 border-amber-200/80 bg-white/95 hover:bg-amber-50/40 transition-all hover:scale-[1.01]"
+        aria-label="Mở Ba Lô Của Con"
       >
         <div className="flex items-center gap-3.5 min-w-0">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 font-black text-xl shrink-0">
-            ⭐
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0 shadow-inner">
+            <KidBackpackImageIcon size={26} />
           </div>
           <div>
-            <h3 className="font-display text-base font-black text-slate-900">
-              Hành trình cấp độ · Cấp {explorerLevel}
+            <h3 className="font-display text-base font-black text-slate-900 flex items-center gap-2">
+              Ba Lô Của Con
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">
+                {displayableProjects.length} tác phẩm
+              </span>
             </h3>
             <p className="text-xs font-bold text-slate-500">
-              {xpToNextLevel > 0 ? `Còn ${xpToNextLevel} XP để lên Cấp ${explorerLevel + 1}` : 'Con đã sẵn sàng cho cấp tiếp theo'}
+              Nơi cất giữ kỷ vật, tranh vẽ từ bài học, xưởng sáng tạo và bằng khen
             </p>
-            <span className="sr-only">Xem quà sắp mở và các mốc cấp tiếp theo.</span>
           </div>
         </div>
-        <span className="shrink-0 px-4 py-2 rounded-xl bg-amber-500 text-white font-extrabold text-xs shadow-2xs group-hover:bg-amber-600 transition-colors">
-          Xem hành trình cấp độ
+        <span className="shrink-0 px-5 py-2.5 rounded-2xl bg-amber-500 text-white font-black text-xs shadow-clay group-hover:bg-amber-600 transition-colors flex items-center gap-1.5">
+          <KidBackpackImageIcon size={16} /> Mở Ba Lô
         </span>
       </Link>
 
@@ -464,19 +490,18 @@ export function ProfilePage() {
         {[
           {
             id: 'works' as const,
-            label: 'Ảnh đã tạo',
-            icon: ImageIcon,
+            label: 'Tác phẩm (Ảnh đã tạo & Truyện)',
+            emoji: '🎨',
             badge: displayableProjects.length > 0 ? displayableProjects.length : undefined,
           },
           {
             id: 'certificates' as const,
             label: 'Bằng khen',
-            icon: Award,
+            emoji: '🏅',
             badge: backpackCertificates.length > 0 ? backpackCertificates.length : undefined,
           },
         ].map((tab) => {
           const isActive = activeTab === tab.id
-          const TabIcon = tab.icon
           return (
             <button
               key={tab.id}
@@ -492,7 +517,9 @@ export function ProfilePage() {
                   : 'text-slate-600 hover:text-orange-700 hover:bg-orange-50/50'
               }`}
             >
-              <TabIcon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+              <span className="text-base select-none leading-none" aria-hidden="true">
+                {tab.emoji}
+              </span>
               <span>{tab.label}</span>
               {tab.badge !== undefined && tab.badge !== null && (
                 <span
@@ -531,10 +558,10 @@ export function ProfilePage() {
                   id="recent-works-title"
                   className="mt-1 font-display text-2xl font-black text-slate-900 tracking-tight sm:text-3xl"
                 >
-                  Ảnh Đã Tạo
+                  Tác Phẩm Của Con · Ảnh &amp; Truyện Đã Tạo
                 </h2>
                 <p className="mt-1 text-xs font-bold text-muted sm:text-sm">
-                  Những bức tranh vẽ và truyện tranh sáng tạo do chính tay con hoàn thành.
+                  Những bức tranh vẽ, truyện tranh và truyện chữ do chính tay con hoàn thành.
                 </p>
               </div>
 
@@ -543,13 +570,7 @@ export function ProfilePage() {
                   to="/creative"
                   className="flex min-h-11 items-center gap-1.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 px-4 py-2 text-xs sm:text-sm font-black text-white shadow-soft hover:scale-102 active:scale-95 transition-all"
                 >
-                  <span>🎨 Vào AI Studio vẽ tranh mới</span>
-                </Link>
-                <Link
-                  to="/backpack"
-                  className="flex min-h-11 items-center rounded-2xl bg-white border border-amber-200 px-4 py-2 text-xs sm:text-sm font-extrabold text-brand-600 hover:text-brand-700 shadow-2xs hover:bg-amber-50/50 transition-colors"
-                >
-                  Mở Ba Lô Của Con
+                  <span>🎨 Vào Xưởng Sáng Tạo</span>
                 </Link>
               </div>
             </div>
@@ -590,7 +611,7 @@ export function ProfilePage() {
                     : 'bg-white/90 text-slate-600 hover:bg-amber-50 border border-slate-200/80'
                 }`}
               >
-                Truyện tranh ({comicCount})
+                Truyện tranh &amp; chữ ({comicCount})
               </button>
             </div>
 
@@ -598,29 +619,23 @@ export function ProfilePage() {
             {filteredWorks.length === 0 ? (
               <div className="flex min-h-56 flex-col items-center justify-center rounded-3xl bg-amber-50/60 border-2 border-dashed border-amber-200 p-8 text-center">
                 <div
-                  className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 border border-amber-200 text-amber-600 shadow-soft select-none mb-3"
+                  className="flex h-16 w-16 items-center justify-center rounded-3xl bg-amber-100 border border-amber-200 text-3xl shadow-inner select-none mb-3"
                   aria-hidden="true"
                 >
-                  <ImageIcon className="w-8 h-8 text-amber-600" />
+                  🎨
                 </div>
                 <h3 className="font-display text-xl font-black text-slate-900 tracking-tight">
                   Chưa có tác phẩm nào
                 </h3>
                 <p className="mt-1 text-sm font-bold text-muted max-w-md">
-                  Vào Xưởng Sáng Tạo hoặc hoàn thành Bài học để lưu bức tranh đầu tiên vào Ba lô nhé!
+                  Vào Xưởng Sáng Tạo hoặc hoàn thành Bài học để vẽ bức tranh hoặc sáng tác truyện đầu tiên nhé!
                 </p>
-                <div className="mt-4 flex items-center gap-3 flex-wrap justify-center">
+                <div className="mt-4 flex items-center justify-center">
                   <Link
                     to="/creative"
                     className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 px-5 py-2.5 text-xs sm:text-sm font-black text-white shadow-soft hover:scale-105 active:scale-95 transition-all cursor-pointer"
                   >
-                    <span>🎨 Vào AI Studio vẽ tranh mới</span>
-                  </Link>
-                  <Link
-                    to="/backpack"
-                    className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-white border border-amber-200 px-4 py-2 text-xs sm:text-sm font-extrabold text-brand-600 shadow-2xs hover:bg-amber-50/50 transition-all cursor-pointer"
-                  >
-                    <span>Mở Ba Lô Của Con</span>
+                    <span>🎨 Vào Xưởng Sáng Tạo</span>
                   </Link>
                 </div>
               </div>
@@ -647,7 +662,7 @@ export function ProfilePage() {
                         {friendlyProjectTitle(project.title)}
                       </p>
                       <div className="mt-2 flex items-center justify-between text-xs font-bold text-muted">
-                        <span>Đã lưu vào Ba lô</span>
+                        <span>Kiệt tác của con</span>
                         <span className="text-brand-600 font-extrabold group-hover:underline">
                           Xem ảnh
                         </span>
@@ -751,7 +766,7 @@ export function ProfilePage() {
                         />
                       </div>
                       <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-300 bg-gradient-to-b from-amber-200 to-amber-400 p-2 shadow-inner ring-4 ring-amber-100/80 select-none">
-                        <Award className="w-8 h-8 sm:w-9 sm:h-9 text-amber-950 fill-amber-300 drop-shadow-xs" />
+                        <span className="text-3xl sm:text-4xl select-none" aria-hidden="true">🏅</span>
                       </div>
                     </div>
                     <div className="min-w-0 flex-1">
@@ -834,7 +849,7 @@ export function ProfilePage() {
                             />
                           </div>
                           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-amber-300 bg-amber-100/80 text-amber-800 ring-2 ring-amber-200/60 shadow-xs select-none">
-                            <Award className="w-6 h-6 text-amber-900 fill-amber-300 drop-shadow-xs" />
+                            <span className="text-2xl select-none" aria-hidden="true">🏅</span>
                           </div>
                         </div>
 
@@ -907,7 +922,7 @@ export function ProfilePage() {
               <div className="relative overflow-hidden rounded-3xl border-2 border-amber-200/90 bg-gradient-to-br from-amber-50/60 via-white to-amber-100/30 p-5 sm:p-6 shadow-soft">
                 <div className="flex flex-col sm:flex-row items-center gap-5">
                   <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl border border-amber-300 bg-amber-100/80 text-amber-800 ring-4 ring-amber-100/80 shadow-xs select-none">
-                    <GraduationCap className="w-8 h-8 sm:w-9 sm:h-9 text-amber-900 drop-shadow-xs" />
+                    <span className="text-3xl sm:text-4xl select-none" aria-hidden="true">🎓</span>
                   </div>
                   <div className="min-w-0 flex-1 text-center sm:text-left">
                     <h3 className="font-display text-lg sm:text-xl font-black text-slate-900 tracking-tight">

@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
+import { quizStarsFromScore } from '../lib/quiz-stars'
 import type { LessonSixStageJourney } from '@/shared/lib/api'
 import { learningApi } from '@/shared/lib/learning-api'
 import {
@@ -6,117 +7,38 @@ import {
   type PracticePartState,
 } from '../lib/practice-parts'
 import { playInstantSound } from '../components/LessonInteractiveSidebar'
-import type { LearnCardDraft, StageBlockItem } from '@/features/teacher/lib/authoring'
 import { normalizeVietnameseSpeech } from '@/shared/lib/vietnameseSpeech'
 import { isAikiRuleJourney, extractRuleNumber } from '../lib/rule-journey-identifiers'
 import type { JourneyStageDefinition, RewardStageConfig } from '../types/stage-schema'
 import { calculateUniversalStars, getStageTypeIndices } from '../lib/universal-stage-engine'
+import { useAuth } from '@/shared/store/auth'
+import { saveLocalLessonProgress } from '@/shared/lib/learning-sync-store'
+import { clearWorldPageCache } from '@/features/world/lib/world-pathway-mapper'
 
-export type LessonCompletionSummary = {
-  stars: number
-  xp: number
-  nextLessonSlug?: string
-  answers?: Array<{ questionId: string; optionIndex: number }>
-  keepalive?: boolean
-}
+import {
+  calculateStationXp,
+  clearLessonStageStorage,
+  readLessonStorage,
+  writeLessonStorage,
+  parseQuizAnswersStorage,
+  resolveMatchedCurriculum,
+  resolveStationInfo,
+  resolveIsFinalStation,
+  buildSupplementalStageCard,
+  type LessonCompletionSummary,
+  type UseSixStageJourneyStateProps,
+} from '../lib/six-stage-journey-support'
+import { useLessonImageZoom } from './useLessonImageZoom'
 
-export interface UseSixStageJourneyStateProps {
-  journey?: LessonSixStageJourney
-  stages?: JourneyStageDefinition[]
-  lessonId: string
-  lessonTitle: string
-  studentStars?: number
-  rewardXp?: number
-  isCompleted?: boolean
-  previousStars?: number
-  onFinishLesson?: (result: LessonCompletionSummary) => boolean | void | Promise<boolean | void>
-  onBackToMap?: () => void
-  onNavigateNextLesson?: (nextLessonSlug: string) => void
-  onOpenCourse?: () => void
-  initialStageIndex?: number
-  onStageChange?: (stageIndex: number) => void
-  isFinalStation?: boolean
-  matchedCurriculum?: {
-    lessonNumber?: string
-    islandNumber: number
-    islandName?: string
-    title: string
-    journey?: Partial<LessonSixStageJourney>
-  }
-  onVideoCompleted?: () => void
-  isSavingProgress?: boolean
-  initialPracticeState?: any
-  onPracticeStateChange?: (state: any) => void
-}
-
-/**
- * Quy đổi thống nhất Sao sang XP cho toàn bộ trạm học AIKids:
- * - 1 Sao = 30 XP
- * - 2 Sao = 60 XP
- * - 3 Sao = 100 XP (kèm 10 XP Mastery Bonus)
- */
-export function calculateStationXp(stars: number): number {
-  if (stars >= 3) return 100
-  if (stars === 2) return 60
-  if (stars === 1) return 30
-  return 0
-}
-
-export function readLessonStorage<T>(key: string, fallback: T): T {
-  try {
-    if (typeof window === 'undefined') return fallback
-    const raw = sessionStorage.getItem(key) ?? localStorage.getItem(key)
-    if (raw == null) return fallback
-    if (typeof fallback === 'number') {
-      const parsed = parseInt(raw, 10)
-      return (Number.isFinite(parsed) ? parsed : fallback) as T
-    }
-    if (typeof fallback === 'boolean') {
-      return (raw === 'true') as T
-    }
-    return JSON.parse(raw) as T
-  } catch {
-    return fallback
-  }
-}
-
-export function writeLessonStorage(key: string, value: unknown): void {
-  try {
-    if (typeof window === 'undefined') return
-    const str = typeof value === 'string' ? value : JSON.stringify(value)
-    sessionStorage.setItem(key, str)
-    localStorage.setItem(key, str)
-  } catch {
-    // Storage may be unavailable
-  }
-}
-
-export function clearLessonStageStorage(lessonId: string): void {
-  try {
-    if (typeof window === 'undefined') return
-    const keys = [
-      `aikids_lesson_stage_${lessonId}`,
-      `aikids_lesson_completed_stages_${lessonId}`,
-      `aikids_stage_${lessonId}`,
-      `aikids_quiz_ans_${lessonId}`,
-      `aikids_quiz_chk_${lessonId}`,
-      `aikids_quiz_active_${lessonId}`,
-      `aikids_quiz_sub_${lessonId}`,
-      `aikids_video_done_${lessonId}`,
-      `aikids_lesson_stars_${lessonId}`,
-      `aikids_confirm_opt_${lessonId}`,
-      `aikids_confirm_cor_${lessonId}`,
-      `aikids_practice_done_${lessonId}`,
-    ]
-    for (const k of keys) {
-      sessionStorage.removeItem(k)
-      localStorage.removeItem(k)
-    }
-  } catch {
-    // Storage may be unavailable
-  }
-}
-
+// Moved for the 800-line guard; re-exported so existing imports keep working.
+export {
+  calculateStationXp,
+  readLessonStorage,
+  writeLessonStorage,
+  parseQuizAnswersStorage,
+  clearLessonStageStorage,
+} from '../lib/six-stage-journey-support'
+export type { LessonCompletionSummary, UseSixStageJourneyStateProps } from '../lib/six-stage-journey-support'
 export function useSixStageJourneyState({
   journey: rawJourney,
   stages: stagesProp,
@@ -140,92 +62,31 @@ export function useSixStageJourneyState({
   onPracticeStateChange: onPracticeStateChangeProp,
 }: UseSixStageJourneyStateProps) {
   const journey = rawJourney as LessonSixStageJourney
+  const user = useAuth((s) => s.user)
+  const currentChildId = user?.id
 
-  const matchedCurriculum = useMemo(() => {
-    if (matchedCurriculumProp) return matchedCurriculumProp
-    const match = `${lessonId} ${lessonTitle}`.match(/(?:bai[-_]|bài\s+)(\d+)[-_.\s]+(\d+)/i)
-    if (!match) return undefined
-    return {
-      islandNumber: Number(match[1]),
-      lessonNumber: `${match[1]}.${match[2]}`,
-      title: lessonTitle,
-      journey,
-    }
-  }, [journey, lessonId, lessonTitle, matchedCurriculumProp])
+  const matchedCurriculum = useMemo(
+    () => resolveMatchedCurriculum(matchedCurriculumProp, lessonId, lessonTitle, journey),
+    [journey, lessonId, lessonTitle, matchedCurriculumProp],
+  )
 
   const isRuleLesson = useMemo(
     () => isAikiRuleJourney(lessonId) || isAikiRuleJourney(lessonTitle) || isAikiRuleJourney(journey),
     [journey, lessonId, lessonTitle],
   )
 
-  const stationInfo = useMemo(() => {
-    const curriculum = matchedCurriculum
-    const cleanCurriculumTitle = (rawTitle: string) => {
-      return (rawTitle || '')
-        .replace(/^Bài\s+[\d.]+\s*[-—:]\s*/i, '')
-        .replace(/^Trạm\s+[\d.]+\s*[-—:]\s*/i, '')
-        .trim()
-    }
-
-    const ISLAND_CANONICAL_NAMES: Record<number, string> = {
-      0: 'Đảo Tiên Quyết',
-      1: 'Đảo 1: Nhà Thám Hiểm AI',
-      2: 'Đảo 2: Hoạ Sĩ AI',
-      3: 'Đảo 3: Biệt Đội Nhân Vật',
-      4: 'Đảo 4: Vương Quốc Truyện Tranh',
-      5: 'Đảo 5: Đấu Trường Trò Chơi',
-      6: 'Đảo 6: Triển Lãm & Tốt Nghiệp',
-    }
-
-    if (curriculum) {
-      const num = String(curriculum.lessonNumber || '1.1')
-      const pureTitle = cleanCurriculumTitle(curriculum.title)
-      const stationLabel = pureTitle.startsWith('Bài') || pureTitle.startsWith('Trạm')
-        ? pureTitle
-        : `Bài ${num} — ${pureTitle}`
-
-      return {
-        stationLabel,
-        islandName: ISLAND_CANONICAL_NAMES[curriculum.islandNumber] || (curriculum as any).islandName || `Đảo ${curriculum.islandNumber}`,
-        lessonNumber: num,
-      }
-    }
-
-    if (isAikiRuleJourney(lessonId) || isAikiRuleJourney(lessonTitle)) {
-      const rNum = extractRuleNumber({ id: lessonId, title: lessonTitle })
-      const ruleStageTitle = String(stagesProp?.[0]?.title || '')
-      return {
-        stationLabel: ruleStageTitle ? `Quy tắc ${rNum}: ${ruleStageTitle}` : lessonTitle || `Quy tắc ${rNum}`,
-        islandName: 'Xưởng Sáng Tạo — 10 Quy Tắc Vàng',
-        lessonNumber: String(rNum),
-      }
-    }
-
-    const safeTitle = cleanCurriculumTitle(lessonTitle || 'Bài học')
-    return {
-      stationLabel: safeTitle.startsWith('Trạm') ? safeTitle : `Trạm: ${safeTitle}`,
-      islandName: 'Đảo Sáng Tạo',
-      lessonNumber: '1',
-    }
-  }, [matchedCurriculum, lessonId, lessonTitle, stagesProp])
+  const stationInfo = useMemo(
+    () => resolveStationInfo(matchedCurriculum, lessonId, lessonTitle, stagesProp),
+    [matchedCurriculum, lessonId, lessonTitle, stagesProp],
+  )
 
   const stages = useMemo(() => stagesProp || [], [stagesProp])
   const indices = useMemo(() => getStageTypeIndices(stages), [stages])
 
-  const isFinalStation = useMemo(() => {
-    if (typeof isFinalStationProp === 'boolean') {
-      return isFinalStationProp
-    }
-    if (isRuleLesson) {
-      return extractRuleNumber({ id: lessonId, title: lessonTitle }) === 10
-    }
-    if (matchedCurriculum) {
-      const num = String(matchedCurriculum.lessonNumber || '')
-      // Mỗi chương trình chỉ trao 1 bằng khen tốt nghiệp chuẩn tại trạm cuối cùng của toàn bộ chương trình (5.5)
-      return num === '5.5'
-    }
-    return false
-  }, [isFinalStationProp, isRuleLesson, lessonId, lessonTitle, matchedCurriculum])
+  const isFinalStation = useMemo(
+    () => resolveIsFinalStation(isFinalStationProp, isRuleLesson, lessonId, lessonTitle, matchedCurriculum),
+    [isFinalStationProp, isRuleLesson, lessonId, lessonTitle, matchedCurriculum],
+  )
 
   const isCompletedLesson = Boolean(isCompleted || (previousStars != null && previousStars >= 3))
 
@@ -340,9 +201,27 @@ export function useSixStageJourneyState({
       if (isVideoPassed) {
         setIsVideoCompleted(true)
       }
+      const quizIdx = stages.findIndex((s) => s.type === 'QUIZ')
+      if (quizIdx >= 0 && resumedStage > quizIdx) {
+        const currentStored = readLessonStorage<number>(`aikids_lesson_stars_${lessonId}`, 0)
+        if (currentStored < 2) {
+          writeLessonStorage(`aikids_lesson_stars_${lessonId}`, 2)
+          saveLocalLessonProgress(lessonId, 2, false, currentChildId)
+          if ((matchedCurriculum as any)?.id && (matchedCurriculum as any).id !== lessonId) {
+            saveLocalLessonProgress((matchedCurriculum as any).id, 2, false, currentChildId)
+          }
+          if ((matchedCurriculum as any)?.slug && (matchedCurriculum as any).slug !== lessonId) {
+            saveLocalLessonProgress((matchedCurriculum as any).slug, 2, false, currentChildId)
+          }
+          if (matchedCurriculum?.lessonNumber) {
+            saveLocalLessonProgress(matchedCurriculum.lessonNumber, 2, false, currentChildId)
+          }
+          clearWorldPageCache()
+        }
+      }
     }
     setCurrentStage((current) => Math.max(current, resumedStage))
-  }, [initialStageIndex, stages.length, lessonId, isCompletedLesson, stages])
+  }, [initialStageIndex, stages.length, lessonId, isCompletedLesson, stages, currentChildId, matchedCurriculum])
 
   const hasNotifiedVideoDoneRef = useRef(false)
   useEffect(() => {
@@ -354,7 +233,7 @@ export function useSixStageJourneyState({
 
   // Stage 3 (Quiz) state - khôi phục 100% khi thoát ra vào lại
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>(() =>
-    readLessonStorage<Record<number, number>>(`aikids_quiz_ans_${lessonId}`, {}),
+    parseQuizAnswersStorage(lessonId),
   )
   const [quizSubmitted, setQuizSubmitted] = useState<boolean>(() =>
     readLessonStorage<boolean>(`aikids_quiz_sub_${lessonId}`, false),
@@ -381,77 +260,18 @@ export function useSixStageJourneyState({
   const [activePracticePartIndex, setActivePracticePartIndex] = useState<number>(0)
   const [practicePartsState, setPracticePartsState] = useState<PracticePartState[]>([])
 
-  // Lightbox Modal state
-  const [zoomImage, setZoomImage] = useState<{ url: string; title: string; fallbackUrl?: string } | null>(null)
-  const [modalImgSrc, setModalImgSrc] = useState<string>('')
-  const [zoomScale, setZoomScale] = useState<number>(1)
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
-  const modalRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (zoomImage) {
-      setModalImgSrc(zoomImage.url)
-      setZoomScale(1)
-    }
-  }, [zoomImage])
-
-  useEffect(() => {
-    if (!zoomImage) return
-    const originalOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (document.fullscreenElement) {
-          document.exitFullscreen?.().catch(() => {})
-        }
-        setZoomImage(null)
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.body.style.overflow = originalOverflow
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [zoomImage])
-
-  const toggleFullscreen = useCallback(() => {
-    if (!document.fullscreenElement) {
-      const el = modalRef.current || document.documentElement
-      if (el.requestFullscreen) {
-        el.requestFullscreen().catch(() => {})
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(() => {})
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(Boolean(document.fullscreenElement))
-    }
-    document.addEventListener('fullscreenchange', handleFullscreenChange)
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
-  }, [])
-
-  const handleModalImgError = useCallback(() => {
-    const fallback = zoomImage?.fallbackUrl || '/assets/aiki-islands/island1_lesson1_cat.jpg?v=2'
-    if (modalImgSrc !== fallback) {
-      setModalImgSrc(fallback)
-    } else if (modalImgSrc !== '/assets/aiki-islands/island1_lesson1_cat.jpg?v=2') {
-      setModalImgSrc('/assets/aiki-islands/island1_lesson1_cat.jpg?v=2')
-    }
-  }, [modalImgSrc, zoomImage])
-
-  const handleCloseModal = useCallback(() => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen?.().catch(() => {})
-    }
-    setZoomImage(null)
-  }, [])
-
+  const {
+    zoomImage,
+    setZoomImage,
+    modalImgSrc,
+    zoomScale,
+    setZoomScale,
+    isFullscreen,
+    modalRef,
+    toggleFullscreen,
+    handleModalImgError,
+    handleCloseModal,
+  } = useLessonImageZoom()
   const handleStageSelect = useCallback(
     (index: number) => {
       setCurrentStage(index)
@@ -481,6 +301,10 @@ export function useSixStageJourneyState({
         setIsVideoCompleted(true)
         writeLessonStorage(`aikids_video_done_${lessonId}`, true)
         writeLessonStorage(`aikids_lesson_stars_${lessonId}`, 1)
+        saveLocalLessonProgress(lessonId, 1, false, currentChildId)
+        if ((matchedCurriculum as any)?.id && (matchedCurriculum as any).id !== lessonId) {
+          saveLocalLessonProgress((matchedCurriculum as any).id, 1, false, currentChildId)
+        }
         onVideoCompletedProp?.()
       }
       setCompletedStages((prev) => {
@@ -491,7 +315,7 @@ export function useSixStageJourneyState({
       writeLessonStorage(`aikids_lesson_stage_${lessonId}`, nextStage)
       onStageChange?.(nextStage)
 
-      if (stages[nextStage]?.type === 'REWARD' || nextStage === stages.length - 1) {
+      if (!hasAutoFinishedRef.current && (stages[nextStage]?.type === 'REWARD' || nextStage === stages.length - 1)) {
         hasAutoFinishedRef.current = true
         // Tự động lưu hoàn thành bài học ngay khi học sinh chạm tới chặng Thưởng
         const hasPractice = indices.practiceIdx >= 0
@@ -512,7 +336,7 @@ export function useSixStageJourneyState({
         // ignore audio failure
       }
     },
-    [completedStages, currentStage, indices.practiceIdx, isPracticeCompleted, lessonId, onFinishLesson, onStageChange, onVideoCompletedProp, rewardXp, stages, submittedArtwork, submittedQuizAnswers],
+    [completedStages, currentChildId, currentStage, indices.practiceIdx, isPracticeCompleted, lessonId, matchedCurriculum, onFinishLesson, onStageChange, onVideoCompletedProp, rewardXp, stages, submittedArtwork, submittedQuizAnswers],
   )
 
   const handleRetryQuestion = useCallback((qIdx: number) => {
@@ -584,7 +408,7 @@ export function useSixStageJourneyState({
       setIsConfirmCorrect(readLessonStorage<boolean | null>(`aikids_confirm_cor_${lessonId}`, null))
       setFailedOptionImages({})
       setVideoSeekSec(null)
-      setQuizAnswers(readLessonStorage<Record<number, number>>(`aikids_quiz_ans_${lessonId}`, {}))
+      setQuizAnswers(parseQuizAnswersStorage(lessonId))
       setQuizSubmitted(readLessonStorage<boolean>(`aikids_quiz_sub_${lessonId}`, false))
       setActiveQuizQuestionIdx(readLessonStorage<number>(`aikids_quiz_active_${lessonId}`, 0))
       setCheckedQuestions(readLessonStorage<Record<number, boolean>>(`aikids_quiz_chk_${lessonId}`, {}))
@@ -618,13 +442,10 @@ export function useSixStageJourneyState({
     return correct
   }, [effectiveQuizQuestions, quizAnswers])
 
-  const quizStars = useMemo(() => {
-    const total = effectiveQuizQuestions.length || 1
-    const ratio = quizScore / total
-    if (ratio >= 0.8) return 3
-    if (ratio >= 0.5) return 2
-    return 1
-  }, [quizScore, effectiveQuizQuestions])
+  const quizStars = useMemo(
+    () => quizStarsFromScore(quizScore, effectiveQuizQuestions.length || 1),
+    [quizScore, effectiveQuizQuestions],
+  )
 
   const isReplay = Boolean(isCompleted || (previousStars != null && previousStars > 0))
   const defaultStars = rewardStageDef?.config?.rewardBadge?.stars ?? journey?.stage6_completion?.rewardBadge?.stars ?? 3
@@ -706,22 +527,10 @@ export function useSixStageJourneyState({
     }
   }, [currentStage, currentStageDef, effectiveRewardXp, isRuleLesson, lessonId, lessonTitle, onFinishLesson, rewardXp, stages.length, submittedQuizAnswers, indices.practiceIdx, submittedArtwork, completedStages, isPracticeCompleted, effectiveStars])
 
-  const supplementalStageCard = useMemo<LearnCardDraft | null>(() => {
-    const blocks = (journey?.stageContentBlocks?.[`stage-${currentStage}`] as StageBlockItem[] | undefined)
-      ?.filter((block) => !block.id.startsWith('course-goal-') && !block.id.startsWith('course-confirm-'))
-    if (!Array.isArray(blocks) || blocks.length === 0) return null
-    return {
-      id: `island-stage-${currentStage + 1}`,
-      title: stages[currentStage]?.title || `Chặng ${currentStage + 1}`,
-      body: '',
-      tip: '',
-      kind: currentStage === 0 ? 'concept' : 'example',
-      layout: 'text',
-      visualItems: [],
-      contentBlocks: blocks,
-      mee: { readText: '', gesture: 'presentation', autoRead: false },
-    }
-  }, [currentStage, journey?.stageContentBlocks, stages])
+  const supplementalStageCard = useMemo(
+    () => buildSupplementalStageCard(journey?.stageContentBlocks, currentStage, stages[currentStage]?.title),
+    [currentStage, journey?.stageContentBlocks, stages],
+  )
 
   const legacyStationAlias = useMemo(() => {
     if (stationInfo.lessonNumber === '1.1') return 'Trạm 1: Mèo AIKI'
@@ -745,9 +554,23 @@ export function useSixStageJourneyState({
   const handleVideoCompleted = useCallback(() => {
     setIsVideoCompleted(true)
     writeLessonStorage(`aikids_video_done_${lessonId}`, true)
-    writeLessonStorage(`aikids_lesson_stars_${lessonId}`, 1)
+    const currentStars = readLessonStorage<number>(`aikids_lesson_stars_${lessonId}`, 0)
+    const nextStars = Math.max(currentStars, 1)
+    writeLessonStorage(`aikids_lesson_stars_${lessonId}`, nextStars)
+    saveLocalLessonProgress(lessonId, nextStars, false, currentChildId)
+    if ((matchedCurriculum as any)?.id && (matchedCurriculum as any).id !== lessonId) {
+      saveLocalLessonProgress((matchedCurriculum as any).id, nextStars, false, currentChildId)
+    }
+    if ((matchedCurriculum as any)?.slug && (matchedCurriculum as any).slug !== lessonId) {
+      saveLocalLessonProgress((matchedCurriculum as any).slug, nextStars, false, currentChildId)
+    }
+    clearWorldPageCache()
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('aikids:xp-updated', { detail: { stars: nextStars } }))
+      window.dispatchEvent(new CustomEvent('aikids:lesson-completed'))
+    }
     onVideoCompletedProp?.()
-  }, [lessonId, onVideoCompletedProp])
+  }, [currentChildId, lessonId, matchedCurriculum, onVideoCompletedProp])
 
   const handleSelectQuizAnswer = useCallback((qIdx: number, optIdx: number) => {
     setQuizAnswers((prev) => {
@@ -796,6 +619,10 @@ export function useSixStageJourneyState({
     if (indices.practiceIdx < 0) {
       // LÀM ĐẾN ĐÂU LƯU ĐẾN ĐẤY: Lưu ngay hoàn thành bài học 3 sao lên server cho bài học không có thực hành
       hasAutoFinishedRef.current = true
+      saveLocalLessonProgress(lessonId, 3, true, currentChildId)
+      if ((matchedCurriculum as any)?.id && (matchedCurriculum as any).id !== lessonId) {
+        saveLocalLessonProgress((matchedCurriculum as any).id, 3, true, currentChildId)
+      }
       const completionSummary: LessonCompletionSummary = {
         stars: 3,
         xp: rewardXp || 50,
@@ -804,15 +631,36 @@ export function useSixStageJourneyState({
       }
       void onFinishLesson?.(completionSummary)
     } else {
-      // Bài học có chặng thực hành: Hoàn thành Quiz đạt 2 sao -> Lưu local storage & gửi advance lên backend DB
+      // Bài học có chặng thực hành: Hoàn thành Quiz đạt 2 sao -> Lưu local storage & gửi resume lên server
       writeLessonStorage(`aikids_lesson_stars_${lessonId}`, 2)
-      writeLessonStorage(`aikids_quiz_ans_${lessonId}`, submittedQuizAnswers)
+      writeLessonStorage(`aikids_quiz_ans_${lessonId}`, quizAnswers)
       writeLessonStorage(`aikids_quiz_sub_${lessonId}`, true)
 
-      // Gửi advance lên backend để DB ghi nhận 2 sao ngay lập tức
-      void learningApi.advanceLesson(lessonId, { fromPhase: 'practice' }).catch(() => null)
+      saveLocalLessonProgress(lessonId, 2, false, currentChildId)
+      if ((matchedCurriculum as any)?.id && (matchedCurriculum as any).id !== lessonId) {
+        saveLocalLessonProgress((matchedCurriculum as any).id, 2, false, currentChildId)
+      }
+      if ((matchedCurriculum as any)?.slug && (matchedCurriculum as any).slug !== lessonId) {
+        saveLocalLessonProgress((matchedCurriculum as any).slug, 2, false, currentChildId)
+      }
+      if (matchedCurriculum?.lessonNumber) {
+        saveLocalLessonProgress(matchedCurriculum.lessonNumber, 2, false, currentChildId)
+      }
+
+      void learningApi.saveResume(lessonId, {
+        percent: 67,
+        positionSeconds: 0,
+        sectionId: 'stage-4',
+        occurredAt: new Date().toISOString(),
+      }).catch(() => null)
+
+      clearWorldPageCache()
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('aikids:xp-updated', { detail: { stars: 2 } }))
+        window.dispatchEvent(new CustomEvent('aikids:lesson-completed'))
+      }
     }
-  }, [currentStageDef, indices.practiceIdx, lessonId, onFinishLesson, rewardStageDef, rewardXp, submittedQuizAnswers])
+  }, [currentChildId, currentStageDef, indices.practiceIdx, lessonId, matchedCurriculum, onFinishLesson, rewardStageDef, rewardXp, submittedQuizAnswers])
 
   const handleQuizImageError = useCallback((qIdx: number) => {
     setFailedQuizImages((prev) => ({ ...prev, [qIdx]: true }))
@@ -826,23 +674,38 @@ export function useSixStageJourneyState({
     if (indices.practiceIdx >= 0) {
       setCompletedStages((prev) => new Set([...prev, indices.practiceIdx]))
     }
-    void learningApi.savePractice(lessonId, {
-      kind: 'studio',
-      payload: {
-        selectedImage: typeof selectedImage === 'string' ? selectedImage : (selectedImage?.url || ''),
-        prompt: prompt || '',
-        isSubmitted: true,
-        ...(practiceState || selectedImage?.practiceState || {}),
-      },
-    }).catch(() => null)
+    saveLocalLessonProgress(lessonId, 3, true, currentChildId)
+    if ((matchedCurriculum as any)?.id && (matchedCurriculum as any).id !== lessonId) {
+      saveLocalLessonProgress((matchedCurriculum as any).id, 3, true, currentChildId)
+    }
+    hasAutoFinishedRef.current = true
+
+    const practicePromise = (async () => {
+      try {
+        await learningApi.savePractice(lessonId, {
+          kind: 'studio',
+          payload: {
+            selectedImage: typeof selectedImage === 'string' ? selectedImage : (selectedImage?.url || ''),
+            prompt: prompt || '',
+            isSubmitted: true,
+            ...(practiceState || selectedImage?.practiceState || {}),
+          },
+        })
+        await learningApi.advanceLesson(lessonId, { fromPhase: 'practice' }).catch(() => null)
+      } catch (err) {
+        console.warn('Practice sync failed:', err)
+      }
+    })()
+
     void onFinishLesson?.({
       stars: 3,
       xp: effectiveRewardXp || 50,
       answers: submittedQuizAnswers,
       keepalive: true,
+      practicePromise,
     })
     advanceToStage(indices.rewardIdx >= 0 ? indices.rewardIdx : stages.length - 1)
-  }, [advanceToStage, effectiveRewardXp, indices.practiceIdx, indices.rewardIdx, lessonId, onFinishLesson, stages.length, submittedQuizAnswers])
+  }, [advanceToStage, currentChildId, effectiveRewardXp, indices.practiceIdx, indices.rewardIdx, lessonId, matchedCurriculum, onFinishLesson, stages.length, submittedQuizAnswers])
 
   const handlePracticeStateChange = useCallback((snapshot: any) => {
     if (lessonId) {

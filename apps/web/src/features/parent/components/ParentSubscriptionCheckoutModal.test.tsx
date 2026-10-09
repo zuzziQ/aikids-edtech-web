@@ -157,6 +157,7 @@ describe('ParentSubscriptionCheckoutModal Component', () => {
           open: true,
           onClose: vi.fn(),
           paymentCode: 'AK129K1234',
+          publicId: 'pi_server_1234',
         }),
       )
     })
@@ -175,7 +176,7 @@ describe('ParentSubscriptionCheckoutModal Component', () => {
     // Feedback message appears
     expect(document.body.textContent).toContain('Đã gửi thông báo ưu tiên tới bộ phận CSKH & Admin')
     expect(mockedApi).toHaveBeenCalledWith(
-      '/api/v1/billing/payment-intents/pi_ak129k1234/customer-confirm',
+      '/api/v1/billing/payment-intents/pi_server_1234/customer-confirm',
       { method: 'POST' },
     )
   })
@@ -299,7 +300,7 @@ describe('ParentSubscriptionCheckoutModal Component', () => {
 
     // Advance timers by 3 seconds for polling interval
     await act(async () => {
-      vi.advanceTimersByTime(3000)
+      vi.advanceTimersByTime(10_000)
     })
 
     expect(mockedApi).toHaveBeenCalledWith('/api/v1/billing/payment-intents/pi_test_129k')
@@ -405,7 +406,7 @@ describe('ParentSubscriptionCheckoutModal Component', () => {
 
     // Advance timers by 3 seconds for polling interval
     await act(async () => {
-      vi.advanceTimersByTime(3000)
+      vi.advanceTimersByTime(10_000)
     })
 
     // Partially paid alert warning is displayed
@@ -459,7 +460,7 @@ describe('ParentSubscriptionCheckoutModal Component', () => {
 
     // Advance timers by 3 seconds for polling interval
     await act(async () => {
-      vi.advanceTimersByTime(3000)
+      vi.advanceTimersByTime(10_000)
     })
 
     expect(onSuccess).not.toHaveBeenCalled()

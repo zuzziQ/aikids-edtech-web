@@ -55,6 +55,7 @@ export interface GoalStageConfig {
   parsedCards?: ParsedGoalCard[]
   keyPoints?: string[]
   skillLearned?: string
+  layoutMode?: '1-column' | '2-column' | '3-column'
 }
 
 export interface ConfirmOptionItem {
@@ -72,6 +73,8 @@ export interface ConfirmStageConfig {
   correctIndex: number
   explanation: string
   speech?: string
+  visualUrl?: string
+  layoutMode?: 'cards' | 'split' | 'list'
 }
 
 export interface VideoTimestampItem {
@@ -108,6 +111,8 @@ export interface QuizQuestionItem {
   hint?: string
   retryFeedback?: string
   visualUrl?: string
+  layoutMode?: 'cards' | 'split' | 'list'
+  optionImages?: string[]
 }
 
 export interface QuizStageConfig {

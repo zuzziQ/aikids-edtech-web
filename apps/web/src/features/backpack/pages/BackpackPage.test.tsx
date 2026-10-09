@@ -67,7 +67,7 @@ describe('BackpackPage filtering helpers', () => {
   })
 
   it('friendlyProjectTitle cleans up raw technical names', () => {
-    expect(friendlyProjectTitle('storyPlot-comic-1234')).toBe('Truyện tranh AI')
+    expect(friendlyProjectTitle('storyPlot-comic-1234')).toBe('Truyện tranh')
     expect(friendlyProjectTitle('prompt-schema-99')).toBe('Ý tưởng sáng tạo')
     expect(friendlyProjectTitle('chu_cun_nho.png')).toBe('chu cun nho')
     expect(friendlyProjectTitle('')).toBe('Tác phẩm của con')
@@ -148,6 +148,43 @@ describe('BackpackPage', () => {
 
     expect(container.textContent).toContain('Kiệt tác: Cái cốc sứ trắng...')
     expect(container.textContent).toContain('Cái cốc sứ trắng (Lượt 1): Cốc sứ...')
+
+    act(() => {
+      root.unmount()
+    })
+    container.remove()
+  })
+
+  it('loads recent studio creations from aikids_studio_recent_creations into projects', async () => {
+    const recentCreations = [
+      {
+        id: 'creation-studio-456',
+        url: '/assets/studio-space-cat.png',
+        title: 'Mèo Phi Hành Gia',
+        styleName: 'Đất sét',
+        createdAt: Date.now(),
+      },
+    ]
+
+    localStorage.setItem('aikids_studio_recent_creations', JSON.stringify(recentCreations))
+
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+    const root = createRoot(container)
+
+    await act(async () => {
+      root.render(
+        <MemoryRouter>
+          <BackpackPage />
+        </MemoryRouter>
+      )
+    })
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(container.textContent).toContain('Mèo Phi Hành Gia')
 
     act(() => {
       root.unmount()

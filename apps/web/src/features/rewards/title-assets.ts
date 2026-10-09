@@ -1,7 +1,10 @@
+// Plaques exported from Figma as SVG embedded 1–1.6 MB base64 PNGs each; they
+// ship as WebP (rendered from those SVGs, quality 92) — ~30 KB per title.
 const titleSvgModules = import.meta.glob<string>(
   [
-    '../../assets/rewards/titles/storybook-title-*.svg',
-    '../../assets/rewards/titles/title-*.svg',
+    '../../assets/rewards/titles/storybook-title-*.{svg,webp}',
+    '../../assets/rewards/titles/title-*.{svg,webp}',
+    '!../../assets/rewards/titles/*--thumbnail.webp',
   ],
   { eager: true, import: 'default', query: '?url' },
 )
@@ -19,9 +22,9 @@ const titleThumbnailModules = import.meta.glob<string>(
 const titleAssets = new Map<string, string>()
 const titleThumbnailAssets = new Map<string, string>()
 
-// 1. First register SVGs (legacy fallback / storybook plaques)
+// 1. First register SVG/WebP plaques (legacy fallback / storybook plaques)
 for (const [path, url] of Object.entries(titleSvgModules)) {
-  const fileName = path.split('/').at(-1)?.replace(/\.svg$/, '') ?? ''
+  const fileName = path.split('/').at(-1)?.replace(/\.(svg|webp)$/, '') ?? ''
   if (fileName) {
     titleAssets.set(fileName, url)
   }

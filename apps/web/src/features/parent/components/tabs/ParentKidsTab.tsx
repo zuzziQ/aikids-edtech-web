@@ -5,9 +5,9 @@ import {
   Baby,
   BookOpen,
   Pencil,
+  Play,
   Plus,
   ShieldCheck,
-  Sparkles,
   Trash2,
   Users,
 } from 'lucide-react'
@@ -58,10 +58,13 @@ export function ParentKidsTab() {
 
       if (childrenData.status === 'fulfilled') {
         const fetchedKids = childrenData.value.children
-        const fetchedSub = childrenData.value.subscription
+        // /api/parent/children returns only {children}; keep the subscription
+        // already known from the dashboard instead of overwriting it with
+        // undefined (which reset seats to 5 and credits to the default).
+        const fetchedSub = childrenData.value.subscription ?? getDashboardCache()?.sub ?? null
         const fetchedApprovals = approvalsData.status === 'fulfilled' ? approvalsData.value.approvals : []
         setKids(fetchedKids)
-        setSub(fetchedSub)
+        if (fetchedSub) setSub(fetchedSub)
         setApprovals(fetchedApprovals)
         setDashboardCache({
           kids: fetchedKids,
@@ -248,8 +251,8 @@ export function ParentKidsTab() {
                     type="button"
                     onClick={() => setDeleteTarget(k)}
                     className="flex h-8 w-8 items-center justify-center rounded-xl text-muted hover:bg-coral-50 hover:text-coral-600 transition border border-cream-200/60 shadow-2xs"
-                    title="Tạm khóa"
-                    aria-label="Tạm khóa hồ sơ con"
+                    title="Xóa hồ sơ"
+                    aria-label="Xóa hồ sơ con"
                   >
                     <Trash2 size={14} />
                   </button>
@@ -399,7 +402,7 @@ export function ParentKidsTab() {
                   onClick={() => void handleEnterAsChild(k.id)}
                   className="w-full flex min-h-[48px] items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 via-purple-600 to-brand-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-clay active:scale-95 transition cursor-pointer"
                 >
-                  <Sparkles size={18} className="text-amber-300 animate-pulse" />
+                  <Play size={18} className="fill-white text-white" />
                   <span>Vào học ngay</span>
                 </button>
 
@@ -439,9 +442,9 @@ export function ParentKidsTab() {
 
       <ConfirmDialog
         open={Boolean(deleteTarget)}
-        title="Tạm khóa hồ sơ của con?"
-        description="Con sẽ chưa thể vào học, nhưng toàn bộ tiến trình và sản phẩm vẫn được giữ để khôi phục sau."
-        confirmLabel="Tạm khóa hồ sơ"
+        title="Xóa vĩnh viễn hồ sơ của con?"
+        description="Hồ sơ, tiến trình học và tài khoản đăng nhập của con sẽ bị xóa và không thể khôi phục. Ba / Mẹ chỉ nên xóa khi chắc chắn không dùng nữa."
+        confirmLabel="Xóa vĩnh viễn"
         danger
         onCancel={() => setDeleteTarget(null)}
         onConfirm={() => {

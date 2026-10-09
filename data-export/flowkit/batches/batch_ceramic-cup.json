@@ -1,0 +1,962 @@
+[
+  {
+    "id": "combo__sub-coc-su",
+    "batchName": "ceramic-cup_level1",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh (1 từ thử nghiệm, chưa có chìa khóa)",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, standing centered cheerfully looking friendly and curious, on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong",
+    "batchName": "ceramic-cup_level2",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc",
+    "batchName": "ceramic-cup_level2",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron",
+    "batchName": "ceramic-cup_level2",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-khoi-nghi-ngut",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Đang bốc khói nghi ngút",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, làn hơi nóng bốc lên nghi ngút thơm lừng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, with gentle cozy swirls of warm fragrant steam rising softly from inside, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-toa-huong-thom",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Tỏa hương thơm ngát",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang tỏa hương trà thơm ngát ngập tràn",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, diffusing sweet delicate herbal tea fragrance softly into the air, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-chua-tra-nong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Chứa đầy trà nóng",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang chứa đầy trà nóng ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, filled to the brim with warm soothing golden honey tea, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-khoi-nghi-ngut",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Đang bốc khói nghi ngút",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, làn hơi nóng bốc lên nghi ngút thơm lừng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, with gentle cozy swirls of warm fragrant steam rising softly from inside, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-toa-huong-thom",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Tỏa hương thơm ngát",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang tỏa hương trà thơm ngát ngập tràn",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, diffusing sweet delicate herbal tea fragrance softly into the air, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-chua-tra-nong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Chứa đầy trà nóng",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang chứa đầy trà nóng ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, filled to the brim with warm soothing golden honey tea, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-khoi-nghi-ngut",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Đang bốc khói nghi ngút",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, làn hơi nóng bốc lên nghi ngút thơm lừng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, with gentle cozy swirls of warm fragrant steam rising softly from inside, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-toa-huong-thom",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Tỏa hương thơm ngát",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang tỏa hương trà thơm ngát ngập tràn",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, diffusing sweet delicate herbal tea fragrance softly into the air, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong",
+    "batchName": "ceramic-cup_level3",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-chua-tra-nong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Chứa đầy trà nóng",
+      "context": ""
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang chứa đầy trà nóng ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, filled to the brim with warm soothing golden honey tea, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, làn hơi nóng bốc lên nghi ngút thơm lừng, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, làn hơi nóng bốc lên nghi ngút thơm lừng, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, làn hơi nóng bốc lên nghi ngút thơm lừng, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-khoi-nghi-ngut__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang tỏa hương trà thơm ngát ngập tràn, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang tỏa hương trà thơm ngát ngập tràn, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang tỏa hương trà thơm ngát ngập tràn, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-toa-huong-thom__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Chứa đầy trà nóng",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang chứa đầy trà nóng ấm áp, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, filled to the brim with warm soothing golden honey tea, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Chứa đầy trà nóng",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang chứa đầy trà nóng ấm áp, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, filled to the brim with warm soothing golden honey tea, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-su-trang-men-bong",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Sứ trắng men bóng",
+      "action": "Chứa đầy trà nóng",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, chất liệu men sứ màu trắng sữa bóng bẩy mịn màng, đang chứa đầy trà nóng ấm áp, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, made of smooth glossy milk-white porcelain ceramic with soft clean shine, filled to the brim with warm soothing golden honey tea, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-su-trang-men-bong__act-chua-tra-nong__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, làn hơi nóng bốc lên nghi ngút thơm lừng, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, làn hơi nóng bốc lên nghi ngút thơm lừng, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, làn hơi nóng bốc lên nghi ngút thơm lừng, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-khoi-nghi-ngut__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang tỏa hương trà thơm ngát ngập tràn, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang tỏa hương trà thơm ngát ngập tràn, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang tỏa hương trà thơm ngát ngập tràn, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-toa-huong-thom__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Chứa đầy trà nóng",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang chứa đầy trà nóng ấm áp, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, filled to the brim with warm soothing golden honey tea, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Chứa đầy trà nóng",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang chứa đầy trà nóng ấm áp, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, filled to the brim with warm soothing golden honey tea, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-me-mieng-goc",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Mẻ miệng một góc",
+      "action": "Chứa đầy trà nóng",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, vết mẻ nhỏ một góc miệng cốc mộc mạc, đang chứa đầy trà nóng ấm áp, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with a charming tiny chip on its rim showing rustic handcrafted pottery character, filled to the brim with warm soothing golden honey tea, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-me-mieng-goc__act-chua-tra-nong__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, làn hơi nóng bốc lên nghi ngút thơm lừng, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, làn hơi nóng bốc lên nghi ngút thơm lừng, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-khoi-nghi-ngut",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Đang bốc khói nghi ngút",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, làn hơi nóng bốc lên nghi ngút thơm lừng, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, with gentle cozy swirls of warm fragrant steam rising softly from inside, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-khoi-nghi-ngut__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang tỏa hương trà thơm ngát ngập tràn, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang tỏa hương trà thơm ngát ngập tràn, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-toa-huong-thom",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Tỏa hương thơm ngát",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang tỏa hương trà thơm ngát ngập tràn, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, diffusing sweet delicate herbal tea fragrance softly into the air, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-toa-huong-thom__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-ban-go-soi",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-ban-go-soi"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Chứa đầy trà nóng",
+      "context": "Trên bàn gỗ sồi mộc"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang chứa đầy trà nóng ấm áp, trên mặt bàn gỗ sồi thô mộc ấm áp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, filled to the brim with warm soothing golden honey tea, in a charming setting, resting comfortably on a rustic warm oak wood tabletop with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-ban-go-soi.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-ban-go-soi.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-canh-so-tay",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-canh-so-tay"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Chứa đầy trà nóng",
+      "context": "Cạnh cuốn sổ tay mở"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang chứa đầy trà nóng ấm áp, đặt cạnh một cuốn sổ tay đang mở trang giấy vẽ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, filled to the brim with warm soothing golden honey tea, in a charming setting, placed neatly beside an open vintage notebook showing playful pencil doodles, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-canh-so-tay.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-canh-so-tay.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-bau-cua-so",
+    "batchName": "ceramic-cup_level4",
+    "subjectKey": "ceramic-cup",
+    "subjectLabel": "Cốc Sứ Trắng",
+    "blockIds": {
+      "subject": "sub-coc-su",
+      "colorShape": "cs-quai-cam-tron",
+      "action": "act-chua-tra-nong",
+      "context": "ctx-bau-cua-so"
+    },
+    "blockLabels": {
+      "subject": "Cốc sứ trắng",
+      "colorShape": "Có quai tròn xinh",
+      "action": "Chứa đầy trà nóng",
+      "context": "Bên bậu cửa sổ nắng"
+    },
+    "promptVi": "Cái cốc sứ trắng tinh, có quai cầm tròn xinh xắn, đang chứa đầy trà nóng ấm áp, bên bậu cửa sổ gỗ đón ánh nắng ban mai",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute ceramic teacup, with an adorable chubby round curved ceramic handle on the side, filled to the brim with warm soothing golden honey tea, in a charming setting, perched by a cozy sunny wooden windowsill overlooking a peaceful green garden, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-bau-cua-so.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/ceramic-cup/combo__sub-coc-su__cs-quai-cam-tron__act-chua-tra-nong__ctx-bau-cua-so.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  }
+]

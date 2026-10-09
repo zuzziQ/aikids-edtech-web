@@ -1,0 +1,962 @@
+[
+  {
+    "id": "combo__sub-con-cun",
+    "batchName": "dog_level1",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú cún con (1 từ thử nghiệm, chưa có chìa khóa)",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, standing centered cheerfully looking friendly and curious, on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang",
+    "batchName": "dog_level2",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom",
+    "batchName": "dog_level2",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu",
+    "batchName": "dog_level2",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông xù rối bù",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-duoi-bong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Chạy đuổi quả bóng",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang chạy đuổi quả bóng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully bouncing and chasing a small bright colorful toy rubber ball, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-ngoi-cho",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang ngồi vẫy đuôi chờ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, sitting down patiently and obediently with front paws together and tail wagging eagerly, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-tha-dep",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Tha một chiếc dép",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang tha một chiếc dép",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-duoi-bong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Chạy đuổi quả bóng",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang chạy đuổi quả bóng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully bouncing and chasing a small bright colorful toy rubber ball, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-ngoi-cho",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang ngồi vẫy đuôi chờ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, sitting down patiently and obediently with front paws together and tail wagging eagerly, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-tha-dep",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Tha một chiếc dép",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang tha một chiếc dép",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-duoi-bong",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Chạy đuổi quả bóng",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang chạy đuổi quả bóng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully bouncing and chasing a small bright colorful toy rubber ball, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-ngoi-cho",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang ngồi vẫy đuôi chờ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, sitting down patiently and obediently with front paws together and tail wagging eagerly, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep",
+    "batchName": "dog_level3",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-tha-dep",
+      "context": ""
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Tha một chiếc dép",
+      "context": ""
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang tha một chiếc dép",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, centered on a clean soft warm studio background matching the AIKid video lesson illustration style, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang chạy đuổi quả bóng, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang chạy đuổi quả bóng, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang chạy đuổi quả bóng, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-duoi-bong__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang ngồi vẫy đuôi chờ, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang ngồi vẫy đuôi chờ, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang ngồi vẫy đuôi chờ, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-ngoi-cho__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Tha một chiếc dép",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang tha một chiếc dép, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Tha một chiếc dép",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang tha một chiếc dép, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-vang",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông vàng hai tai cụp",
+      "action": "Tha một chiếc dép",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, lông vàng hai tai cụp, đang tha một chiếc dép, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with soft warm golden-honey fur and cute floppy golden ears, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-vang__act-dog-tha-dep__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang chạy đuổi quả bóng, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang chạy đuổi quả bóng, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang chạy đuổi quả bóng, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-duoi-bong__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang ngồi vẫy đuôi chờ, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang ngồi vẫy đuôi chờ, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang ngồi vẫy đuôi chờ, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-ngoi-cho__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Tha một chiếc dép",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang tha một chiếc dép, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Tha một chiếc dép",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang tha một chiếc dép, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-trang-dom",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Trắng đốm nâu quanh mắt",
+      "action": "Tha một chiếc dép",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, trắng đốm nâu quanh mắt, đang tha một chiếc dép, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with lovely white coat and playful chocolate-brown patches around its eye and back, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-trang-dom__act-dog-tha-dep__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang chạy đuổi quả bóng, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang chạy đuổi quả bóng, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-duoi-bong",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Chạy đuổi quả bóng",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang chạy đuổi quả bóng, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully bouncing and chasing a small bright colorful toy rubber ball, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-duoi-bong__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang ngồi vẫy đuôi chờ, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang ngồi vẫy đuôi chờ, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-ngoi-cho",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Ngồi vẫy đuôi chờ",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang ngồi vẫy đuôi chờ, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, sitting down patiently and obediently with front paws together and tail wagging eagerly, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-ngoi-cho__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-san-gach",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-san-gach"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Tha một chiếc dép",
+      "context": "Ở góc sân gạch đỏ"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang tha một chiếc dép, ở góc sân gạch đỏ",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, on a warm sunny red-brick courtyard patio with soft morning sunbeams, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-san-gach.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-san-gach.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-cay-bang",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-cay-bang"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Tha một chiếc dép",
+      "context": "Dưới gốc cây bàng"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang tha một chiếc dép, dưới gốc cây bàng",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, under the cool gentle shade of a leafy green tree on a grassy garden lawn, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-cay-bang.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-cay-bang.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  },
+  {
+    "id": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-tham-phong",
+    "batchName": "dog_level4",
+    "subjectKey": "dog",
+    "subjectLabel": "Con Cún",
+    "blockIds": {
+      "subject": "sub-con-cun",
+      "colorShape": "cs-dog-long-xu",
+      "action": "act-dog-tha-dep",
+      "context": "ctx-dog-tham-phong"
+    },
+    "blockLabels": {
+      "subject": "Con cún",
+      "colorShape": "Lông xù rối bù",
+      "action": "Tha một chiếc dép",
+      "context": "Trên thảm phòng khách"
+    },
+    "promptVi": "Chú cún con, lông xù rối bù, đang tha một chiếc dép, trên thảm phòng khách",
+    "promptEn": "Cute children storybook cartoon illustration, modern 2.5D anime picture book aesthetic, clean soft outlines, warm pastel colors, gentle soft studio lighting: An adorable cute playful little puppy with floppy ears and a cheerful wagging tail, sweet friendly smile with sparkling dark anime eyes, with a super fluffy curly woolly teddy-bear coat of soft fur, playfully holding a soft cozy house slipper in its mouth with a proud happy grin, in a charming setting, on a cozy soft woven rug in a warm and bright sunlit living room, high quality educational children book digital art.",
+    "targetFilename": "combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-tham-phong.webp",
+    "targetAssetPath": "/assets/pregenerated-combos/dog/combo__sub-con-cun__cs-dog-long-xu__act-dog-tha-dep__ctx-dog-tham-phong.webp",
+    "aspectRatio": "4:3",
+    "status": "pending"
+  }
+]

@@ -127,8 +127,10 @@ export function WorldPage({ showSpacesSelector = false }: WorldPageProps = {}) {
       setRefreshTick((prev) => prev + 1)
     }
     window.addEventListener('aikids:lesson-completed', handleLessonCompleted)
+    window.addEventListener('aikids:progression-updated', handleLessonCompleted)
     return () => {
       window.removeEventListener('aikids:lesson-completed', handleLessonCompleted)
+      window.removeEventListener('aikids:progression-updated', handleLessonCompleted)
     }
   }, [])
 
@@ -513,11 +515,7 @@ export function WorldPage({ showSpacesSelector = false }: WorldPageProps = {}) {
             isCurrentCourseRule={isCurrentCourseRule}
             getStationSlugFn={getStationSlug}
             onBackToMap={() => {
-              if (isOfficialProgramView || programId === 'aikid_official') {
-                navigate('/home')
-              } else {
-                navigate('/world/program/aikid_official')
-              }
+              navigate('/home')
             }}
             onSelectIsland={(islandSlug) => {
               if (isOfficialProgramView || programId === 'aikid_official') {

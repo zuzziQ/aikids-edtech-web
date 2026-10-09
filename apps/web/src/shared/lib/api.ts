@@ -498,6 +498,11 @@ async function executeApi<T>(
         }
       }
     }
+    if (res.status === 403 && typeof window !== 'undefined' && typeof localStorage !== 'undefined' && (path.includes('/media') || path.includes('/gallery'))) {
+      try {
+        localStorage.removeItem('storymee_active_ip_id')
+      } catch {}
+    }
     // 401 on /me during bootstrap is normal when logged out — still throw for callers
     const msg =
       typeof data === 'object' && data && 'error' in data
@@ -541,6 +546,8 @@ export type User = {
   onboarded: boolean
   goal: string | null
   parentId: string | null
+  /** Parent email returned only for an authenticated parent-to-child handoff. */
+  parentEmail?: string | null
   classId: string | null
   /** Consent capabilities — populated from JWT for child sessions only.
    * For non-child sessions these are always undefined (treat as unrestricted). */
@@ -760,6 +767,7 @@ export interface SixStageGoal {
   imageUrl: string
   speech: string
   keyPoints: string[]
+  layoutMode?: '1-column' | '2-column' | '3-column'
 }
 
 export interface SixStageConfirmOption {
@@ -776,6 +784,8 @@ export interface SixStageConfirmGoal {
   correctIndex: number
   explanation: string
   speech: string
+  visualUrl?: string
+  layoutMode?: 'cards' | 'split' | 'list'
 }
 
 export interface SixStageVideoTimestamp {
@@ -801,6 +811,8 @@ export interface SixStageQuizQuestion {
   correctIndex: number
   explanation: string
   visualUrl?: string
+  layoutMode?: 'cards' | 'split' | 'list'
+  optionImages?: string[]
 }
 
 export interface SixStageQuiz {
@@ -961,6 +973,17 @@ export interface LessonSixStageJourney {
   stageBlockEditorVersion?: number
   /** Indices of stages (0-5) that award stars, sorted ascending. Max 3 stars. Defaults to [2, 3, 5] if omitted */
   stageStarAllocation?: number[]
+  /** Optional custom stage definitions (3-7 stages) */
+  customStages?: Array<{
+    id: string
+    index: number
+    title: string
+    shortTitle: string
+    iconName?: string
+    desc?: string
+    type?: string
+    awardsStar?: 1 | 2 | 3
+  }>
 }
 
 

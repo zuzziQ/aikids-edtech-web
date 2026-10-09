@@ -14,9 +14,12 @@ export let cachedPlansPromise: Promise<PlanDef[]> | null = null
 export let cachedPlansTimestamp: number = 0
 
 async function fetchBillingPlansFromServer(): Promise<PlanDef[]> {
+  // Families only need the public catalog (active plans). The admin endpoint
+  // answered 403 on every child/parent page load and filled the console with
+  // errors; the admin billing tab loads its own admin list.
   try {
-    const res = await api<PlanDef[] | { plans?: PlanDef[] }>('/api/admin/billing/plans')
-    const rawList = Array.isArray(res) ? res : res?.plans
+    const res = await api<PlanDef[] | { data?: PlanDef[]; plans?: PlanDef[] }>('/api/v1/billing/plans')
+    const rawList = Array.isArray(res) ? res : res?.data ?? res?.plans
     if (Array.isArray(rawList) && rawList.length > 0) {
       const normalized = rawList.map(normalizePlanDef)
       try {
@@ -27,16 +30,7 @@ async function fetchBillingPlansFromServer(): Promise<PlanDef[]> {
       return normalized
     }
   } catch {
-    // Fallback silently to cached / parent plans
-    try {
-      const parentRes = await api<{ plans?: PlanDef[] }>('/api/parent/plans')
-      if (Array.isArray(parentRes?.plans) && parentRes.plans.length > 0) {
-        const normalized = parentRes.plans.map(normalizePlanDef)
-        return normalized
-      }
-    } catch {
-      /* ignore */
-    }
+    // Fall back to the last cached catalog below.
   }
   return getCachedBillingPlans()
 }

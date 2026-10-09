@@ -42,8 +42,15 @@ const localLevelFramePreviewModules = import.meta.glob<string>(
   { eager: true, import: 'default', query: '?url' },
 )
 
+// Clean frame artwork bundled with the app. Most frames were Figma SVGs that
+// embedded ~1 MB PNGs; they ship as WebP rendered from those SVGs.
 const localSvgFrameModules = import.meta.glob<string>(
-  '../../assets/rewards/frames/frame-*.svg',
+  [
+    '../../assets/rewards/frames/frame-*.svg',
+    '../../assets/rewards/frames/frame-*.webp',
+    '!../../assets/rewards/frames/frame-*--preview.webp',
+    '!../../assets/rewards/frames/frame-*--plaque.webp',
+  ],
   { eager: true, import: 'default', query: '?url' },
 )
 
@@ -66,7 +73,10 @@ function localSvgFrameAssetUrl(
   variant: RewardAssetVariant,
 ): string | undefined {
   if (variant !== 'primary') return undefined
-  return localSvgFrameModules[`../../assets/rewards/frames/${assetId}.svg`]
+  return (
+    localSvgFrameModules[`../../assets/rewards/frames/${assetId}.webp`] ??
+    localSvgFrameModules[`../../assets/rewards/frames/${assetId}.svg`]
+  )
 }
 
 const localTransparentCompanionAssets: Record<string, string> = {

@@ -1,163 +1,232 @@
-# 🌟 AIKids: Interactive Gamified E-Learning Platform (Frontend Client)
+# 🎨 AI Kids Creator Academy — Portfolio Showcase
 
-[![Next.js](https://img.shields.io/badge/Next.js-14%20App%20Router-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://react.dev/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Zustand](https://img.shields.io/badge/Zustand-State%20Management-brown)](https://github.com/pmndrs/zustand)
-[![SWR](https://img.shields.io/badge/SWR-0ms%20Instant%20Cache-lightgrey)](https://swr.vercel.app/)
-[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-60%20FPS-purple)](https://www.framer.com/motion/)
+> **Nền tảng E-Learning Sáng Tạo & Toán Tư Duy AI cho trẻ em 9–15 tuổi**  
+> Kết hợp công nghệ AI Tạo sinh an toàn (Safe AI Creation) và phương pháp sư phạm trực quan Montessori (Hallmark Craft / Soft Clay Design System).
 
----
-
-## 📖 I. Tổng Quan & Triết Lý Thiết Kế (Executive Summary)
-
-**AIKids Web** là ứng dụng giao diện học tập tương tác nhập vai (*Gamified E-Learning Web Application*) được xây dựng chuyên biệt cho học sinh từ **9–15 tuổi**. Ứng dụng là sự kết hợp hoàn hảo giữa **kỹ thuật Frontend hiện đại** (Next.js 14 App Router, Zero-runtime overhead, Optimistic UI) và **nghiên cứu tâm lý thần kinh học tập** (*Child Cognitive Psychology*).
-
-Khác biệt với các nền tảng học trực tuyến người lớn, AIKids áp dụng **Layout Defense Engine** bảo vệ học sinh khỏi kiệt quệ nhận thức (Cognitive Exhaustion), giao diện không nút cuộn gây xao nhãng (*Zero-Scroll Experience*), và rào chắn phụ huynh kiểm soát chi tiêu (*Parent Gate PIN Pad*).
+[![React 19](https://img.shields.io/badge/React-19.0.0-61dafb?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript Strict](https://img.shields.io/badge/TypeScript-5.x_Strict-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.x-646cff?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3.4-38bdf8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
+[![Tests Passing](https://img.shields.io/badge/Vitest-1604_Passed-4ade80?style=for-the-badge&logo=vitest)](https://vitest.dev/)
+[![Production Live](https://img.shields.io/badge/Production-app.aikid.vn-22c55e?style=for-the-badge&logo=vercel)](https://app.aikid.vn)
 
 ---
 
-## 🏗️ II. Kiến Trúc Phân Tầng Giao Diện (Frontend Architecture)
+## 🌟 Trải Nghiệm Thực Tế (Live Demo on Production)
 
-```mermaid
-flowchart TD
-    subgraph "CLIENT LAYOUT SURFACES (NEXT.JS 14 APP ROUTER)"
-        Learner["Learner Space (app/(learner)/*)<br/>- 6 Aiki Islands Adventure Map<br/>- Multi-sensory Quest & Puzzle Player<br/>- 3-Puzzle Stimulus Guardrail Throttle<br/>- Dynamic Graduation Certificate"]
-        Parent["Parent Portal (app/(parent)/*)<br/>- Multi-child Comparative Scorecard<br/>- Zero-Scroll 4-Digit PIN Gate<br/>- VietQR 24/7 Dynamic Checkout<br/>- AI Storage Quota & Safety Controls"]
-        Teacher["Teacher Focus Studio (app/(teacher)/*)<br/>- Full-width Curriculum Authoring<br/>- iPad Device Modal Preview<br/>- 14 Visual AI Art Styles Picker"]
-    end
+🔗 **Website chính thức:** [https://app.aikid.vn](https://app.aikid.vn)  
+Hệ thống đã triển khai production hoàn chỉnh trên Vercel Edge và kết nối trực tiếp với cụm Microservices Gateway (`dev-hub.storymee.com`).
 
-    subgraph "STATE & DATA LAYER (CLIENT-SIDE)"
-        Zustand["Zustand Global State Stores<br/>- useLessonStore (Quest Turns, Attempts)<br/>- useAuthStore (Session, Family Nickname)<br/>- useUIStore (Modals, Sound FX, Toasts)"]
-        SWR["SWR Data Fetching & 0ms Cache<br/>- Stale-While-Revalidate Profiles<br/>- Optimistic Progress Updates"]
-        Security["Client Security & Defense Engine<br/>- Least-Privilege Role Isolation<br/>- Brute-force PIN Lockout (5 attempts)<br/>- Auto-purge Memory on Sign Out"]
-    end
+### 🔑 Danh sách Tài khoản Test (Dành cho Nhà tuyển dụng & Người xem Portfolio)
 
-    subgraph "BACKEND INGRESS & REVERSE PROXY"
-        Gateway["Go API Gateway (storymee-hub :5100)<br/>Reverse Proxy, JWT Validation & Rate Limiting"]
-    end
+Dưới đây là bộ tài khoản đã được khởi tạo và phân quyền sẵn trên hệ thống production để người xem có thể đăng nhập và trải nghiệm thực tế từng vai trò:
 
-    Learner & Parent & Teacher --> Zustand
-    Learner & Parent & Teacher --> SWR
-    Zustand & SWR --> Security
-    Security -->|REST / WebSocket / SSE| Gateway
+| Phân hệ / Vai trò | Email đăng nhập | Mật khẩu | Phạm vi trải nghiệm & Tính năng nổi bật |
+| :--- | :--- | :--- | :--- |
+| 👑 **Quản trị viên (Admin)** | `demo.admin@aikid.vn` | `AikidDemo@2026` | Toàn quyền Dashboard Quản trị (`/admin`): Giám sát hệ thống, Phân quyền RBAC đa cấp, Quản trị người dùng & nhân sự, Ngân hàng đề thi Olympic ASMO, AI Model Routing & định mức chi phí, Quản lý tài chính & đối soát giao dịch VietQR SePay. |
+| 👩‍🏫 **Giáo viên (Teacher)** | `demo.teacher@aikid.vn` | `AikidDemo@2026` | Cổng Giáo viên (`/teacher`): Quản lý lớp học, theo dõi sĩ số & tiến độ học viên, bảng thống kê học lực theo thời gian thực, nhận xét đánh giá từng bài làm, quản trị giáo trình & bài tập. |
+| 👨‍👩‍👧 **Phụ huynh (Parent)** | `demo.parent@aikid.vn` | `AikidDemo@2026` | Cổng Phụ huynh (`/parent`): Quản lý hồ sơ gia đình (Bé Bi 9 tuổi & Bé Bo 12 tuổi), Báo cáo biểu đồ Radar kỹ năng, kiểm soát thời lượng học, duyệt các tác phẩm sáng tạo của con, nâng cấp gói học gia đình, bảo vệ phiên qua Parent Gate. |
+| 🎒 **Học sinh (Student / Learner)** | *(Vào từ Cổng Phụ huynh)*<br>hoặc dùng **[Link Demo Trực Tiếp](https://app.aikid.vn/demo)** | *(Không cần mật khẩu)* | Bản đồ Đảo học tập (`/home`, `/world`), Đấu trường Olympic Toán ASMO KaTeX (`/asmo`), Xưởng vẽ tranh & sáng tác tranh tự do (`/creative`), Ba lô vật phẩm & Tủ huy hiệu thành tích (`/backpack`, `/achievements`), Mèo AIKI tương tác giọng nói. |
+
+> 🛡️ **Kiến trúc Bảo mật Đặc biệt cho Học sinh (COPPA & Montessori Compliance):**  
+> Tuân thủ các nguyên tắc bảo vệ quyền riêng tư trẻ em trực tuyến (COPPA) và triết lý đồng hành của cha mẹ, hệ thống **không cấp mật khẩu/PIN độc lập cho trẻ em**. Trẻ chỉ bước vào thế giới học tập khi phụ huynh đã đăng nhập và kích hoạt chọn hồ sơ con qua cơ chế **Parent-to-Child Session Handoff** an toàn, hoặc thông qua Sandbox Demo cách ly.
+
+---
+
+## 🎯 Mục Đích & Triết Lý Dự Án
+
+**AI Kids Creator Academy** được thiết kế nhằm giải quyết bài toán: *Làm thế nào để trẻ em 9–15 tuổi tiếp cận trí tuệ nhân tạo một cách tích cực, sáng tạo và lành mạnh, thay vì thụ động tiêu thụ nội dung hoặc bị phụ thuộc vào máy móc?*
+
+1. **Sư phạm Trực quan Montessori:**  
+   Mỗi bài học được cấu trúc thành các "Trạm học" (Stations) theo lộ trình từng bước: *Quan sát → Thử nghiệm → Đúc kết → Sáng tạo tự do*.
+2. **Safe AI Creation (AI Sáng Tạo An Toàn):**  
+   Trẻ được học cách điều khiển AI thông qua Prompt Engineering trực quan bằng thẻ bài, vẽ nét phác thảo để AI hoàn thiện tranh, và viết kịch bản truyện tranh với ngôn từ trong sáng.
+3. **Đấu Trường Olympic Toán ASMO & KaTeX:**  
+   Tích hợp ngân hàng hàng nghìn câu hỏi thi Olympic Toán quốc tế ASMO với bộ render công thức toán KaTeX chuẩn mực, bài toán hình học trực quan và mô phỏng 3D giúp trẻ rèn luyện tư duy logic đỉnh cao.
+4. **Anti-AI-Slop & Human-Craft Icon Policy (Bắt Buộc):**  
+   - Tuyệt đối nói **KHÔNG** với các icon AI sáo rỗng: không dùng hình robot kim loại, không dùng icon vi mạch/máy móc (`Bot`, `Cpu`, `CircuitBoard`).
+   - Giao diện sử dụng phong cách **2D Flat Soft Clay** với bảng màu Pastel ấm áp, thân thiện với mắt trẻ em.
+   - Nhân vật đồng hành duy nhất là **Mèo AIKI** — linh vật hoạt hình vẽ tay mang tính nhân văn và ấm áp.
+
+---
+
+## 📸 Hình Ảnh Thực Tế Từng Phân Hệ (Visual Gallery)
+
+Toàn bộ hình ảnh dưới đây được chụp trực tiếp từ môi trường Production [app.aikid.vn](https://app.aikid.vn):
+
+### 1. Cổng Chào Đón & Đăng Nhập An Toàn (Welcome & Auth Portal)
+Giao diện đăng nhập thân thiện, hỗ trợ xác thực tài khoản phụ huynh với linh vật Mèo AIKI chào đón.
+![Trang chủ AI Kids](docs/screenshots/01-welcome-landing.png)
+
+---
+
+### 2. Không Gian Học Sinh: Bản Đồ Đảo & Trạm Khám Phá (Learner World & Stations)
+Học sinh phiêu lưu qua các Đảo học tập theo lộ trình mở khóa từng cấp độ:
+![Lộ trình học tập sinh động](docs/screenshots/02-student-learning-hub.png)
+
+---
+
+### 3. Dashboard Học Sinh & Xưởng Sáng Tạo Tự Do (Student Dashboard & Creative Canvas)
+Bảng điều khiển cá nhân hóa với cấp độ, số sao tích lũy, ba lô vật phẩm và công cụ vẽ tranh tương tác:
+![Giao diện học sinh](docs/screenshots/02b-student-authenticated-home.png)
+![Xưởng vẽ tranh sáng tạo](docs/screenshots/03b-student-creative-canvas.png)
+
+---
+
+### 4. Đấu Trường Toán Olympic ASMO & Mô Phỏng Trực Quan (ASMO Math Arena)
+Hệ thống giải toán tư duy quốc tế với công thức KaTeX, hình vẽ hình học sinh động:
+![Toán Olympic ASMO KaTeX](docs/screenshots/03-student-lesson-asmo.png)
+
+---
+
+### 5. Cổng Phụ Huynh: Quản Trị Gia Đình & Báo Cáo Học Tập (Parent Portal & Analytics)
+Phụ huynh quản lý hồ sơ các con, giám sát thời lượng học tập và biểu đồ radar kỹ năng chi tiết:
+![Cổng phụ huynh](docs/screenshots/04-parent-portal.png)
+![Báo cáo phân tích học tập](docs/screenshots/04b-parent-learning-analytics.png)
+
+---
+
+### 6. Cổng Giáo Viên: Quản Lý Lớp Học & Giáo Trình (Teacher Studio & Curriculum)
+Giáo viên theo dõi tiến độ từng học sinh, quản trị bài giảng và thống kê mức độ hoàn thành nhiệm vụ:
+![Cổng giáo viên](docs/screenshots/05-teacher-studio.png)
+![Quản trị khóa học giáo viên](docs/screenshots/05b-teacher-curriculum.png)
+
+---
+
+### 7. Bảng Điều Hành Quản Trị Viên (Admin Console & Financial Overview)
+Admin giám sát toàn bộ hệ thống, phân quyền RBAC, quản trị người dùng và doanh thu thanh toán VietQR SePay:
+![Bảng điều hành Admin](docs/screenshots/06-admin-console.png)
+![Quản trị thanh toán và tài chính](docs/screenshots/06b-admin-billing.png)
+
+---
+
+### 8. Cơ Chế Chuyển Phiên An Toàn Parent Gate (Child Profile Selector)
+Bộ chọn hồ sơ con chuẩn Hallmark UI với khả năng cách ly dữ liệu học tập tuyệt đối giữa các bé trong cùng gia đình:
+![Bộ chọn con Parent Gate](docs/screenshots/07-child-picker.png)
+
+---
+
+## 🏗️ Kiến Trúc Kỹ Thuật (Architecture & Tech Stack)
+
+Hệ thống được xây dựng theo mô hình **Decoupled Modern Frontend** kết nối cụm **Microservices Mesh** thông qua API Gateway bảo mật:
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│               AI Kids Web App (React 19 + TypeScript + Vite)           │
+│                      https://app.aikid.vn (Vercel)                     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Proxied HTTPS requests
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│           StoryMee Gateway Hub (:5100, Golang / Gin Engine)            │
+│         - Xác thực Session Cookie (__Host-storymee_session)            │
+│         - Xóa sạch client identity headers giả mạo                     │
+│         - Tiêm định danh chuẩn: X-User-Id, X-Actor, X-Child-Profile-Id │
+└───────┬──────────────┬──────────────┬──────────────┬───────────────────┘
+        │              │              │              │
+        ▼              ▼              ▼              ▼
+┌──────────────┐┌──────────────┐┌──────────────┐┌────────────────────────┐
+│ Core Account ││   Core LMS   ││Core Gamificat││     Core Billing       │
+│    (:4502)   ││    (:4509)   ││   (:4513)    ││        (:4507)         │
+│  Gia đình &  ││ Tiến độ trạm,││ Sao, XP, Cấp ││   Gói cước, QR SePay,  │
+│  Hồ sơ con   ││ Đề thi ASMO  ││  Huy hiệu    ││     Đối soát tự động   │
+└───────┬──────┘└──────┬───────┘└──────┬───────┘└───────────┬────────────┘
+        │              │               │                    │
+        └──────────────┴───────┬───────┴────────────────────┘
+                               ▼
+            ┌──────────────────────────────────────┐
+            │   PostgreSQL Write SSOT (Supabase)   │
+            │      Prisma ORM · NATS JetStream     │
+            │    Cloudflare R2 Media Object Storage│
+            └──────────────────────────────────────┘
 ```
 
+### Điểm nhấn Kỹ thuật Nổi bật:
+- **Zero Raw JWT in JS:** Token không bao giờ được lưu trong `localStorage` hay biến JS toàn cục. Toàn bộ session được quản lý qua `HttpOnly`, `SameSite=Lax`, `Secure` Cookie để chống triệt để các cuộc tấn công XSS/Token Stealing.
+- **Micro-Frontend Modular Boundaries:** Mỗi phân hệ (`features/home`, `features/parent`, `features/teacher`, `features/admin`, `features/asmo`) hoạt động độc lập với State Management riêng (Zustand) và lazy load theo Route.
+- **Idempotency & Resilience:** Mọi thao tác ghi nhạy cảm (hoàn thành bài học, mở trạm, tạo đơn hàng POS) đều bắt buộc gửi kèm `Idempotency-Key` để ngăn chặn double-submit trên mạng yếu.
+- **High Performance & Compression:** Toàn bộ bundle và tài nguyên được cấu hình ngân sách hiệu năng nghiêm ngặt (Perf Budget), hỗ trợ pre-compression Brotli/Gzip và định dạng ảnh WebP tối ưu.
+
 ---
 
-## 📂 III. Cấu Trúc Thư Mục Dự Án (Deep Component & Route Tree)
+## 📁 Cấu Trúc Thư Mục Dự Án (Repository Structure)
 
-```
+```text
 aikids-edtech-web/
-├── package.json                         # Next.js 14 dependencies, Tailwind & Framer Motion
-├── tsconfig.json                        # Strict TypeScript compilation rules
-├── tailwind.config.js                   # Soft-Clay theme tokens & responsive breakpoints
-├── apps/web/src/                        # Mã nguồn ứng dụng chính
-│   ├── app/                             # Next.js 14 App Router Directory
-│   │   ├── (learner)/                   # Vùng học tập học sinh (Gamified)
-│   │   │   ├── page.tsx                 # Màn hình phiêu lưu chính & bản đồ đảo
-│   │   │   ├── island/[id]/page.tsx     # Chi tiết đảo học tập & danh sách trạm
-│   │   │   └── lesson/[id]/page.tsx     # Trình phát bài học & câu đố phản xạ
-│   │   ├── (parent)/                    # Cổng quản trị phụ huynh (SaaS Clean)
-│   │   │   ├── dashboard/page.tsx       # Bảng tiến độ đa chiều của con
-│   │   │   ├── billing/page.tsx         # Quản lý gói học & lịch sử thanh toán
-│   │   │   └── settings/page.tsx        # Cài đặt mã PIN & phân quyền tài khoản
-│   │   └── (teacher)/                   # Cổng biên soạn giáo viên (Focus Studio)
-│   │       └── editor/page.tsx          # Soạn thảo bài giảng & xem trước tablet
-│   ├── components/                      # Thư viện UI Components dùng chung
-│   │   ├── ui/                          # Atoms: Button, Modal, Card, Input, Badge
-│   │   ├── layout/                      # Molecules: Header, FloatingNav, Sidebar
-│   │   └── common/                      # Organisms: SoundPlayer, Confetti, Mascot
-│   ├── features/                        # Bounded Context Modules
-│   │   ├── parent-gate/                 # Zero-scroll PIN Pad & Google Recovery
-│   │   ├── billing/                     # VietQR Checkout Modal, Counter & Polling
-│   │   ├── lesson/                      # Station Runner & Stimulus Throttle
-│   │   ├── creative/                    # 14 Visual AI Style Cards Picker
-│   │   └── certificate/                 # Trình sinh chứng chỉ tốt nghiệp Canvas
-│   ├── stores/                          # Zustand State Machines
-│   │   ├── useLessonStore.ts            # Quản lý tiến độ trạm học, snapshot
-│   │   └── useAuthStore.ts              # Quản lý JWT token và phiên học sinh
-│   └── lib/                             # Tiện ích HTTP, SWR client, Audio FX
-└── README.md                            # Cẩm nang kiến trúc giao diện
+├── apps/
+│   ├── web/                         # Production React 19 Single Page App
+│   │   ├── src/
+│   │   │   ├── app/                 # Routing, Guards, App Lifecycle
+│   │   │   │   ├── routing/         # Role-based route definitions
+│   │   │   │   │   ├── student-routes.tsx
+│   │   │   │   │   ├── family-routes.tsx
+│   │   │   │   │   ├── teacher-routes.tsx
+│   │   │   │   │   └── admin-routes.tsx
+│   │   │   ├── features/            # Feature-driven modules
+│   │   │   │   ├── admin/           # Phân hệ Quản trị viên (RBAC, AI, Billing)
+│   │   │   │   ├── asmo/            # Phân hệ Toán Olympic ASMO & KaTeX
+│   │   │   │   ├── auth/            # Đăng nhập, đăng ký, Parent Gate
+│   │   │   │   ├── backpack/        # Ba lô đồ dùng học tập của bé
+│   │   │   │   ├── creative/        # Xưởng vẽ & sáng tạo nội dung AI
+│   │   │   │   ├── home/            # Dashboard học sinh & Trạm học
+│   │   │   │   ├── lesson/          # Trình phát bài giảng tương tác
+│   │   │   │   ├── parent/          # Cổng phụ huynh & Phân tích tiến độ
+│   │   │   │   ├── rewards/         # Kho phần thưởng, huy hiệu, sao
+│   │   │   │   ├── teacher/         # Cổng giáo viên & Quản lý lớp học
+│   │   │   │   └── world/           # Bản đồ đảo học tập phiêu lưu
+│   │   │   └── shared/              # Thư viện dùng chung
+│   │   │       ├── components/ui/   # Soft Clay UI Component System
+│   │   │       ├── lib/             # API client, normalizers, RBAC logic
+│   │   │       └── store/           # Zustand global stores (auth, learner)
+│   │   └── scripts/                 # Performance audits, curriculum tooling
+├── docs/
+│   ├── screenshots/                 # Toàn bộ ảnh chụp thực tế production
+│   ├── CURRICULUM_3_REGIONS_VI.md   # Khung chương trình giáo dục
+│   └── DATA_OWNERSHIP_AND_OFFLINE_SYNC.md # Hợp đồng dữ liệu & đồng bộ
+├── vercel.json                      # Cấu hình Vercel Production & API Proxy
+└── package.json                     # Workspace configurations
 ```
 
 ---
 
-## 🛡️ IV. Cơ Chế Layout Defense Engine & Rào Chắn Tâm Lý (Guardrails)
+## 🛠️ Hướng Dẫn Cài Đặt & Chạy Thử Nghiệm
 
-### 1. Child Stimulus Throttle (Kiểm Soát Ngưỡng Kích Thích):
-- Học sinh lứa tuổi 9-15 rất dễ gặp hiện tượng kiệt quệ nhận thức (*Cognitive Overload*) nếu giải đố liên tục.
-- Ứng dụng giới hạn cứng **tối đa 3 câu đố liên tiếp/trạm**. Sau 3 câu, hệ thống bắt buộc kích hoạt chặng giãn cơ hoặc video hoạt hình thư giãn nhẹ trước khi bước tiếp.
+### Yêu Cầu Môi Trường:
+- **Node.js**: Phiên bản 20.x hoặc 22.x LTS
+- **Trình quản lý gói**: `npm`
 
-### 2. Zero-Scroll Parent Gate (Bảo Vệ Ví Phụ Huynh):
-- Khu vực thanh toán và quản trị tài khoản được bảo vệ bằng mã PIN 4 số độc lập.
-- Modal bàn phím số được thiết kế vừa vặn 100% chiều cao màn hình di động (*Zero-Scroll*), ngăn chặn hoàn toàn việc chạm nhầm của trẻ em.
-- Cơ chế tự khóa tạm thời 15 phút nếu nhập sai quá 5 lần liên tiếp (chống tấn công Brute-force đạt chuẩn OWASP A07).
+### Các Bước Thực Hiện:
 
-### 3. Anti-AI Marker & Jargon Purging:
-- Làm sạch hoàn toàn các thuật ngữ công nghệ phức tạp (*Diffusion, Checkpoints, LoRA, Prompts*).
-- Thay thế bằng các khái niệm giáo dục trực quan: *Bút vẽ hoạt hình, Trợ lý kể chuyện, Họa sĩ sắc màu*.
-
----
-
-## 💳 V. Quy Trình Thanh Toán Tự Động VietQR 24/7 (Payment Flow)
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Parent as Phụ Huynh
-    participant Web as AIKids Web Client
-    participant Hub as Gateway (storymee-hub)
-    participant Billing as core-billing-api (:4503)
-    participant Bank as Cổng Ngân Hàng SePay
-
-    Parent->>Web: Chọn Gói Học Gia Đình & Bấm "Thanh Toán"
-    Web->>Hub: POST /internal/v1/billing/checkout/vietqr
-    Hub->>Billing: Khởi tạo Payment Intent
-    Billing-->>Web: Trả về mã paymentCode + VietQR URL
-    Web->>Web: Hiển thị Modal VietQR 2 cột + Đếm ngược 15 phút
-    Parent->>Bank: Quét mã QR trên App Ngân Hàng để chuyển tiền
-    Bank->>Billing: Webhook IPN biến động số dư (HMAC X-Secret-Key)
-    Billing->>Billing: Đối soát paymentCode & Cập nhật PAID
-    Web->>Billing: Polling kiểm tra trạng thái giao dịch (mỗi 3 giây)
-    Billing-->>Web: Trạng thái: SUCCESS
-    Web->>Web: Kích hoạt Confetti & Mở khóa toàn bộ 6 Đảo Học Tập!
-```
-
----
-
-## 🎨 VI. Hệ Thống Thiết Kế Thân Thiện Trẻ Em (Soft-Clay Design System)
-
-* **Bảng màu chủ đạo:**
-  - `Aiki Blue` (#4A90E2): Kích thích tư duy logic và cảm giác an toàn.
-  - `Sunbeam Yellow` (#F5A623): Năng lượng tích cực và sự hào hứng khám phá.
-  - `Mint Green` (#7ED321): Ghi nhận thành công và giải thưởng hoàn thành.
-* **Quy chuẩn tiếp cận (Accessibility WCAG 2.1 AA):**
-  - Vùng chạm tối thiểu **48x48px** trên mọi nút bấm và thẻ bài.
-  - Độ tương phản chữ/nền tối thiểu **4.5:1** bảo vệ thị lực học sinh.
-  - Phản hồi đa giác quan: Âm thanh nhẹ nhàng (Click FX) kết hợp rung xúc giác (Haptic) trên thiết bị di động.
-
----
-
-## ⚡ VII. Hướng Dẫn Cài Đặt & Chạy Thử Cục Bộ (Quickstart Runbook)
-
-### 1. Cài đặt dependencies:
 ```bash
-# Cài đặt trọn bộ packages
-npm install
-```
+# 1. Clone repository
+git clone https://github.com/zuzziQ/aikids-edtech-web.git
+cd aikids-edtech-web
 
-### 2. Cấu hình biến môi trường cục bộ:
-Tạo file `.env.local` tại thư mục gốc:
-```env
-NEXT_PUBLIC_GATEWAY_URL=http://localhost:5100
-NEXT_PUBLIC_APP_ENV=development
-NEXT_PUBLIC_ENABLE_AUDIO_FX=true
-```
+# 2. Cài đặt dependencies sạch
+npm ci
 
-### 3. Khởi chạy môi trường phát triển:
-```bash
+# 3. Chạy môi trường phát triển (Mặc định proxy API trực tiếp về dev-hub.storymee.com)
 npm run dev
+# Mở trình duyệt tại: http://localhost:5173
+
+# 4. Kiểm tra Type-safe nghiêm ngặt
+npm run typecheck
+
+# 5. Chạy toàn bộ 1604 bài kiểm thử tự động
+npm test -- --run
+
+# 6. Build gói sản phẩm tối ưu cho Production
+npm run build
 ```
-Mở trình duyệt tại: **`http://localhost:3000`**
+
+---
+
+## 👨‍💻 Tác Giả & Portfolio
+
+- **Họ và tên:** Lê Quang Minh
+- **GitHub:** [@zuzziQ](https://github.com/zuzziQ)
+- **Email:** `zuzzivn@gmail.com`
+- **Dự án Production:** [https://app.aikid.vn](https://app.aikid.vn)
+
+---
+*Bản quyền © 2026 AI Kids Creator Academy & StoryMee Ecosystem. Mọi quyền được bảo lưu.*

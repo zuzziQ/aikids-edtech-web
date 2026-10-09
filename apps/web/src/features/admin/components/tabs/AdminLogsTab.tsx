@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { Search } from 'lucide-react'
 import { Button } from '@/shared/components/ui/Button'
+import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog'
 import { Paginator } from '@/shared/components/ui/Paginator'
 import { ToastContainer } from '@/shared/components/ui/Toast'
 import { useToast } from '@/shared/hooks/useToast'
@@ -58,10 +59,18 @@ export function AdminLogsTab() {
 
   const logsPag = usePagination(filteredLogs, 20)
 
+  const [confirmPurge, setConfirmPurge] = useState(false)
+
+  // Only logs older than 30 days. Without `before` the backend deletes
+  // everything up to now, wiping the whole security audit trail.
   async function purgeLogs() {
+    setConfirmPurge(false)
     try {
+      const before = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
       const data = await api<{ deleted: number; message: string }>('/api/admin/login-logs', {
         method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ before }),
       })
       showToast(data.message ?? `Đã dọn dẹp ${data.deleted} log cũ`, 'success')
       await fetchLogs()
@@ -155,10 +164,20 @@ export function AdminLogsTab() {
             Làm mới
           </Button>
 
-          <Button variant="ghost" className="text-muted" onClick={() => void purgeLogs()}>
+          <Button variant="ghost" className="text-muted" onClick={() => setConfirmPurge(true)}>
             Xóa nhật ký cũ
           </Button>
         </div>
+        <ConfirmDialog
+          open={confirmPurge}
+          title="Xóa nhật ký đăng nhập cũ?"
+          description="Chỉ xóa các bản ghi đăng nhập cũ hơn 30 ngày. Thao tác không thể hoàn tác."
+          confirmLabel="Xóa log > 30 ngày"
+          cancelLabel="Hủy"
+          danger={true}
+          onConfirm={() => void purgeLogs()}
+          onCancel={() => setConfirmPurge(false)}
+        />
 
         {/* ── Auto-purge & Security Status Banner ──────────────── */}
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/40 bg-brand-50/40 px-4 py-2 text-xs text-muted">

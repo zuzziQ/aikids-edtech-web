@@ -71,6 +71,7 @@ export function LessonPage() {
     isAikiRuleJourney, isIslandJourney, ruleId, effectiveCourseId,
     isPaywallOpen, setIsPaywallOpen, isParentGateOpen, setIsParentGateOpen,
     isParent, resetLocal, handleAikiFinish, persistJourneyStage, handleVideoCompleted,
+    user, hasAdvancedFromLearnRef,
   } = state
 
   useEffect(() => {
@@ -149,7 +150,11 @@ export function LessonPage() {
 
           const opened = await learningApi.openLesson(authLessonId)
           if (cancelled) return
-          progressInfo = resolveInitialLessonProgress(opened.progress, authLessonId, questId)
+          if (opened.progress?.phase && opened.progress.phase !== 'learn') {
+            hasAdvancedFromLearnRef.current[authLessonId] = true
+            hasAdvancedFromLearnRef.current[questId] = true
+          }
+          progressInfo = resolveInitialLessonProgress(opened.progress, authLessonId, questId, user?.id)
           setLiveStars(progressInfo.stars)
           setResumeStageIndex(progressInfo.resumeStage)
 
@@ -198,7 +203,11 @@ export function LessonPage() {
 
           const opened = await learningApi.openLesson(authLessonId)
           if (cancelled) return
-          progressInfo = resolveInitialLessonProgress(opened.progress, authLessonId, questId)
+          if (opened.progress?.phase && opened.progress.phase !== 'learn') {
+            hasAdvancedFromLearnRef.current[authLessonId] = true
+            hasAdvancedFromLearnRef.current[questId] = true
+          }
+          progressInfo = resolveInitialLessonProgress(opened.progress, authLessonId, questId, user?.id)
           setLiveStars(progressInfo.stars)
           setResumeStageIndex(progressInfo.resumeStage)
 
@@ -209,6 +218,8 @@ export function LessonPage() {
               message: 'Con đã hoàn thành bài học này.',
               nextQuestId: null,
             })
+          } else if (opened.progress?.phase && ['game', 'practice', 'check'].includes(opened.progress.phase)) {
+            setPhase(opened.progress.phase)
           }
         } catch (progressError) {
           if (!cancelled) {
@@ -227,7 +238,11 @@ export function LessonPage() {
       try {
         const opened = await learningApi.openLesson(questId)
         if (cancelled) return
-        const progressInfo = resolveInitialLessonProgress(opened.progress, authoritativeLessonId, questId)
+        if (opened.progress?.phase && opened.progress.phase !== 'learn') {
+          hasAdvancedFromLearnRef.current[questId] = true
+          if (authoritativeLessonId) hasAdvancedFromLearnRef.current[authoritativeLessonId] = true
+        }
+        const progressInfo = resolveInitialLessonProgress(opened.progress, authoritativeLessonId, questId, user?.id)
         setQuest({
           ...opened.quest,
           status: progressInfo.status,
@@ -275,7 +290,7 @@ export function LessonPage() {
     return () => {
       cancelled = true
     }
-  }, [questId, resetLocal, routeCourseId, authoritativeLessonId, setAuthoritativeLessonId, setCheckResult, setError, setIsPaywallOpen, setLiveStars, setLoading, setOfflineManifest, setPhase, setQuest, setResumeStageIndex])
+  }, [questId, resetLocal, routeCourseId, setAuthoritativeLessonId, setCheckResult, setError, setIsPaywallOpen, setLiveStars, setLoading, setOfflineManifest, setPhase, setQuest, setResumeStageIndex])
 
   // Chuẩn hóa URL sang friendly slug nếu questId trên URL là raw UUID
   useEffect(() => {

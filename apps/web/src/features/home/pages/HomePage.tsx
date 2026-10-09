@@ -1,7 +1,7 @@
 import { readHouseholdSubscription } from '@/shared/lib/household-billing-api'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { Check, CheckCircle2, Film, Lock, Play, Star, ShieldCheck } from 'lucide-react'
+import { Check, CheckCircle2, Film, Lock, Play, Star } from 'lucide-react'
 import { useOfficialBillingPlan } from '@/shared/lib/official-plan'
 import { api, type CourseSummary } from '@/shared/lib/api'
 import { useAuth } from '@/shared/store/auth'
@@ -29,8 +29,10 @@ import {
 } from '@/features/home/components'
 import { mapCourse } from '@/shared/lib/normalizers/common'
 import { sessionGeneration } from '@/shared/lib/session-scope'
+import { cn } from '@/shared/lib/cn'
 const flushPendingSyncQueue = (ownerId?: string) => import('@/shared/lib/learning-sync-store').then((module) => module.flushPendingSyncQueue(ownerId))
 import { resolveNextActiveStation } from '../lib/home-server-station'
+import { getHomeIslandTheme } from '../lib/home-island-theme'
 
 type EnrollmentSummary = {
   courseId: string
@@ -496,6 +498,7 @@ export function HomePage() {
 
   const streakDays = (user as any)?.currentStreak ?? 0
   const activeStation = resolveNextActiveStation(courses, childDisplayName, user?.id)
+  const islandTheme = getHomeIslandTheme(activeStation.islandNumber)
   const hasLearningActivity = courses.some((course) => {
     const stations = (course.quests ?? (course as any).stations ?? []) as Array<{
       status?: string
@@ -797,29 +800,54 @@ export function HomePage() {
                   </div>
                 </>
               ) : (
-                <div className="col-span-12 relative overflow-hidden rounded-3xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/80 via-white to-amber-50/50 p-5 sm:p-7 shadow-clay flex flex-col md:flex-row items-center justify-between gap-5 group">
-                  <div className="flex-1 min-w-0 space-y-3">
+                <div className={cn(
+                  "col-span-12 relative overflow-hidden rounded-3xl border-2 p-5 sm:p-7 shadow-clay flex flex-col md:flex-row items-center justify-between gap-6 group transition-all duration-300",
+                  islandTheme.cardBg,
+                  islandTheme.borderColor,
+                )}>
+                  {/* Sân Khấu Nền Phong Cảnh Đảo Chứa Trạm Học (Đảo 2: Hoạ sĩ, Đảo 1: Khám phá,...) */}
+                  <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl select-none" aria-hidden="true">
+                    {/* Ảnh phong cảnh hòn đảo chứa trạm đang học đặt tự nhiên ở mảng phải */}
+                    <img
+                      src={islandTheme.scene}
+                      alt=""
+                      className="absolute right-0 top-1/2 -translate-y-1/2 h-[135%] w-auto max-w-[65%] sm:max-w-[50%] md:max-w-[46%] object-contain object-right opacity-35 sm:opacity-45 mix-blend-multiply transition-all duration-700 pointer-events-none"
+                    />
+                    {/* Gradient lớp phủ từ trái sang để thông tin bên trái luôn tương phản cao, dễ đọc */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-transparent sm:via-white/75" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/30" />
+                  </div>
+
+                  <div className="relative z-10 flex-1 min-w-0 space-y-3.5">
+                    {/* 1. Badges: Phiêu lưu & Tiến độ thực tế */}
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 text-[11px] font-black uppercase tracking-wider shadow-2xs flex items-center gap-1.5">
-                        <ShieldCheck size={14} className="text-emerald-600" />
-                        <span>Đặc Quyền Khóa Học Chính Thức</span>
+                      <span className={cn(
+                        "px-3 py-1 rounded-full border text-xs font-black shadow-2xs flex items-center gap-1.5 select-none",
+                        islandTheme.badgeBg,
+                        islandTheme.badgeText,
+                        islandTheme.badgeBorder,
+                      )}>
+                        <FlatClayCompass size={14} className="shrink-0" />
+                        <span>Hành Trình 6 Đảo Sáng Tạo</span>
                       </span>
-                      <span className="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-200 text-[11px] font-black shadow-2xs flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500 shrink-0" />
-                        <span>{totalStarsCount} Sao · Cấp {explorerLevel}</span>
+                      <span className="px-3 py-1 rounded-full bg-orange-100 text-orange-950 border border-orange-200/90 text-xs font-black shadow-2xs flex items-center gap-1.5 select-none">
+                        <span className="text-amber-500">⭐</span>
+                        <span>{totalStarsCount} Sao · {completedStationsCount}/{totalStationsCount} Trạm đã qua</span>
                       </span>
                     </div>
 
+                    {/* 2. Lời gọi phiêu lưu ấm áp & Mô tả khơi gợi trí tò mò */}
                     <div>
-                      <h3 className="font-display text-lg sm:text-2xl font-black text-slate-900 leading-snug">
-                        🎉 Chúc mừng bé! Toàn bộ 6 Đảo Sáng Tạo đã được mở khóa
+                      <h3 className="font-display text-xl sm:text-2xl font-black text-slate-900 leading-snug">
+                        Sẵn sàng ra khơi cùng Mèo AIKI thôi nào, {childDisplayName}!
                       </h3>
                       <p className="mt-1.5 text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-2xl">
-                        Bé đã sẵn sàng khám phá trọn vẹn lộ trình {totalStationsCount} trạm học chuẩn Quốc tế và 50 lượt vẽ tranh sáng tạo mỗi tháng.
+                        Mỗi trạm học là một hòn đảo kỳ thú! Con sẽ cùng Mèo AIKI giải mã những bí mật thú vị, vẽ tranh thỏa thích và sáng tác nên những câu chuyện tuyệt vời của riêng mình.
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                    {/* 3. Nút khám phá trạm tiếp theo duy nhất - Thiết kế Soft Clay trực quan (gộp 2 nút thành 1) */}
+                    <div className="pt-1">
                       <button
                         type="button"
                         onClick={() =>
@@ -830,22 +858,50 @@ export function HomePage() {
                                 : OFFICIAL_SIX_ISLANDS[1]?.targetRoute || activeStation.route),
                           )
                         }
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-brand-500 hover:from-emerald-600 hover:to-teal-600 text-white font-black text-sm sm:text-base shadow-clay hover:scale-102 active:scale-95 transition-all cursor-pointer"
+                        className={cn(
+                          "group inline-flex items-center gap-3.5 px-5 py-3 sm:py-3.5 rounded-2xl text-white font-black shadow-clay hover:scale-102 active:scale-95 transition-all cursor-pointer text-left max-w-full bg-gradient-to-r",
+                          islandTheme.buttonGradient,
+                        )}
+                        title={`Khám phá trạm tiếp theo: ${activeStation.stationLabel} — ${(activeStation.stationTitle || '').replace(/^Bài\s+[\d.]+\s*[-—:]\s*/i, '').replace(/^Trạm\s+[\d.]+\s*[-—:]\s*/i, '').trim()}`}
                       >
-                        <span>🚀 Tiến Vào Học Ngay</span>
+                        {/* Biểu tượng Play Soft Clay */}
+                        <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center shrink-0 border border-white/30 group-hover:scale-105 transition-transform shadow-inner">
+                          <Play className="w-5 h-5 fill-white text-white ml-0.5" />
+                        </div>
+                        <div className="min-w-0 pr-1">
+                          <div className="text-[11px] font-black uppercase tracking-wider text-white/90 flex items-center gap-1.5">
+                            <span>Khám phá trạm tiếp theo</span>
+                            <span className="text-white/60">•</span>
+                            <span className="text-amber-200">{activeStation.stationLabel}</span>
+                          </div>
+                          <div className="text-xs sm:text-sm md:text-base font-black text-white leading-snug whitespace-normal">
+                            {((activeStation.islandTitle || '')
+                              .replace(/^Module\s+\d+\s*[-—:]\s*/i, '')
+                              .replace(/\s*AI!*$/i, '')
+                              .trim() || islandTheme.shortName)} — {(activeStation.stationTitle || '')
+                              .replace(/^Bài\s+[\d.]+\s*[-—:]\s*/i, '')
+                              .replace(/^Trạm\s+[\d.]+\s*[-—:]\s*/i, '')
+                              .trim()}
+                          </div>
+                        </div>
                       </button>
-                      <span className="text-xs font-bold text-slate-500">
-                        Trạm tiếp theo: <strong className="text-slate-800">{activeStation.stationLabel}: {activeStation.stationTitle}</strong>
-                      </span>
                     </div>
                   </div>
 
-                  <div className="relative shrink-0 flex items-center justify-center">
-                    <div className="w-28 sm:w-36 h-28 sm:h-36 rounded-3xl bg-gradient-to-tr from-emerald-100 to-amber-100 border-2 border-white shadow-soft flex items-center justify-center overflow-hidden">
+                  {/* 4. Mèo AIKI đứng tự do trên nền phong cảnh đảo kèm Bong bóng thoại */}
+                  <div className="relative z-10 shrink-0 flex flex-col items-center justify-end self-center sm:self-end">
+                    <div className="relative mb-1 px-3 py-1 bg-white/95 rounded-2xl border border-amber-200/90 shadow-2xs text-center select-none backdrop-blur-xs">
+                      <span className="text-xs font-black text-amber-950">
+                        {activeStation.catDialogue || `Đi cùng Mee nào ${childDisplayName}!`}
+                      </span>
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-b border-r border-amber-200/90 rotate-45" />
+                    </div>
+
+                    <div className="relative w-32 sm:w-40 h-32 sm:h-40 flex items-end justify-center select-none">
                       <img
                         src={designerAssets.catPoses.celebrate || designerAssets.catPoses.guide}
-                        alt="Mèo AIKI Chúc Mừng"
-                        className="w-24 sm:w-32 h-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+                        alt="Mèo AIKI Đồng Hành"
+                        className="w-28 sm:w-36 h-auto max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300 pointer-events-none"
                       />
                     </div>
                   </div>

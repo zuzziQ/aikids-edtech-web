@@ -35,10 +35,10 @@ describe('dynamic level reward assets', () => {
     expect(getResolvedRewardAssetUrl('frame-level-100')).toMatch(/frame-level-100\.webp/)
   })
 
-  it('prefers the newly exported local SVG frame artwork', () => {
-    expect(getResolvedRewardAssetUrl('frame-level-15')).toMatch(/frame-level-15\.svg/)
-    expect(getResolvedRewardAssetUrl('frame-language-kingdom')).toMatch(/frame-language-kingdom\.svg/)
-    expect(getResolvedRewardAssetUrl('frame-creative-arena')).toMatch(/frame-creative-arena\.svg/)
+  it('prefers the bundled WebP frame artwork', () => {
+    expect(getResolvedRewardAssetUrl('frame-level-15')).toMatch(/frame-level-15\.webp/)
+    expect(getResolvedRewardAssetUrl('frame-language-kingdom')).toMatch(/frame-language-kingdom\.webp/)
+    expect(getResolvedRewardAssetUrl('frame-creative-arena')).toMatch(/frame-creative-arena\.webp/)
   })
 
   it('uses lightweight WebP previews for level-frame collection cards', () => {

@@ -18,7 +18,8 @@ describe('official billing plan fetching & caching', () => {
 
   it('coalesces concurrent fetch calls into a single server request and reuses within 60s TTL', async () => {
     const fetchMock = vi.fn().mockImplementation((url: string) => {
-      if (url.includes('/billing/admin/plans') || url.includes('/billing/plans')) {
+      if (url.includes('/billing/admin/')) return Promise.reject(new Error('admin endpoint must not be called'))
+      if (url.includes('/billing/plans')) {
         return Promise.resolve(response({
           status: 'success',
           plans: [
