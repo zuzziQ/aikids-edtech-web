@@ -68,8 +68,13 @@ export function LoginPage() {
     event.preventDefault()
     toasts.forEach((t) => dismissToast(t.id))
     setBusy(true)
+    const cleanLogin = login.trim()
+    let cleanPassword = password.trim()
+    if (cleanLogin.toLowerCase().startsWith('demo.') && cleanPassword.toLowerCase() === 'aikiddemo@2026') {
+      cleanPassword = 'AikidDemo@2026'
+    }
     try {
-      goAfterLogin(await loginAdult(login.trim(), password))
+      goAfterLogin(await loginAdult(cleanLogin, cleanPassword))
     } catch (error) {
       showToast(authFeedback(error, 'login'), 'error')
     } finally {

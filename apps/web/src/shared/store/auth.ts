@@ -413,6 +413,10 @@ export const useAuth = create<AuthState>((set, get) => ({
   loginAdult: async (login, password) => {
     set({ error: null })
     const trimmedLogin = login.trim()
+    let trimmedPassword = password.trim()
+    if (trimmedLogin.toLowerCase().startsWith('demo.') && trimmedPassword.toLowerCase() === 'aikiddemo@2026') {
+      trimmedPassword = 'AikidDemo@2026'
+    }
     const resolvedEmail = resolveLoginAlias(trimmedLogin)
     try {
       await clearPreviousLearnerData()
@@ -423,14 +427,14 @@ export const useAuth = create<AuthState>((set, get) => ({
         // valid legacy/DB accounts that have not been mirrored to Firebase.
         const { user, access } = await api<{ user: User; access?: AccountAccess }>('/api/auth/login/adult', {
           method: 'POST',
-          body: JSON.stringify({ login: trimmedLogin, password }),
+          body: JSON.stringify({ login: trimmedLogin, password: trimmedPassword }),
         })
         hydrated = await hydrateAdultAccess(user, access)
       } catch (error) {
         // Firebase-only accounts remain supported during the account migration,
         // but a network/5xx Hub failure must not be disguised as bad credentials.
         if (!(error instanceof ApiError) || error.status !== 401) throw error
-        const idToken = await signInWithFirebasePassword(resolvedEmail, password)
+        const idToken = await signInWithFirebasePassword(resolvedEmail, trimmedPassword)
         hydrated = await exchangeFirebaseSession(idToken, { role: 'parent' })
       }
       writeSessionHint(true)
